@@ -47,6 +47,18 @@ export function batch_to_data(batchName: string): DataDeliveryBatchData {
     } else if (batchName.match(/^[a-zA-Z]*_[0-9]{8}_[0-9]{6}$/)) {
         // example OPN_26032021_080842
         [survey, originalDateString, timeString] = batchName.split("_");
+    } else if (batchName.match(/^[a-zA-Z]{3}[0-9]{4}_[a-zA-Z0-9]{3}_[0-9]{8}_[0-9]{6}$/)) {
+        // example LMS2212_FB1_26032021_080842
+        const batchInfo = batchName.split("_");
+        survey = batchInfo[0].substring(0, 2);
+        originalDateString = batchInfo[2];
+        timeString = batchInfo[3];
+    } else if (batchName.match(/^[a-zA-Z]{3}[0-9]{4}[a-zA-Z]_[0-9]{8}_[0-9]{6}$/)) {
+        // example OPN2101A_30032021_141600
+        const batchInfo = batchName.split("_");
+        survey = batchInfo[0].substring(0, 3);
+        originalDateString = batchInfo[1];
+        timeString = batchInfo[2];
     } else {
         return {
             date: new Date(),
