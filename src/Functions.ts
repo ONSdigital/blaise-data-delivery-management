@@ -23,7 +23,7 @@ function generateDateFromString(dateString: string, timeString: string): DateTyp
 }
 
 export function dd_filename_to_data(dd_filename: string): DataDeliveryFile {
-    if (!dd_filename.match(/^[a-zA-Z]{2}_.{8,}_[0-9]{8}_[0-9]{4,}/)) {
+    if (!dd_filename.match(/^[a-zA-Z]{2}_.{8,}_?[0-9]{8}_[0-9]{4,}/)) {
         return {
             prefix: "dd",
             instrumentName: dd_filename,
