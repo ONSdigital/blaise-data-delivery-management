@@ -8,7 +8,14 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { createMemoryHistory } from "history";
 import BatchesList from "./BatchesList";
-import { errorBatchRuns, deadBatchRuns, pendingBatchRuns, successBatchRuns, batches } from "./__mocks__/mock_objects";
+import {
+    errorBatchRuns,
+    deadBatchRuns,
+    pendingBatchRuns,
+    successBatchRuns,
+    batches,
+    errorBatchRunsWithErrorMessage
+} from "./__mocks__/mock_objects";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
@@ -63,6 +70,20 @@ describe("Check status component color:", () => {
         mock.onGet("/api/batch").reply(200, [batches[0]]);
         mock.onGet("/api/batch/OPN_24032021_113000").reply(200, errorBatchRuns);
         
+        const history = createMemoryHistory();
+        render(
+            <Router history={history}>
+                <BatchesList/>
+            </Router>
+        );
+
+        expect(await screen.findByTestId(/OPN_24032021_113000-status-error/)).toBeDefined();
+    });
+
+    it("displays a red circle when an error message is present", async () => {
+        mock.onGet("/api/batch").reply(200, [batches[0]]);
+        mock.onGet("/api/batch/OPN_24032021_113000").reply(200, errorBatchRunsWithErrorMessage);
+
         const history = createMemoryHistory();
         render(
             <Router history={history}>

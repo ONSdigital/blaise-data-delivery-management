@@ -66,6 +66,33 @@ export const errorBatchRuns: DataDeliveryFileStatus[] = [
     }
 ];
 
+export const errorBatchRunsWithErrorMessage: DataDeliveryFileStatus[] = [
+    {
+        batch: "OPN_24032021_113000",
+        dd_filename: "OPN2004A",
+        instrumentName: "OPN2004A",
+        state: "in_arc",
+        updated_at: "2021-03-26T12:21:10+00:00",
+        error_info: ""
+    },
+    {
+        batch: "OPN_24032021_113000",
+        dd_filename: "dd_OPN2101A_26032021_121540.zip",
+        instrumentName: "OPN2101A",
+        state: "inactive",
+        updated_at: "2021-03-26T12:21:10+00:00",
+        error_info: ""
+    },
+    {
+        batch: "OPN_24032021_113000",
+        dd_filename: "dd_OPN2101A_26032021_121540.zip",
+        instrumentName: "OPN2101A",
+        state: "inactive",
+        updated_at: "2021-03-26T12:21:10+00:00",
+        error_info: "conection reset by peer"
+    }
+];
+
 export const deadBatchRuns: DataDeliveryFileStatus[] = [
     {
         batch: "OPN_12032021_023400",
