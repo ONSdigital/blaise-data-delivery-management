@@ -64,7 +64,7 @@ function BatchesList(): ReactElement {
             }
 
             const batchEntryStatuses: string[] = batchInfoList.map((infoList: DataDeliveryFileStatus) => {
-                return getDDFileStatusStyle(infoList.state, undefined);
+                return getDDFileStatusStyle(infoList.state, infoList.error_info);
             });
             const batchStatus = determineOverallStatus(batchEntryStatuses);
 
