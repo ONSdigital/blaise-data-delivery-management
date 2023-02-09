@@ -3,7 +3,6 @@ import { Switch, Route, useLocation } from "react-router-dom";
 import {
     Footer,
     Header,
-    BetaBanner,
     ONSPanel,
     DefaultErrorBoundary,
     ErrorBoundary,
@@ -46,7 +45,6 @@ function App(): ReactElement {
 
     return (
         <>
-            <BetaBanner />
             <Header title={"Data Delivery Management"} />
             <div style={divStyle} className="ons-page__container ons-container">
                 <DefaultErrorBoundary>
