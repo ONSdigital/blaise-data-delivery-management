@@ -48,7 +48,7 @@ function App(): ReactElement {
         <>
             <BetaBanner />
             <Header title={"Data Delivery Management"} />
-            <div style={divStyle} className="page__container container">
+            <div style={divStyle} className="ons-page__container ons-container">
                 <DefaultErrorBoundary>
                     <Switch>
                         <Route path="/trigger">
@@ -66,7 +66,7 @@ function App(): ReactElement {
                                 </ONSPanel>
                             }
 
-                            <main id="main-content" className="page__main u-mt-no">
+                            <main id="main-content" className="ons-page__main ons-u-mt-no">
 
                                 {/*<ul className="list list--bare list--inline u-mt-m">*/}
                                 {/*    <li className="list__item">*/}
@@ -76,7 +76,7 @@ function App(): ReactElement {
                                 {/*    </li>*/}
                                 {/*</ul>*/}
 
-                                <h1 className="u-mt-m">Data delivery runs</h1>
+                                <h1 className="ons-u-mt-m">Data delivery runs</h1>
                                 <ErrorBoundary errorMessageText={"Unable to load batch list table correctly"}>
                                     <BatchesList />
                                 </ErrorBoundary>
