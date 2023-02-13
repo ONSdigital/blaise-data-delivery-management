@@ -58,8 +58,8 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
                 ]
             } />
 
-            <main id="main-content" className="page__main u-mt-no">
-                <h1 className="u-mb-l">Delivery trigger <em>{batch.survey} {batch.dateString}</em></h1>
+            <main id="main-content" className="ons-page__main ons-u-mt-no">
+                <h1 className="ons-u-mb-l">Delivery trigger <em>{batch.survey} {batch.dateString}</em></h1>
                 {
                     loading ?
                         <ONSLoadingPanel />
@@ -70,21 +70,21 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
                                 {
                                     batchList && batchList.length > 0
                                         ?
-                                        <table id="batch-table" className="table ">
-                                            <thead className="table__head u-mt-m">
-                                                <tr className="table__row">
-                                                    <th scope="col" className="table__header ">
+                                        <table id="batch-table" className="ons-table ">
+                                            <thead className="ons-table__head u-mt-m">
+                                                <tr className="ons-table__row">
+                                                    <th scope="col" className="ons-table__header ">
                                                         <span>Questionnaire</span>
                                                     </th>
-                                                    <th scope="col" className="table__header ">
+                                                    <th scope="col" className="ons-table__header ">
                                                         <span>Status</span>
                                                     </th>
-                                                    <th scope="col" className="table__header ">
+                                                    <th scope="col" className="ons-table__header ">
                                                         <span>Last update</span>
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="table__body">
+                                            <tbody className="ons-table__body">
                                                 {
                                                     batchList.map(({
                                                         dd_filename,
@@ -94,14 +94,14 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
                                                         error_info
                                                     }: DataDeliveryFileStatus) => {
                                                         return (
-                                                            <tr className="table__row" key={dd_filename}
+                                                            <tr className="ons-table__row" key={dd_filename}
                                                                 data-testid={"batch-table-row"}>
 
-                                                                <td className="table__cell ">
+                                                                <td className="ons-table__cell ">
                                                                     {instrumentName}
                                                                 </td>
-                                                                <td className="table__cell ">
-                                                                    <span className={`status status--${getDDFileStatusStyle(state, error_info)}`}
+                                                                <td className="ons-table__cell ">
+                                                                    <span className={`ons-status ons-status--${getDDFileStatusStyle(state, error_info)}`}
                                                                         data-testid={`${instrumentName}-status--${getDDFileStatusStyle(state, error_info)}`}
                                                                     >
                                                                         {
@@ -113,7 +113,7 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
                                                                         }
                                                                     </span>
                                                                 </td>
-                                                                <td className="table__cell ">
+                                                                <td className="ons-table__cell ">
                                                                     {dateFormatter(updated_at).format("DD/MM/YYYY HH:mm:ss")}
                                                                 </td>
                                                             </tr>
