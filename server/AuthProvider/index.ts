@@ -25,9 +25,11 @@ export default class AuthProvider {
         if (decodedToken === null) {
             console.log("Failed to decode token, Calling for new Google auth Token");
             return false;
+        } else if (decodedToken["exp"] == undefined) {
+            console.log("Token is undefined. Calling for new Google auth Token");
+            return false;
         } else if (AuthProvider.hasTokenExpired(decodedToken["exp"])) {
             console.log("Auth Token Expired, Calling for new Google auth Token");
-
             return false;
         }
 

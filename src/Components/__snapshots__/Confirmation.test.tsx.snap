@@ -7,23 +7,23 @@ Object {
     <div>
       <nav
         aria-label="Breadcrumb"
-        class="breadcrumb"
+        class="ons-breadcrumb"
       >
         <ol
-          class="breadcrumb__items u-fs-s"
+          class="ons-breadcrumb__items ons-u-fs-s"
         >
           <li
-            class="breadcrumb__item"
+            class="ons-breadcrumb__item"
             id="breadcrumb-0"
           >
             <a
-              class="breadcrumb__link"
+              class="ons-breadcrumb__link"
               href="/"
             >
               Home
             </a>
             <svg
-              class="svg-icon"
+              class="ons-svg-icon"
               focusable="false"
               viewBox="0 0 8 13"
               xmlns="http://www.w3.org/2000/svg"
@@ -37,42 +37,42 @@ Object {
         </ol>
       </nav>
       <main
-        class="page__main u-mt-no"
+        class="ons-page__main ons-u-mt-no"
         id="main-content"
       >
         <h1
-          class="u-mb-l"
+          class="ons-u-mb-l"
         >
           Are you sure you want to trigger Data Delivery?
         </h1>
         <form
-          class="u-mt-m"
+          class="ons-u-mt-m"
         >
           <fieldset
-            class="fieldset"
+            class="ons-fieldset"
           >
             <legend
-              class="fieldset__legend"
+              class="ons-fieldset__legend"
             />
             <div
-              class="radios__items"
+              class="ons-radios__items"
             >
               <p
-                class="radios__item"
+                class="ons-radios__item"
               >
                 <span
-                  class="radio"
+                  class="ons-radio"
                 >
                   <input
                     aria-label="No"
-                    class="radio__input js-radio "
+                    class="ons-radio__input js-radio "
                     id="confirm-overwrite"
                     name="confirm-delete"
                     type="radio"
                     value="True"
                   />
                   <label
-                    class="radio__label "
+                    class="ons-radio__label "
                     for="confirm-overwrite"
                   >
                     Yes, trigger Data Delivery
@@ -81,21 +81,21 @@ Object {
               </p>
               <br />
               <p
-                class="radios__item"
+                class="ons-radios__item"
               >
                 <span
-                  class="radio"
+                  class="ons-radio"
                 >
                   <input
                     aria-label="Yes"
-                    class="radio__input js-radio "
+                    class="ons-radio__input js-radio "
                     id="cancel-keep"
                     name="confirm-delete"
                     type="radio"
                     value="False"
                   />
                   <label
-                    class="radio__label "
+                    class="ons-radio__label "
                     for="cancel-keep"
                   >
                     No, do not trigger Data Delivery
@@ -106,25 +106,25 @@ Object {
           </fieldset>
           <br />
           <button
-            class="btn "
+            class="ons-btn "
             data-testid="button"
             id="confirm-continue"
             type="button"
           >
             <span
-              class="btn__inner"
+              class="ons-btn__inner"
             >
               Continue
             </span>
           </button>
           <button
-            class="btn btn--secondary "
+            class="ons-btn  ons-btn--secondary"
             data-testid="button"
             id="cancel-overwrite"
             type="button"
           >
             <span
-              class="btn__inner"
+              class="ons-btn__inner"
             >
               Cancel
             </span>
@@ -136,23 +136,23 @@ Object {
   "container": <div>
     <nav
       aria-label="Breadcrumb"
-      class="breadcrumb"
+      class="ons-breadcrumb"
     >
       <ol
-        class="breadcrumb__items u-fs-s"
+        class="ons-breadcrumb__items ons-u-fs-s"
       >
         <li
-          class="breadcrumb__item"
+          class="ons-breadcrumb__item"
           id="breadcrumb-0"
         >
           <a
-            class="breadcrumb__link"
+            class="ons-breadcrumb__link"
             href="/"
           >
             Home
           </a>
           <svg
-            class="svg-icon"
+            class="ons-svg-icon"
             focusable="false"
             viewBox="0 0 8 13"
             xmlns="http://www.w3.org/2000/svg"
@@ -166,42 +166,42 @@ Object {
       </ol>
     </nav>
     <main
-      class="page__main u-mt-no"
+      class="ons-page__main ons-u-mt-no"
       id="main-content"
     >
       <h1
-        class="u-mb-l"
+        class="ons-u-mb-l"
       >
         Are you sure you want to trigger Data Delivery?
       </h1>
       <form
-        class="u-mt-m"
+        class="ons-u-mt-m"
       >
         <fieldset
-          class="fieldset"
+          class="ons-fieldset"
         >
           <legend
-            class="fieldset__legend"
+            class="ons-fieldset__legend"
           />
           <div
-            class="radios__items"
+            class="ons-radios__items"
           >
             <p
-              class="radios__item"
+              class="ons-radios__item"
             >
               <span
-                class="radio"
+                class="ons-radio"
               >
                 <input
                   aria-label="No"
-                  class="radio__input js-radio "
+                  class="ons-radio__input js-radio "
                   id="confirm-overwrite"
                   name="confirm-delete"
                   type="radio"
                   value="True"
                 />
                 <label
-                  class="radio__label "
+                  class="ons-radio__label "
                   for="confirm-overwrite"
                 >
                   Yes, trigger Data Delivery
@@ -210,21 +210,21 @@ Object {
             </p>
             <br />
             <p
-              class="radios__item"
+              class="ons-radios__item"
             >
               <span
-                class="radio"
+                class="ons-radio"
               >
                 <input
                   aria-label="Yes"
-                  class="radio__input js-radio "
+                  class="ons-radio__input js-radio "
                   id="cancel-keep"
                   name="confirm-delete"
                   type="radio"
                   value="False"
                 />
                 <label
-                  class="radio__label "
+                  class="ons-radio__label "
                   for="cancel-keep"
                 >
                   No, do not trigger Data Delivery
@@ -235,25 +235,25 @@ Object {
         </fieldset>
         <br />
         <button
-          class="btn "
+          class="ons-btn "
           data-testid="button"
           id="confirm-continue"
           type="button"
         >
           <span
-            class="btn__inner"
+            class="ons-btn__inner"
           >
             Continue
           </span>
         </button>
         <button
-          class="btn btn--secondary "
+          class="ons-btn  ons-btn--secondary"
           data-testid="button"
           id="cancel-overwrite"
           type="button"
         >
           <span
-            class="btn__inner"
+            class="ons-btn__inner"
           >
             Cancel
           </span>

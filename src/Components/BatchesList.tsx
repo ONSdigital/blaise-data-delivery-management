@@ -88,48 +88,48 @@ function BatchesList(): ReactElement {
                     {
                         batchList && batchList.length > 0
                             ?
-                            <table id="batches-table" className="table ">
-                                <thead className="table__head u-mt-m">
-                                    <tr className="table__row">
-                                        <th scope="col" className="table__header ">
+                            <table id="batches-table" className="ons-table ">
+                                <thead className="ons-table__head ons-u-mt-m">
+                                    <tr className="ons-table__row">
+                                        <th scope="col" className="ons-table__header ">
                                             <span>Survey</span>
                                         </th>
-                                        <th scope="col" className="table__header ">
+                                        <th scope="col" className="ons-table__header ">
                                             <span>Data delivery run time</span>
                                         </th>
-                                        <th scope="col" className="table__header ">
+                                        <th scope="col" className="ons-table__header ">
                                             <span>Run started</span>
                                         </th>
-                                        <th scope="col" className="table__header ">
+                                        <th scope="col" className="ons-table__header ">
                                             <span>Status</span>
                                         </th>
-                                        <th scope="col" className="table__header ">
+                                        <th scope="col" className="ons-table__header ">
                                             <span>View run status</span>
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="table__body">
+                                <tbody className="ons-table__body">
                                     {
                                         batchList.map((batch: DataDeliveryBatchData) => {
                                             return (
-                                                <tr className="table__row" key={batch.name}
+                                                <tr className="ons-table__row" key={batch.name}
                                                     data-testid={"batches-table-row"}>
-                                                    <td className="table__cell ">
+                                                    <td className="ons-table__cell ">
                                                         {batch.survey}
                                                     </td>
-                                                    <td className="table__cell ">
+                                                    <td className="ons-table__cell ">
                                                         {batch.dateString}
                                                     </td>
-                                                    <td className="table__cell ">
+                                                    <td className="ons-table__cell ">
                                                         {<TimeAgo live={false} date={batch.date}/>}
                                                     </td>
-                                                    <td className="table__cell ">
-                                                        <span className={`status status--${batch.status}`}
+                                                    <td className="ons-table__cell ">
+                                                        <span className={`ons-status ons-status--${batch.status}`}
                                                             aria-label={`Survey ${batch.name} overall status is ${batch.status}`}
                                                             data-testid={`${batch.name}-status-${batch.status}`}
                                                         />
                                                     </td>
-                                                    <td className="table__cell ">
+                                                    <td className="ons-table__cell ">
                                                         <Link
                                                             aria-label={`View run status ${batch.dateString}`}
                                                             data-testid={`view-${batch.name}`}
