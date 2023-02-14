@@ -54,8 +54,8 @@ function Confirmation(): ReactElement {
                 ]
             }/>
 
-            <main id="main-content" className="page__main u-mt-no">
-                <h1 className="u-mb-l">
+            <main id="main-content" className="ons-page__main ons-u-mt-no">
+                <h1 className="ons-u-mb-l">
                     Are you sure you want to trigger Data Delivery?
                 </h1>
 
@@ -66,13 +66,13 @@ function Confirmation(): ReactElement {
                     </ONSPanel>
                 }
 
-                <form className="u-mt-m">
+                <form className="ons-u-mt-m">
                     {
                         formError === "" ?
                             confirmDeleteRadios(setConfirm)
                             :
                             <ONSPanel status={"error"}>
-                                <p className="panel__error">
+                                <p className="ons-panel__error">
                                     <strong>{formError}</strong>
                                 </p>
                                 {confirmDeleteRadios(setConfirm)}
@@ -102,39 +102,39 @@ function Confirmation(): ReactElement {
 function confirmDeleteRadios(setConfirm: (value: (((prevState: (boolean | null)) => (boolean | null)) |
     boolean | null)) => void) {
     return (
-        <fieldset className="fieldset">
-            <legend className="fieldset__legend">
+        <fieldset className="ons-fieldset">
+            <legend className="ons-fieldset__legend">
             </legend>
-            <div className="radios__items">
+            <div className="ons-radios__items">
 
-                <p className="radios__item">
-                    <span className="radio">
+                <p className="ons-radios__item">
+                    <span className="ons-radio">
                         <input
                             type="radio"
                             id="confirm-overwrite"
-                            className="radio__input js-radio "
+                            className="ons-radio__input js-radio "
                             value="True"
                             name="confirm-delete"
                             aria-label="No"
                             onChange={() => setConfirm(true)}
                         />
-                        <label className="radio__label " htmlFor="confirm-overwrite">
+                        <label className="ons-radio__label " htmlFor="confirm-overwrite">
             Yes, trigger Data Delivery
                         </label>
                     </span></p>
                 <br/>
-                <p className="radios__item">
-                    <span className="radio">
+                <p className="ons-radios__item">
+                    <span className="ons-radio">
                         <input
                             type="radio"
                             id="cancel-keep"
-                            className="radio__input js-radio "
+                            className="ons-radio__input js-radio "
                             value="False"
                             name="confirm-delete"
                             aria-label="Yes"
                             onChange={() => setConfirm(false)}
                         />
-                        <label className="radio__label " htmlFor="cancel-keep">
+                        <label className="ons-radio__label " htmlFor="cancel-keep">
             No, do not trigger Data Delivery
                         </label>
                     </span>
