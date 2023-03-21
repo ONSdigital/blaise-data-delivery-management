@@ -1,4 +1,4 @@
-import Functions from "./Functions";
+import Functions from "./functions";
 
 describe("DD file to data test", () => {
     it.each([

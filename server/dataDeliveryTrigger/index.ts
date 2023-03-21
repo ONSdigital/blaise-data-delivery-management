@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from "express";
-import { EnvironmentVariables } from "../Config";
+import { EnvironmentVariables } from "../config";
 import * as PinoHttp from "pino-http";
-import { SendAPIRequest } from "../SendRequest";
+import { SendAPIRequest } from "../sendRequest";
 
 export default function DataDeliveryTrigger(environmentVariables: EnvironmentVariables, logger: PinoHttp.HttpLogger): Router {
     const { PROJECT_ID, AZURE_AUTH_TOKEN, ENV_NAME, GIT_BRANCH, DATA_DELIVERY_AZURE_PIPELINE_NO }: EnvironmentVariables = environmentVariables;

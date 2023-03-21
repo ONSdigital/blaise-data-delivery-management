@@ -4,7 +4,7 @@ import React from "react";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { createMemoryHistory } from "history";
-import App from "../../App";
+import App from "../../app";
 import { Router } from "react-router";
 import "@testing-library/jest-dom";
 // Mock elements

@@ -1,12 +1,12 @@
 import React from "react";
 import { render, waitFor, cleanup } from "@testing-library/react";
-import App from "./App";
+import App from "./app";
 import "@testing-library/jest-dom";
 import flushPromises from "./tests/utils";
 import { act } from "react-dom/test-utils";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router";
-import { DataDeliveryBatchData } from "../Interfaces";
+import { DataDeliveryBatchData } from "../interfaces";
 import MockDate from "mockdate";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";

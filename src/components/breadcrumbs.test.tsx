@@ -7,7 +7,7 @@ import { Switch, Route, Router } from "react-router-dom";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { createMemoryHistory } from "history";
-import BatchStatusList from "./BatchStatusList";
+import BatchStatusList from "./batchStatusList";
 import { statusDescriptions } from "./__mocks__/mock_objects";
 import userEvent from "@testing-library/user-event";
 

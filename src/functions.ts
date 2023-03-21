@@ -1,4 +1,4 @@
-import { DataDeliveryBatchData, DataDeliveryFile } from "../Interfaces";
+import { DataDeliveryBatchData, DataDeliveryFile } from "../interfaces";
 
 type DateTypes = [Date, string]
 

@@ -1,12 +1,12 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { ErrorBoundary, ONSButton, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
 import { getBatchInfo } from "../utilities/http";
-import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../Interfaces";
+import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../interfaces";
 import dateFormatter from "dayjs";
 import { useLocation } from "react-router-dom";
-import { getDDFileStatusStyle } from "../utilities/BatchStatusColour";
-import { batch_to_data } from "../Functions";
-import Breadcrumbs from "./Breadcrumbs";
+import { getDDFileStatusStyle } from "../utilities/batchStatusColour";
+import { batch_to_data } from "../functions";
+import Breadcrumbs from "./breadcrumbs";
 
 interface Location {
     state: { batch: DataDeliveryBatchData }

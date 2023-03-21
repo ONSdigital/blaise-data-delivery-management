@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import getGoogleAuthToken from "./GoogleTokenProvider";
+import getGoogleAuthToken from "./googleTokenProvider";
 
 export default class AuthProvider {
     private readonly DDS_CLIENT_ID: string;

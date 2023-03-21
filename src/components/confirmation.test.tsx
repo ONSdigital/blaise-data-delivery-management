@@ -8,7 +8,7 @@ import { render, waitFor } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { createMemoryHistory } from "history";
 import userEvent from "@testing-library/user-event";
-import Confirmation from "./Confirmation";
+import Confirmation from "./confirmation";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 

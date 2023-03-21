@@ -1,13 +1,13 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { ErrorBoundary, ONSButton, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
 import { getAllBatches } from "../utilities/http";
-import { DataDeliveryBatchData } from "../../Interfaces";
+import { DataDeliveryBatchData } from "../../interfaces";
 import { Link } from "react-router-dom";
 import TimeAgo from "react-timeago";
 
-import { DataDeliveryFileStatus } from "../../Interfaces";
+import { DataDeliveryFileStatus } from "../../interfaces";
 import { getBatchInfo } from "../utilities/http";
-import { getDDFileStatusStyle } from "../utilities/BatchStatusColour";
+import { getDDFileStatusStyle } from "../utilities/batchStatusColour";
 
 function determineOverallStatus(batchEntryStatuses: string[]) {
     const hasRedAlerts: boolean = batchEntryStatuses.includes("error");

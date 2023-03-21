@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import { sendDataDeliveryRequest } from "../utilities/http";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "./breadcrumbs";
 
 function Confirmation(): ReactElement {
     const [formError, setFormError] = useState<string>("");

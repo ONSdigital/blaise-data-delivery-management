@@ -1,4 +1,4 @@
-import { DataDeliveryBatchData } from "../../../Interfaces";
+import { DataDeliveryBatchData } from "../../../interfaces";
 
 export const BatchList: DataDeliveryBatchData[] = [
     { survey: "OPN", date: new Date("2021-03-26T11:29:54.000Z"), dateString: "26/03/2021 11:29:54", name: "OPN_26032021_112954" },

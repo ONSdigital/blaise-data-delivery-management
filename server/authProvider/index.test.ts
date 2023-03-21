@@ -2,7 +2,7 @@ import AuthProvider from "./index";
 import jwt from "jsonwebtoken";
 
 jest.mock("./GoogleTokenProvider");
-import getGoogleAuthToken from "./GoogleTokenProvider";
+import getGoogleAuthToken from "./googleTokenProvider";
 
 const mockedGetGoogleAuthToken = getGoogleAuthToken as jest.Mock<Promise<string>>;
 

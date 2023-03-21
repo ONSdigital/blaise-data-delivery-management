@@ -7,7 +7,7 @@ import { Router } from "react-router";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { createMemoryHistory } from "history";
-import BatchesList from "./BatchesList";
+import BatchesList from "./batchesList";
 import {
     errorBatchRuns,
     deadBatchRuns,

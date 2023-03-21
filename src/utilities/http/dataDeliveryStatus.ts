@@ -1,5 +1,5 @@
 import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
-import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../Interfaces";
+import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../interfaces";
 
 type getBatchInfoListResponse = [boolean, DataDeliveryFileStatus[]];
 type getAllBatchesResponse = [boolean, DataDeliveryBatchData[]];

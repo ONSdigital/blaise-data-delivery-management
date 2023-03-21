@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 import ejs from "ejs";
 import dotenv from "dotenv";
-import { getEnvironmentVariables } from "./Config";
+import { getEnvironmentVariables } from "./config";
 import createLogger from "./pino";
 
 if (process.env.NODE_ENV !== "production") {
@@ -13,8 +13,8 @@ const server = express();
 const logger = createLogger();
 server.use(logger);
 
-import DataDeliveryTrigger from "./DataDeliveryTrigger";
-import DataDeliveryStatus from "./DataDeliveryStatus";
+import DataDeliveryTrigger from "./dataDeliveryTrigger";
+import DataDeliveryStatus from "./dataDeliveryStatus";
 
 // where ever the react built package is
 const buildFolder = "../../build";

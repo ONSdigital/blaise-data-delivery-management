@@ -1,10 +1,10 @@
 import express, { Request, Response, Router } from "express";
-import { EnvironmentVariables } from "../Config";
-import { batch_to_data, dd_filename_to_data } from "../../src/Functions";
-import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../Interfaces";
-import { SendAPIRequest } from "../SendRequest";
+import { EnvironmentVariables } from "../config";
+import { batch_to_data, dd_filename_to_data } from "../../src/functions";
+import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../interfaces";
+import { SendAPIRequest } from "../sendRequest";
 import * as PinoHttp from "pino-http";
-import AuthProvider from "../AuthProvider";
+import AuthProvider from "../authProvider";
 
 export default function DataDeliveryStatus(environmentVariables: EnvironmentVariables, logger: PinoHttp.HttpLogger): Router {
     const { DDS_API_URL, DDS_CLIENT_ID }: EnvironmentVariables = environmentVariables;

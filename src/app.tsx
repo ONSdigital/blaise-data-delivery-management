@@ -7,9 +7,9 @@ import {
     DefaultErrorBoundary,
     ErrorBoundary,
 } from "blaise-design-system-react-components";
-import Confirmation from "./Components/Confirmation";
-import BatchesList from "./Components/BatchesList";
-import BatchStatusList from "./Components/BatchStatusList";
+import Confirmation from "./components/confirmation";
+import BatchesList from "./components/batchesList";
+import BatchStatusList from "./components/batchStatusList";
 import { getBatchStatusDescriptions } from "./utilities/http";
 import "./style.css";
 

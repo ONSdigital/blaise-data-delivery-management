@@ -1,4 +1,4 @@
-import { getDDFileStatusStyle } from "./BatchStatusColour";
+import { getDDFileStatusStyle } from "./batchStatusColour";
 
 describe("Function getDDFileStatusStyle() ", () => {
     it("should return 'dead' is status is inactive", async () => {
