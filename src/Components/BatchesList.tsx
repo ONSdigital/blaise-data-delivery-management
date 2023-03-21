@@ -53,7 +53,7 @@ function BatchesList(): ReactElement {
 
         batchListResponse.sort((a: DataDeliveryBatchData, b: DataDeliveryBatchData) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
         
-        const batchListPromises = batchListResponse.slice(0, 10).map(async (batch: DataDeliveryBatchData) => {
+        const batchListPromises = batchListResponse.slice(0, 50).map(async (batch: DataDeliveryBatchData) => {
             const [success, batchInfoList] = await getBatchInfo(batch.name);
 
             if (!success) {
