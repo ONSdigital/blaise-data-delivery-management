@@ -23,8 +23,12 @@ async function getBatchInfo(batchName: string): Promise<getBatchInfoListResponse
     console.log("Call to getBatchInfo");
     const url = `/api/batch/${batchName}`;
 
+    console.log(`EL'S DEBUG: Type of batchName is ${typeof batchName}`);
+
     try {
         const [success, data]: getBatchInfoListResponse = await requestPromiseJsonList("GET", url);
+        console.log(`EL'S DEBUG: success: ${success}`);
+        console.log(`EL'S DEBUG: data: ${data}`);
         console.log(`Response from get Batch Info ${(success ? "successful" : "failed")}, data list length ${data.length}`);
         return [success, data];
     } catch (error) {
