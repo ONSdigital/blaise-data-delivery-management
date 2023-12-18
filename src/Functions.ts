@@ -40,6 +40,7 @@ export function dd_filename_to_data(dd_filename: string): DataDeliveryFile {
 
 export function batch_to_data(batchName: string): DataDeliveryBatchData {
     let [survey, originalDateString, timeString] = ["", "", ""];
+    console.log(`EL'S DEBUG: Type of myVariable is ${typeof batchName}`);
 
     if (batchName.match(/^[0-9]{8}_[0-9]{6}$/)) {
         // example 26032021_080842
