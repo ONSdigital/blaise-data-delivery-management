@@ -63,7 +63,7 @@
             "error", 
             { "before": false, "after": true }
         ],
-        //"@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-explicit-any": "error",
         "react/react-in-jsx-scope": "off",
         "react/require-default-props": "off",
         "no-spaced-func": "off", 
