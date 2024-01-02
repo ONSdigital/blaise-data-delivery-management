@@ -4,7 +4,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import * as PinoHttp from "pino-http";
 type PromiseResponse = [number, any, string];
 
-export function SendAPIRequest(logger: PinoHttp.HttpLogger, req: Request, res: Response, url: string, method: AxiosRequestConfig["method"], data: any = null, headers: any = null): Promise<PromiseResponse> {
+export function SendAPIRequest(
+    logger: PinoHttp.HttpLogger, req: Request, res: Response, url: string, method: AxiosRequestConfig["method"], data: any = null, headers: any = null): Promise<PromiseResponse> {
     logger(req, res);
 
     return new Promise((resolve: (object: PromiseResponse) => void) => {

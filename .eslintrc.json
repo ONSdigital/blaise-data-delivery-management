@@ -62,12 +62,12 @@
         "comma-spacing": [
             "error", 
             { "before": false, "after": true }
-        ]
+        ],
         //"@typescript-eslint/no-explicit-any": "error",
         //"react/react-in-jsx-scope": "off",
         //"react/require-default-props": "off",
         //"no-spaced-func": "off", 
-        //"max-len": ["error", { "code": 180 }],
+        "max-len": ["error", { "code": 200 }]
         //"import/no-extraneous-dependencies": [
         //    "error", {"devDependencies": true}
         //]
