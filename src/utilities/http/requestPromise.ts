@@ -1,8 +1,9 @@
 import axios, { Method } from "axios";
+import { JSONObject } from "../../../Interfaces";
 
-type PromiseResponse = [number, any];
+type PromiseResponse = [number, JSONObject | null];
 
-async function requestPromiseJson(method: Method, url: string, body: any = null): Promise<PromiseResponse> {
+async function requestPromiseJson(method: Method, url: string, body: JSONObject | null = null): Promise<PromiseResponse> {
     try {
         const response = await axios({
             url: url,
@@ -23,9 +24,9 @@ async function requestPromiseJson(method: Method, url: string, body: any = null)
     }
 }
 
-type PromiseResponseList = [boolean, any[]];
+type PromiseResponseList = [boolean, JSONObject[]];
 
-async function requestPromiseJsonList(method: Method, url: string, body: any = null): Promise<PromiseResponseList> {
+async function requestPromiseJsonList(method: Method, url: string, body: JSONObject | null = null): Promise<PromiseResponseList> {
     try {
         const response = await axios({
             url: url,
