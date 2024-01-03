@@ -20,14 +20,11 @@ interface DataDeliveryFileStatus {
     error_info: string
 }
 
-type JSONValue =
+type JSONObject =
     | string
     | number
     | boolean
-    | JSONObject
-
-interface JSONObject {
-    [key: string]: JSONValue;
-}
+    | { [x: string]: JSONObject }
+    | Array<JSONObject>;
 
 export type { DataDeliveryFile, DataDeliveryBatchData, DataDeliveryFileStatus, JSONObject };
