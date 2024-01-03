@@ -24,6 +24,7 @@ type JSONObject =
     | string
     | number
     | boolean
+    | DataDeliveryBatchData
     | { [x: string]: JSONObject }
     | Array<JSONObject>;
 
