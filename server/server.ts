@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 import ejs from "ejs";
 import dotenv from "dotenv";
@@ -43,7 +43,7 @@ server.get("*", function (req: Request, res: Response) {
     res.render("index.html");
 });
 
-server.use(function (err: Error, req: Request, res: Response) {
+server.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
     logger(req, res);
     req.log.error(err, err.message);
     res.render("../views/500.html", {});

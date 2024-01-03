@@ -115,8 +115,7 @@ defineFeature(feature, test => {
             const firstRowData = listItemOne.childNodes;
             if (firstRowData !== null) {
                 expect(firstRowData[0].textContent).toEqual("OPN2004A");
-                expect(firstRowData[1].textContent).toEqual(
-                    "The data delivery instrument has no active survey days, we will not generate a data delivery file, we should never alert");
+                expect(firstRowData[1].textContent).toEqual("The data delivery instrument has no active survey days, we will not generate a data delivery file, we should never alert");
             }
             const listItemTwo = list[1];
             const secondRowData = listItemTwo.childNodes;

@@ -59,7 +59,7 @@ defineFeature(feature, test => {
         });
     });
 
-    test("No files found in run", ({ given, when, then }) => {
+    test("No files found in run", ({ given, when, then, and }) => {
         given("I can see the run I wish to see the status of", async () => {
             mock.onGet("/api/batch/OPN_26032021_112954").reply(200, []);
             mock.onGet("/api/batch").reply(200, BatchList);
