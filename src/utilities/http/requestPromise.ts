@@ -24,7 +24,7 @@ async function requestPromiseJson(method: Method, url: string, body: JSONValue |
     }
 }
 
-type PromiseResponseList = [boolean, DataDeliveryFile[] | DataDeliveryFileStatus[] | DataDeliveryBatchData[]];
+type PromiseResponseList = [boolean, DataDeliveryBatchData[]];
 
 async function requestPromiseJsonList(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponseList> {
     try {
