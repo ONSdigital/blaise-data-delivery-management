@@ -6,7 +6,7 @@ import { DataDeliveryBatchData, DataDeliveryFile, DataDeliveryFileStatus, JSONVa
 
 type PromiseResponse = [
     number,
-    DataDeliveryFile | DataDeliveryFileStatus | DataDeliveryBatchData | string | JSONValue | { [key: string]: string } | null,
+    DataDeliveryFile | DataDeliveryFile[] | DataDeliveryFileStatus | DataDeliveryFileStatus[] | DataDeliveryBatchData | DataDeliveryBatchData[] | string | JSONValue | { [key: string]: string } | null,
     string
 ];
 
@@ -16,6 +16,7 @@ export function SendAPIRequest(
     res: Response,
     url: string,
     method: AxiosRequestConfig["method"],
+    data: JSONValue | null = null,
     headers: { [key: string]: string } | null = null): Promise<PromiseResponse> {
     logger(req, res);
 
@@ -23,7 +24,7 @@ export function SendAPIRequest(
         axios({
             url: url,
             method: method,
-            data: null,
+            data: data,
             headers,
             validateStatus: function (status) {
                 return status >= 200;
