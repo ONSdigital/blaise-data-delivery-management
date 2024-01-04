@@ -1,9 +1,9 @@
 import axios, { Method } from "axios";
-import { JSONObject } from "../../../Interfaces";
+import { JSONValue } from "../../../Interfaces";
+import { DataDeliveryFile, DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../Interfaces";
+type PromiseResponse = [number, DataDeliveryFile | DataDeliveryFile[] | DataDeliveryFileStatus | DataDeliveryFileStatus[] | DataDeliveryBatchData | DataDeliveryBatchData[] | string | null];
 
-type PromiseResponse = [number, JSONObject | null];
-
-async function requestPromiseJson(method: Method, url: string, body: JSONObject | null = null): Promise<PromiseResponse> {
+async function requestPromiseJson(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponse> {
     try {
         const response = await axios({
             url: url,
@@ -11,8 +11,8 @@ async function requestPromiseJson(method: Method, url: string, body: JSONObject 
             data: body,
             validateStatus: () => true,
         });
-        
-        const data = response.data; 
+
+        const data = response.data;
 
         if (!data) {
             return [response.status, null];
@@ -24,9 +24,9 @@ async function requestPromiseJson(method: Method, url: string, body: JSONObject 
     }
 }
 
-type PromiseResponseList = [boolean, JSONObject[]];
+type PromiseResponseList = [boolean, DataDeliveryFile[] | DataDeliveryFileStatus[] | DataDeliveryBatchData[]];
 
-async function requestPromiseJsonList(method: Method, url: string, body: JSONObject | null = null): Promise<PromiseResponseList> {
+async function requestPromiseJsonList(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponseList> {
     try {
         const response = await axios({
             url: url,
@@ -34,9 +34,9 @@ async function requestPromiseJsonList(method: Method, url: string, body: JSONObj
             data: body,
             validateStatus: () => true,
         });
-        
-        const data = response.data; 
-    
+
+        const data = response.data;
+
         if (response.status === 200) {
             if (!Array.isArray(data)) {
                 return [false, []];
@@ -49,7 +49,7 @@ async function requestPromiseJsonList(method: Method, url: string, body: JSONObj
         }
     } catch (error) {
         console.log(error);
-        throw error;        
+        throw error;
     }
 }
 

@@ -2,9 +2,9 @@
 import { Request, Response } from "express";
 import axios, { AxiosRequestConfig } from "axios";
 import * as PinoHttp from "pino-http";
-import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../Interfaces";
+import { DataDeliveryBatchData, DataDeliveryFile, DataDeliveryFileStatus } from "../../Interfaces";
 
-type PromiseResponse = [number, DataDeliveryBatchData | DataDeliveryBatchData[] | null, string];
+type PromiseResponse = [number, DataDeliveryFile | DataDeliveryFile[] | DataDeliveryFileStatus | DataDeliveryFileStatus[] | DataDeliveryBatchData | DataDeliveryBatchData[] | string | null, string];
 
 export function SendAPIRequest(
     logger: PinoHttp.HttpLogger,
@@ -12,7 +12,6 @@ export function SendAPIRequest(
     res: Response,
     url: string,
     method: AxiosRequestConfig["method"],
-    data: DataDeliveryBatchData | DataDeliveryBatchData[] | DataDeliveryFileStatus | DataDeliveryFileStatus[] | null = null,
     headers: { [key: string]: string } | null = null): Promise<PromiseResponse> {
     logger(req, res);
 
@@ -20,7 +19,7 @@ export function SendAPIRequest(
         axios({
             url: url,
             method: method,
-            data: data,
+            data: null,
             headers,
             validateStatus: function (status) {
                 return status >= 200;

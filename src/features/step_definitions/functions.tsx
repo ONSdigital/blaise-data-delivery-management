@@ -1,4 +1,4 @@
-import { DataDeliveryBatchData, JSONObject } from "../../../Interfaces";
+import { DataDeliveryBatchData, JSONValue } from "../../../Interfaces";
 
 export function mock_fetch_requests(mock_server_responses: (url: string) =>
     Promise<{
@@ -11,7 +11,7 @@ export function mock_fetch_requests(mock_server_responses: (url: string) =>
     }> |
     Promise<{
         status: number;
-        json: () => Promise<JSONObject>;
+        json: () => Promise<JSONValue>;
     }> |
     undefined
 ) {
