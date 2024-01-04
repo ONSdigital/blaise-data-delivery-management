@@ -1,7 +1,8 @@
 import axios, { Method } from "axios";
 import { JSONValue } from "../../../Interfaces";
 import { DataDeliveryFile, DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../Interfaces";
-type PromiseResponse = [number, DataDeliveryFile | DataDeliveryFile[] | DataDeliveryFileStatus | DataDeliveryFileStatus[] | DataDeliveryBatchData | DataDeliveryBatchData[] | string | null];
+
+type PromiseResponse = [number, DataDeliveryFile | DataDeliveryFileStatus | DataDeliveryBatchData | string | { [key: string]: string } | null];
 
 async function requestPromiseJson(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponse> {
     try {
@@ -24,7 +25,7 @@ async function requestPromiseJson(method: Method, url: string, body: JSONValue |
     }
 }
 
-type PromiseResponseList = [boolean, DataDeliveryBatchData[]];
+type PromiseResponseList = [boolean, DataDeliveryBatchData[] | DataDeliveryFileStatus[] | { [key: string]: string }];
 
 async function requestPromiseJsonList(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponseList> {
     try {
