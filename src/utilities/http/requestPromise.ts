@@ -1,8 +1,10 @@
 import axios, { Method } from "axios";
+import { JSONValue } from "../../../Interfaces";
+import { DataDeliveryFile, DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../Interfaces";
 
-type PromiseResponse = [number, any];
+type PromiseResponse = [number, DataDeliveryFile | DataDeliveryFileStatus | DataDeliveryBatchData | string | { [key: string]: string } | null];
 
-async function requestPromiseJson(method: Method, url: string, body: any = null): Promise<PromiseResponse> {
+async function requestPromiseJson(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponse> {
     try {
         const response = await axios({
             url: url,
@@ -10,8 +12,8 @@ async function requestPromiseJson(method: Method, url: string, body: any = null)
             data: body,
             validateStatus: () => true,
         });
-        
-        const data = response.data; 
+
+        const data = response.data;
 
         if (!data) {
             return [response.status, null];
@@ -23,9 +25,9 @@ async function requestPromiseJson(method: Method, url: string, body: any = null)
     }
 }
 
-type PromiseResponseList = [boolean, any[]];
+type PromiseResponseList = [boolean, DataDeliveryBatchData[] | DataDeliveryFileStatus[] | { [key: string]: string }];
 
-async function requestPromiseJsonList(method: Method, url: string, body: any = null): Promise<PromiseResponseList> {
+async function requestPromiseJsonList(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponseList> {
     try {
         const response = await axios({
             url: url,
@@ -33,9 +35,9 @@ async function requestPromiseJsonList(method: Method, url: string, body: any = n
             data: body,
             validateStatus: () => true,
         });
-        
-        const data = response.data; 
-    
+
+        const data = response.data;
+
         if (response.status === 200) {
             if (!Array.isArray(data)) {
                 return [false, []];
@@ -48,7 +50,7 @@ async function requestPromiseJsonList(method: Method, url: string, body: any = n
         }
     } catch (error) {
         console.log(error);
-        throw error;        
+        throw error;
     }
 }
 

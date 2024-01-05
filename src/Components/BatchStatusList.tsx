@@ -33,7 +33,7 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
         setBatchList([]);
         setLoading(true);
 
-        const [success, batchList] = await getBatchInfo(batch.name);
+        const [success, batchList] = await getBatchInfo(batch.name) as [boolean, DataDeliveryFileStatus[]];
 
         setLoading(false);
 
@@ -42,12 +42,15 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
             return;
         }
 
-        if (batchList.length === 0) {
-            setListError("No data delivery files for this run found.");
+        if (batchList) {
+            if (batchList.length === 0) {
+                setListError("No data delivery files for this run found.");
+            }
+
+            batchList.sort((a: DataDeliveryFileStatus, b: DataDeliveryFileStatus) => new Date(b.updated_at).valueOf() - new Date(a.updated_at).valueOf());
+            setBatchList(batchList);
         }
 
-        batchList.sort((a: DataDeliveryFileStatus, b: DataDeliveryFileStatus) => new Date(b.updated_at).valueOf() - new Date(a.updated_at).valueOf());
-        setBatchList(batchList);
     }
 
     return (

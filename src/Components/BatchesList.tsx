@@ -39,7 +39,7 @@ function BatchesList(): ReactElement {
         setBatchList([]);
         setLoading(true);
 
-        const [success, batchListResponse] = await getAllBatches();
+        const [success, batchListResponse] = await getAllBatches() as [boolean, DataDeliveryBatchData[]];
         setLoading(false);
 
         if (!success) {
@@ -47,43 +47,46 @@ function BatchesList(): ReactElement {
             return;
         }
 
-        if (batchListResponse.length === 0) {
-            setListError("No data delivery runs found.");
-        }
-
-        batchListResponse.sort((a: DataDeliveryBatchData, b: DataDeliveryBatchData) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
-        
-        const batchListPromises = batchListResponse.slice(0, 50).map(async (batch: DataDeliveryBatchData) => {
-            const [success, batchInfoList] = await getBatchInfo(batch.name);
-
-            if (!success) {
-                return {
-                    ...batch,
-                    status: "dead"
-                };
+        if (batchListResponse) {
+            if (batchListResponse.length === 0) {
+                setListError("No data delivery runs found.");
             }
 
-            const batchEntryStatuses: string[] = batchInfoList.map((infoList: DataDeliveryFileStatus) => {
-                return getDDFileStatusStyle(infoList.state, infoList.error_info);
+            batchListResponse.sort((a: DataDeliveryBatchData, b: DataDeliveryBatchData) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+
+            const batchListPromises = batchListResponse.slice(0, 50).map(async (batch: DataDeliveryBatchData) => {
+                const [success, batchInfoList] = await getBatchInfo(batch.name) as [boolean, DataDeliveryFileStatus[]];
+
+                if (!success) {
+                    return {
+                        ...batch,
+                        status: "dead"
+                    };
+                }
+
+                const batchEntryStatuses: string[] = batchInfoList.map((infoList: DataDeliveryFileStatus) => {
+                    return getDDFileStatusStyle(infoList.state, infoList.error_info);
+                });
+                const batchStatus = determineOverallStatus(batchEntryStatuses);
+
+                return {
+                    ...batch,
+                    status: batchStatus
+                };
             });
-            const batchStatus = determineOverallStatus(batchEntryStatuses);
 
-            return {
-                ...batch,
-                status: batchStatus
-            };
-        });
+            const batchListWithStatus: DataDeliveryBatchData[] = await Promise.all(batchListPromises);
+            setBatchList(batchListWithStatus);
+        }
 
-        const batchListWithStatus: DataDeliveryBatchData[] = await Promise.all(batchListPromises);
-        setBatchList(batchListWithStatus);
     }
 
     if (loading) {
-        return <ONSLoadingPanel/>;
+        return <ONSLoadingPanel />;
     } else {
         return (
             <div className={"elementToFadeIn"}>
-                <ONSButton onClick={() => callGetBatchList()} label="Reload" primary={true} small={true}/>
+                <ONSButton onClick={() => callGetBatchList()} label="Reload" primary={true} small={true} />
                 <ErrorBoundary errorMessageText={"Failed to load audit logs."}>
                     {
                         batchList && batchList.length > 0
@@ -121,7 +124,7 @@ function BatchesList(): ReactElement {
                                                         {batch.dateString}
                                                     </td>
                                                     <td className="ons-table__cell ">
-                                                        {<TimeAgo live={false} date={batch.date}/>}
+                                                        {<TimeAgo live={false} date={batch.date} />}
                                                     </td>
                                                     <td className="ons-table__cell ">
                                                         <span className={`ons-status ons-status--${batch.status}`}
