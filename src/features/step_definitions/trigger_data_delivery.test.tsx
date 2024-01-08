@@ -162,7 +162,7 @@ defineFeature(feature, test => {
         });
     });
 
-    test.skip("Cancel Trigger data delivery", ({ given, when, then, and }) => {
+    test.skip("Cancel Trigger data delivery", ({ given, when, then }) => {
         given("I have been presented with a confirmation to trigger data delivery", async () => {
             mock_fetch_requests(mock_server_responses_trigger_fails);
             const history = createMemoryHistory();
@@ -197,7 +197,7 @@ defineFeature(feature, test => {
         });
     });
 
-    test.skip("Cancel Trigger data delivery confirmation", ({ given, when, then, and }) => {
+    test.skip("Cancel Trigger data delivery confirmation", ({ given, when, then }) => {
         given("I have been presented with a confirmation to trigger data delivery", async () => {
             mock_fetch_requests(mock_server_responses_trigger_fails);
             const history = createMemoryHistory();
