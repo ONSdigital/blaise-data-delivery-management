@@ -21,13 +21,11 @@ interface Location {
     state: { status: string }
 }
 
-type BatchDescription = { [key: string]: string }
-
 function App(): ReactElement {
 
     const location = useLocation();
     const { status } = (location as Location).state || { status: "" };
-    const [statusDescriptionList, setStatusDescriptionList] = useState<BatchDescription>({});
+    const [statusDescriptionList, setStatusDescriptionList] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         callGetBatchStatusDescriptions().then(() => console.log("getBatchStatusDescriptions Complete"));
@@ -42,7 +40,7 @@ function App(): ReactElement {
             return;
         }
 
-        setStatusDescriptionList(statusDescriptionList as BatchDescription);
+        setStatusDescriptionList(statusDescriptionList);
     }
 
     return (

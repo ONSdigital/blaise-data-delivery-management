@@ -2,22 +2,9 @@
 import { Request, Response } from "express";
 import axios, { AxiosRequestConfig } from "axios";
 import * as PinoHttp from "pino-http";
-import { DataDeliveryBatchData, DataDeliveryFile, DataDeliveryFileStatus, JSONValue } from "../../Interfaces";
+type PromiseResponse = [number, any, string];
 
-type PromiseResponse = [
-    number,
-    DataDeliveryFile | DataDeliveryFile[] | DataDeliveryFileStatus | DataDeliveryFileStatus[] | DataDeliveryBatchData | DataDeliveryBatchData[] | string | JSONValue | { [key: string]: string } | null,
-    string
-];
-
-export function SendAPIRequest(
-    logger: PinoHttp.HttpLogger,
-    req: Request,
-    res: Response,
-    url: string,
-    method: AxiosRequestConfig["method"],
-    data: JSONValue | null = null,
-    headers: { [key: string]: string } | null = null): Promise<PromiseResponse> {
+export function SendAPIRequest(logger: PinoHttp.HttpLogger, req: Request, res: Response, url: string, method: AxiosRequestConfig["method"], data: any = null, headers: any = null): Promise<PromiseResponse> {
     logger(req, res);
 
     return new Promise((resolve: (object: PromiseResponse) => void) => {
