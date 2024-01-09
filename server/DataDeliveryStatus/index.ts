@@ -22,7 +22,7 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
         const authHeader = await authProvider.getAuthHeader();
         req.log.info(authHeader, "Obtained Google auth request header");
 
-        const [status, result, contentType] = await SendAPIRequest(logger, req, res, url, "GET", null, authHeader);
+        const [status, result, contentType] = await SendAPIRequest(logger, req, res, url, "GET", null, authHeader) as [number, DataDeliveryFileStatus[], string];
 
         if (status !== 200) {
             res.status(status).json([]);
@@ -51,7 +51,7 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
         const authHeader = await authProvider.getAuthHeader();
         req.log.info(authHeader, "Obtained Google auth request header");
 
-        const [status, result, contentType] = await SendAPIRequest(logger, req, res, url, "GET", null, authHeader);
+        const [status, result, contentType] = await SendAPIRequest(logger, req, res, url, "GET", null, authHeader) as [number, string[], string];
 
         if (status !== 200) {
             res.status(status).json([]);
