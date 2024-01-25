@@ -58,7 +58,7 @@ config will attempt to use this file. **DO NOT COMMIT THIS FILE**
 
 To create a keys.json file:
 ```shell
-gcloud iam service-accounts keys create keys.json --iam-account ons-blaise-v2-dev-<sandbox>@appspot.gserviceaccount.com`
+gcloud iam service-accounts keys create keys.json --iam-account ons-blaise-v2-dev-<sandbox>@appspot.gserviceaccount.com
 ```
 
 You can also export the Google application credentials as a runtime variable rather than including in the .env file above:
