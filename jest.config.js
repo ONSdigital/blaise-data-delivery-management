@@ -13,6 +13,7 @@ module.exports = {
         "\\.(css|less|scss)$": "identity-obj-proxy",
         "\\.(jpg)$": "identity-obj-proxy"
     },
+    transformIgnorePatterns: ['/node_modules/(?!(axios)/)'],
     coveragePathIgnorePatterns: [
         "/node_modules/"
     ],
