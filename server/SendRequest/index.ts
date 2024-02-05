@@ -17,7 +17,7 @@ export function SendAPIRequest(
     url: string,
     method: AxiosRequestConfig["method"],
     data: JSONValue | null = null,
-    headers: { [key: string]: string } | null = null): Promise<PromiseResponse> {
+    headers: { [key: string]: string }): Promise<PromiseResponse> {
     logger(req, res);
 
     return new Promise((resolve: (object: PromiseResponse) => void) => {
