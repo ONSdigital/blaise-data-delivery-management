@@ -13,9 +13,10 @@ env_variables:
   DATA_DELIVERY_AZURE_PIPELINE_NO: _DATA_DELIVERY_AZURE_PIPELINE_NO
   DDS_CLIENT_ID: _DDS_CLIENT_ID
 
-basic_scaling:
-  idle_timeout: 1m
-  max_instances: 1
+automatic_scaling:
+  min_instances: _MIN_INSTANCES
+  max_instances: _MAX_INSTANCES
+  target_cpu_utilization: _TARGET_CPU_UTILIZATION
 
 handlers:
 - url: /.*
