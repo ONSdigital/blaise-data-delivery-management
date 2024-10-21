@@ -35,9 +35,8 @@ jobs:
       - run: yarn install
       - run: yarn run test
       - name: Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/coverage-final.json
           fail_ci_if_error: true
-          gcov: true
