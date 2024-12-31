@@ -40,11 +40,10 @@ defineFeature(feature, test => {
 
             const history = createMemoryHistory();
             render(
-                <Router history={history}>
-                    <App/>
+                <Router location={history.location} navigator={history}>
+                    <App />
                 </Router>
             );
-
         });
 
         when("I view the landing page", async () => {
@@ -66,8 +65,8 @@ defineFeature(feature, test => {
 
             const history = createMemoryHistory();
             render(
-                <Router history={history}>
-                    <App/>
+                <Router location={history.location} navigator={history}>
+                    <App />
                 </Router>
             );
             await act(async () => {
@@ -75,7 +74,6 @@ defineFeature(feature, test => {
             });
             expect(screen.getByText(/Data delivery runs/i)).toBeDefined();
             expect(screen.getByText(/26\/03\/2021 11:29:54/i)).toBeDefined();
-
         });
 
         when("I select the 'View run status' link", async () => {

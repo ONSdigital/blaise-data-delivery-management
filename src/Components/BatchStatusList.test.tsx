@@ -3,11 +3,9 @@
  */
 import React from "react";
 import "@testing-library/jest-dom";
-import { Router } from "react-router-dom";
-import { render } from "@testing-library/react";
-import { screen } from "@testing-library/dom";
+import { render, screen } from "@testing-library/react";
 import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../Interfaces";
-import { createMemoryHistory } from "history";
+import { MemoryRouter } from "react-router-dom";
 import BatchStatusList from "./BatchStatusList";
 import { statusDescriptions } from "./__mocks__/mock_objects";
 import MockAdapter from "axios-mock-adapter";
@@ -74,28 +72,25 @@ afterAll(() => {
 
 describe("Check BatchStatusList component snapshot:", () => {
     it("matches the snapshot", async () => {
-        const history = createMemoryHistory({
-            initialEntries: [mockRoute]
-        });
-        const wrapper = render(
-            <Router history={history}>
+        render(
+            <MemoryRouter initialEntries={[mockRoute]}>
                 <BatchStatusList statusDescriptionList={statusDescriptions} />
-            </Router>
+            </MemoryRouter>
         );
         
-        expect(wrapper).toMatchSnapshot();
+        expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+        expect(await screen.findByText(/Questionnaire/)).toBeVisible();
+        expect(await screen.findByText(/Status/)).toBeVisible();
+        expect(await screen.findByText(/Last update/)).toBeVisible();
     });
 });
 
 describe("Check run table:", () => {
     it("displays table headings (including loader/spinner)", async () => {
-        const history = createMemoryHistory({
-            initialEntries: [mockRoute]
-        });
         render(
-            <Router history={history}>
+            <MemoryRouter initialEntries={[mockRoute]}>
                 <BatchStatusList statusDescriptionList={statusDescriptions} />
-            </Router>
+            </MemoryRouter>
         );
 
         expect(screen.getByText(/Loading/i)).toBeInTheDocument();
@@ -106,13 +101,10 @@ describe("Check run table:", () => {
     });
 
     it("displays the questionnaire/instrument names", async () => {
-        const history = createMemoryHistory({
-            initialEntries: [mockRoute]
-        });
         render(
-            <Router history={history}>
+            <MemoryRouter initialEntries={[mockRoute]}>
                 <BatchStatusList statusDescriptionList={statusDescriptions} />
-            </Router>
+            </MemoryRouter>
         );
 
         expect(await screen.findByText(/OPN2004A/)).toBeVisible();
@@ -122,13 +114,10 @@ describe("Check run table:", () => {
     });
 
     it("displays the status colour and details", async () => {
-        const history = createMemoryHistory({
-            initialEntries: [mockRoute]
-        });
         render(
-            <Router history={history}>
+            <MemoryRouter initialEntries={[mockRoute]}>
                 <BatchStatusList statusDescriptionList={statusDescriptions} />
-            </Router>
+            </MemoryRouter>
         );
 
         expect(await screen.findByText(statusDescriptions["in_arc"])).toBeVisible();
@@ -142,13 +131,10 @@ describe("Check run table:", () => {
     });
 
     it("displays last update details", async () => {
-        const history = createMemoryHistory({
-            initialEntries: [mockRoute]
-        });
         render(
-            <Router history={history}>
+            <MemoryRouter initialEntries={[mockRoute]}>
                 <BatchStatusList statusDescriptionList={statusDescriptions} />
-            </Router>
+            </MemoryRouter>
         );
         
         expect(await screen.findByText(dateFormatter(batchRuns[0].updated_at).format("DD/MM/YYYY HH:mm:ss"))).toBeVisible(); // 24/03/2021 12:21:10

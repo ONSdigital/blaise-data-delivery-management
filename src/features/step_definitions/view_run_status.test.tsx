@@ -1,22 +1,17 @@
-// React
 import React from "react";
-// Test modules
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import App from "../../App";
-import { Router } from "react-router";
+import { Router } from "react-router-dom";
 import "@testing-library/jest-dom";
-// Mock elements
 import flushPromises from "../../tests/utils";
 import { BatchInfoList, BatchList, StatusDescriptions } from "./mock_objects";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-// Create Mock adapter for Axios requests
 const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 
-// Load in feature details from .feature file
 const feature = loadFeature(
     "./src/features/view_run_status.feature",
     { tagFilter: "not @server and not @integration" }
@@ -40,7 +35,7 @@ defineFeature(feature, test => {
         given("I have launched the Data Delivery Management", () => {
             const history = createMemoryHistory();
             render(
-                <Router history={history}>
+                <Router location={history.location} navigator={history}>
                     <App />
                 </Router>
             );
@@ -83,7 +78,7 @@ defineFeature(feature, test => {
         given("I can see the run I wish to see the status of", async () => {
             const history = createMemoryHistory();
             render(
-                <Router history={history}>
+                <Router location={history.location} navigator={history}>
                     <App />
                 </Router>
             );
@@ -126,7 +121,7 @@ defineFeature(feature, test => {
             }
             const listItemThree = list[2];
             const thirdRowData = listItemThree.childNodes;
-            if (secondRowData !== null) {
+            if (thirdRowData !== null) {
                 expect(thirdRowData[0].textContent).toEqual("OPN2106A");
                 expect(thirdRowData[1].textContent).toEqual("Some error_info was here and that");
             }
