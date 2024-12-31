@@ -25,7 +25,6 @@ describe("Check breadcrumbs:", () => {
         const homeLink = screen.getByText("Home");
         userEvent.click(homeLink);
 
-        // With MemoryRouter, the pathname should update automatically
         expect(window.location.pathname).toEqual("/");
     });
 });
