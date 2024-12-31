@@ -3,7 +3,7 @@ import { defineFeature, loadFeature } from "jest-cucumber";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import App from "../../App";
-import { Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
 import flushPromises from "../../tests/utils";
 import { BatchInfoList, BatchList, StatusDescriptions } from "./mock_objects";
@@ -35,9 +35,9 @@ defineFeature(feature, test => {
         given("I have launched the Data Delivery Management", () => {
             const history = createMemoryHistory();
             render(
-                <Router location={history.location} navigator={history}>
+                <BrowserRouter>
                     <App />
-                </Router>
+                </BrowserRouter>
             );
         });
 
@@ -78,16 +78,15 @@ defineFeature(feature, test => {
         given("I can see the run I wish to see the status of", async () => {
             const history = createMemoryHistory();
             render(
-                <Router location={history.location} navigator={history}>
+                <BrowserRouter>
                     <App />
-                </Router>
+                </BrowserRouter>
             );
             await act(async () => {
                 await flushPromises();
             });
             expect(screen.getByText(/Data delivery runs/i)).toBeDefined();
             expect(screen.getByText(/26\/03\/2021 11:29:54/i)).toBeDefined();
-
         });
 
         when("I select the 'View run status' link", async () => {
@@ -111,7 +110,8 @@ defineFeature(feature, test => {
             if (firstRowData !== null) {
                 expect(firstRowData[0].textContent).toEqual("OPN2004A");
                 expect(firstRowData[1].textContent).toEqual(
-                    "The data delivery instrument has no active survey days, we will not generate a data delivery file, we should never alert");
+                    "The data delivery instrument has no active survey days, we will not generate a data delivery file, we should never alert"
+                );
             }
             const listItemTwo = list[1];
             const secondRowData = listItemTwo.childNodes;
