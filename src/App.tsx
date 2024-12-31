@@ -68,13 +68,13 @@ function App(): ReactElement {
                                         </ONSPanel>
                                     )}
                                     <main id="main-content" className="ons-page__main ons-u-mt-no">
-                                                {/*<ul className="list list--bare list--inline u-mt-m">*/}
-                                                {/*    <li className="list__item">*/}
-                                                {/*        <Link to="/trigger" id="audit-logs-link">*/}
-                                                {/*            Trigger Data Delivery*/}
-                                                {/*        </Link>*/}
-                                                {/*    </li>*/}
-                                                {/*</ul>*/}
+                                        {/*<ul className="list list--bare list--inline u-mt-m">*/}
+                                        {/*    <li className="list__item">*/}
+                                        {/*        <Link to="/trigger" id="audit-logs-link">*/}
+                                        {/*            Trigger Data Delivery*/}
+                                        {/*        </Link>*/}
+                                        {/*    </li>*/}
+                                        {/*</ul>*/}
                                         <h1 className="ons-u-mt-m">Data delivery runs</h1>
                                         <ErrorBoundary errorMessageText="Unable to load batch list table correctly">
                                             <BatchesList />

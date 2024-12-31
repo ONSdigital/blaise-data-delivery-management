@@ -136,11 +136,11 @@ function BatchesList(): ReactElement {
                                                         <Link
                                                             aria-label={`View run status ${batch.dateString}`}
                                                             data-testid={`view-${batch.name}`}
-                                                            to={{
-                                                                pathname: `/batch/${batch.name}`,
-                                                                state: { batch: batch }
-                                                            }
-                                                            }>View run status</Link>
+                                                            to={`/batch/${batch.name}`}
+                                                            state={{ batch: batch }}
+                                                        >
+                                                            View run status
+                                                        </Link>
                                                     </td>
                                                 </tr>
                                             );
