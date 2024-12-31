@@ -3,9 +3,8 @@ import React from "react";
 // Test modules
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { createMemoryHistory } from "history";
+import { MemoryRouter } from "react-router-dom";
 import App from "../../App";
-import { Router } from "react-router";
 import "@testing-library/jest-dom";
 // Mock elements
 import flushPromises from "../../tests/utils";
@@ -38,11 +37,10 @@ defineFeature(feature, test => {
             mock.onGet("/api/batch/OPN_26032021_112954").reply(500, {});
             mock.onGet("/api/batch").reply(500, {});
 
-            const history = createMemoryHistory();
             render(
-                <Router history={history}>
-                    <App/>
-                </Router>
+                <MemoryRouter initialEntries={["/"]}> 
+                    <App />
+                </MemoryRouter>
             );
         });
 
@@ -63,11 +61,10 @@ defineFeature(feature, test => {
             mock.onGet("/api/batch/OPN_26032021_112954").reply(500, {});
             mock.onGet("/api/batch").reply(200, BatchList);
             
-            const history = createMemoryHistory();
             render(
-                <Router history={history}>
-                    <App/>
-                </Router>
+                <MemoryRouter initialEntries={["/"]}>
+                    <App />
+                </MemoryRouter>
             );
             await act(async () => {
                 await flushPromises();
