@@ -29,7 +29,6 @@ describe("Check Confirmation page snapshot:", () => {
                 </Routes>
             </MemoryRouter>
         );
-        
         expect(wrapper).toMatchSnapshot();
     });
 });
@@ -43,14 +42,13 @@ describe("Check form:", () => {
                 </Routes>
             </MemoryRouter>
         );
-        
         const radioBtnForYes = screen.getByText("Yes, trigger Data Delivery");
         userEvent.click(radioBtnForYes);
 
         expect(screen.getByLabelText("Yes, trigger Data Delivery")).toBeChecked();
         expect(screen.getByLabelText("No, do not trigger Data Delivery")).not.toBeChecked();
     });
-    
+
     it("'No, do not trigger Data delivery' is selectable and is the only one checked", async () => {
         render(
             <MemoryRouter initialEntries={[mockRoute]}>
@@ -59,7 +57,7 @@ describe("Check form:", () => {
                 </Routes>
             </MemoryRouter>
         );
-        
+
         const radioBtnForNo = screen.getByText("No, do not trigger Data Delivery");
         userEvent.click(radioBtnForNo);
 
@@ -70,7 +68,7 @@ describe("Check form:", () => {
     it("redirects to the homepage with a success message when api is triggered successfully", async () => {
         mock.onPost("/api/trigger").reply(200, "completed");
 
-        const wrapper = render(
+        render(
             <MemoryRouter initialEntries={[mockRoute]}>
                 <Routes>
                     <Route path={mockRoute} element={<Confirmation />} />
@@ -78,13 +76,13 @@ describe("Check form:", () => {
                 </Routes>
             </MemoryRouter>
         );
-        
+
         const radioBtnForYes = screen.getByText("Yes, trigger Data Delivery");
         const confirmBtn = screen.getByRole("button", { name: "Continue" });
         userEvent.click(radioBtnForYes);
         userEvent.click(confirmBtn);
 
-        await waitFor(() => 
+        await waitFor(() =>
             expect(screen.getByText("Homepage")).toBeInTheDocument()
         );
     });
@@ -92,7 +90,7 @@ describe("Check form:", () => {
     it("redirects to the homepage with a failure message when api is triggered unsuccessfully", async () => {
         mock.onPost("/api/trigger").reply(200, "failed");
 
-        const wrapper = render(
+        render(
             <MemoryRouter initialEntries={[mockRoute]}>
                 <Routes>
                     <Route path={mockRoute} element={<Confirmation />} />
@@ -100,19 +98,19 @@ describe("Check form:", () => {
                 </Routes>
             </MemoryRouter>
         );
-        
+
         const radioBtnForYes = screen.getByText("Yes, trigger Data Delivery");
         const confirmBtn = screen.getByRole("button", { name: "Continue" });
         userEvent.click(radioBtnForYes);
         userEvent.click(confirmBtn);
 
-        await waitFor(() => 
+        await waitFor(() =>
             expect(screen.getByText("Homepage")).toBeInTheDocument()
         );
     });
 
     it("navigates back to the homepage when 'No' is the selected form option and confirmed", async () => {
-        const wrapper = render(
+        render(
             <MemoryRouter initialEntries={[mockRoute]}>
                 <Routes>
                     <Route path={mockRoute} element={<Confirmation />} />
@@ -120,19 +118,19 @@ describe("Check form:", () => {
                 </Routes>
             </MemoryRouter>
         );
-        
+
         const radioBtnForNo = screen.getByText("No, do not trigger Data Delivery");
         const confirmBtn = screen.getByRole("button", { name: "Continue" });
         userEvent.click(radioBtnForNo);
         userEvent.click(confirmBtn);
 
-        await waitFor(() => 
+        await waitFor(() =>
             expect(screen.getByText("Homepage")).toBeInTheDocument()
         );
     });
 
     it("navigates back to the homepage when the 'Cancel' button is clicked", async () => {
-        const wrapper = render(
+        render(
             <MemoryRouter initialEntries={[mockRoute]}>
                 <Routes>
                     <Route path={mockRoute} element={<Confirmation />} />
@@ -140,11 +138,11 @@ describe("Check form:", () => {
                 </Routes>
             </MemoryRouter>
         );
-        
+
         const confirmBtn = screen.getByRole("button", { name: "Cancel" });
         userEvent.click(confirmBtn);
 
-        await waitFor(() => 
+        await waitFor(() =>
             expect(screen.getByText("Homepage")).toBeInTheDocument()
         );
     });

@@ -55,6 +55,12 @@ function App(): ReactElement {
                         <Route
                             path="/batch"
                             element={
+                                <BatchesList />
+                            }
+                        />
+                        <Route
+                            path="/batch/:batchName"
+                            element={
                                 <BatchStatusList statusDescriptionList={statusDescriptionList} />
                             }
                         />

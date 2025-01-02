@@ -1,7 +1,6 @@
 import React from "react";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { createMemoryHistory } from "history";
 import App from "../../App";
 import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
@@ -33,7 +32,6 @@ defineFeature(feature, test => {
 
     test("List all recent Data Delivery runs", ({ given, when, then, and }) => {
         given("I have launched the Data Delivery Management", () => {
-            const history = createMemoryHistory();
             render(
                 <BrowserRouter>
                     <App />
@@ -76,7 +74,6 @@ defineFeature(feature, test => {
 
     test("View run status", ({ given, when, then, and }) => {
         given("I can see the run I wish to see the status of", async () => {
-            const history = createMemoryHistory();
             render(
                 <BrowserRouter>
                     <App />
