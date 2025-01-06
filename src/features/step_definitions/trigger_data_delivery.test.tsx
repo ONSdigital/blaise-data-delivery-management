@@ -1,11 +1,6 @@
-// React
-import React from "react";
 // Test modules
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { createMemoryHistory } from "history";
-import App from "../../App";
-import { Router } from "react-router";
+import { act, cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 // Mock elements
 import flushPromises from "../../tests/utils";
@@ -72,12 +67,6 @@ defineFeature(feature, test => {
     test.skip("Trigger data delivery", ({ given, when, then, and }) => {
         given("I have launched the Data Delivery Management", async () => {
             mock_fetch_requests(mock_server_responses);
-            const history = createMemoryHistory();
-            render(
-                <Router history={history}>
-                    <App/>
-                </Router>
-            );
             await act(async () => {
                 await flushPromises();
             });
@@ -87,7 +76,6 @@ defineFeature(feature, test => {
             await act(async () => {
                 fireEvent.click(screen.getByText(/Trigger Data Delivery/));
             });
-
         });
 
         and("I confirm I want to trigger Data Delivery", async () => {
@@ -106,22 +94,16 @@ defineFeature(feature, test => {
         });
 
         and("I will be redirect to the homepage with a message saying it had been triggered successfully", async () => {
-            await waitFor((() => {
+            await waitFor(() => {
                 expect(screen.getByText(/Data delivery runs/i)).toBeDefined();
                 expect(screen.getByText(/Triggered Data Delivery successfully, It may take a few minutes for the run to appear in the table below./i)).toBeDefined();
-            }));
+            });
         });
     });
 
     test.skip("Trigger data delivery fails", ({ given, when, then, and }) => {
         given("I have launched the Data Delivery Management", async () => {
             mock_fetch_requests(mock_server_responses_trigger_fails);
-            const history = createMemoryHistory();
-            render(
-                <Router history={history}>
-                    <App/>
-                </Router>
-            );
             await act(async () => {
                 await flushPromises();
             });
@@ -155,30 +137,24 @@ defineFeature(feature, test => {
         });
 
         and("I will be redirect to the homepage with a message saying the the trigger had failed", async () => {
-            await waitFor((() => {
+            await waitFor(() => {
                 expect(screen.getByText(/Data delivery runs/i)).toBeDefined();
                 expect(screen.getByText(/Failed to trigger Data Delivery./i)).toBeDefined();
-            }));
+            });
         });
     });
 
     test.skip("Cancel Trigger data delivery", ({ given, when, then }) => {
         given("I have been presented with a confirmation to trigger data delivery", async () => {
             mock_fetch_requests(mock_server_responses_trigger_fails);
-            const history = createMemoryHistory();
-            render(
-                <Router history={history}>
-                    <App/>
-                </Router>
-            );
             await act(async () => {
                 await flushPromises();
                 fireEvent.click(screen.getByText(/Trigger Data Delivery/));
                 await flushPromises();
             });
-            await waitFor((() => {
+            await waitFor(() => {
                 expect(screen.getByText(/Are you sure you want to trigger Data Delivery?/i)).toBeDefined();
-            }));
+            });
         });
 
         when("I confirm that I do NOT want to proceed", async () => {
@@ -191,29 +167,23 @@ defineFeature(feature, test => {
         });
 
         then("I am returned to the landing page", async () => {
-            await waitFor((() => {
+            await waitFor(() => {
                 expect(screen.getByText(/Data delivery runs/i)).toBeDefined();
-            }));
+            });
         });
     });
 
     test.skip("Cancel Trigger data delivery confirmation", ({ given, when, then }) => {
         given("I have been presented with a confirmation to trigger data delivery", async () => {
             mock_fetch_requests(mock_server_responses_trigger_fails);
-            const history = createMemoryHistory();
-            render(
-                <Router history={history}>
-                    <App/>
-                </Router>
-            );
             await act(async () => {
                 await flushPromises();
                 fireEvent.click(screen.getByText(/Trigger Data Delivery/));
                 await flushPromises();
             });
-            await waitFor((() => {
+            await waitFor(() => {
                 expect(screen.getByText(/Are you sure you want to trigger Data Delivery?/i)).toBeDefined();
-            }));
+            });
         });
 
         when("I click the cancel button", async () => {
@@ -226,29 +196,23 @@ defineFeature(feature, test => {
         });
 
         then("I am returned to the landing page", async () => {
-            await waitFor((() => {
+            await waitFor(() => {
                 expect(screen.getByText(/Data delivery runs/i)).toBeDefined();
-            }));
+            });
         });
     });
 
     test.skip("Don't select an option", ({ given, when, then }) => {
         given("I have been presented with a confirmation to trigger data delivery", async () => {
             mock_fetch_requests(mock_server_responses_trigger_fails);
-            const history = createMemoryHistory();
-            render(
-                <Router history={history}>
-                    <App/>
-                </Router>
-            );
             await act(async () => {
                 await flushPromises();
                 fireEvent.click(screen.getByText(/Trigger Data Delivery/));
                 await flushPromises();
             });
-            await waitFor((() => {
+            await waitFor(() => {
                 expect(screen.getByText(/Are you sure you want to trigger Data Delivery?/i)).toBeDefined();
-            }));
+            });
         });
 
         when("I select confirm without choosing an option", async () => {
@@ -259,10 +223,10 @@ defineFeature(feature, test => {
         });
 
         then("I am presented with message telling me to choose an option", async () => {
-            await waitFor((() => {
+            await waitFor(() => {
                 expect(screen.queryByText(/Data delivery runs/i)).not.toBeInTheDocument();
                 expect(screen.getByText(/Select an answer/i)).toBeDefined();
-            }));
+            });
         });
     });
 });

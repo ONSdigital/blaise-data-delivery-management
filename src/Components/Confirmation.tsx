@@ -1,8 +1,9 @@
 import React, { ReactElement, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import { sendDataDeliveryRequest } from "../utilities/http";
 import Breadcrumbs from "./Breadcrumbs";
+import { Navigate } from "react-router-dom";
 
 function Confirmation(): ReactElement {
     const [formError, setFormError] = useState<string>("");
@@ -10,7 +11,7 @@ function Confirmation(): ReactElement {
     const [confirm, setConfirm] = useState<boolean | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
-    const history = useHistory();
+    const navigate = useNavigate();
 
     async function confirmOption() {
         if (confirm === null) {
@@ -18,7 +19,7 @@ function Confirmation(): ReactElement {
             return;
         }
         if (!confirm) {
-            history.push("/");
+            navigate("/");
             return;
         }
 
@@ -41,72 +42,57 @@ function Confirmation(): ReactElement {
 
     return (
         <>
-            {
-                redirect && <Redirect
-                    to={{
-                        pathname: "/",
-                        state: { status: message }
-                    }}/>
-            }
-            <Breadcrumbs BreadcrumbList={
-                [
-                    { link: "/", title: "Home" },
-                ]
-            }/>
+            {redirect && <Navigate to="/" state={{ status: message }} />}
+            <Breadcrumbs BreadcrumbList={[{ link: "/", title: "Home" }]} />
 
             <main id="main-content" className="ons-page__main ons-u-mt-no">
-                <h1 className="ons-u-mb-l">
-                    Are you sure you want to trigger Data Delivery?
-                </h1>
+                <h1 className="ons-u-mb-l">Are you sure you want to trigger Data Delivery?</h1>
 
-                {
-                    message !== "" &&
+                {message !== "" && (
                     <ONSPanel status={message.includes("success") ? "success" : "error"}>
                         <p>{message}</p>
                     </ONSPanel>
-                }
+                )}
 
                 <form className="ons-u-mt-m">
-                    {
-                        formError === "" ?
-                            confirmDeleteRadios(setConfirm)
-                            :
-                            <ONSPanel status={"error"}>
-                                <p className="ons-panel__error">
-                                    <strong>{formError}</strong>
-                                </p>
-                                {confirmDeleteRadios(setConfirm)}
-                            </ONSPanel>
-                    }
+                    {formError === "" ? (
+                        confirmDeleteRadios(setConfirm)
+                    ) : (
+                        <ONSPanel status={"error"}>
+                            <p className="ons-panel__error">
+                                <strong>{formError}</strong>
+                            </p>
+                            {confirmDeleteRadios(setConfirm)}
+                        </ONSPanel>
+                    )}
 
-                    <br/>
+                    <br />
                     <ONSButton
                         label={"Continue"}
                         primary={true}
                         loading={loading}
                         id="confirm-continue"
-                        onClick={() => confirmOption()}/>
-                    {!loading &&
-                    <ONSButton
-                        label={"Cancel"}
-                        primary={false}
-                        id="cancel-overwrite"
-                        onClick={() => history.push("/")}/>
-                    }
+                        onClick={() => confirmOption()}
+                    />
+                    {!loading && (
+                        <ONSButton
+                            label={"Cancel"}
+                            primary={false}
+                            id="cancel-overwrite"
+                            onClick={() => navigate("/")}
+                        />
+                    )}
                 </form>
             </main>
         </>
     );
 }
 
-function confirmDeleteRadios(setConfirm: (value: (((prevState: (boolean | null)) => (boolean | null)) |
-    boolean | null)) => void) {
+function confirmDeleteRadios(setConfirm: (value: (boolean | null)) => void) {
     return (
         <fieldset className="ons-fieldset">
-            <legend className="ons-fieldset__legend">
-            </legend>
+            <legend className="ons-fieldset__legend"></legend>
             <div className="ons-radios__items">
-
                 <p className="ons-radios__item">
                     <span className="ons-radio">
                         <input
@@ -119,10 +105,11 @@ function confirmDeleteRadios(setConfirm: (value: (((prevState: (boolean | null))
                             onChange={() => setConfirm(true)}
                         />
                         <label className="ons-radio__label " htmlFor="confirm-overwrite">
-            Yes, trigger Data Delivery
+                            Yes, trigger Data Delivery
                         </label>
-                    </span></p>
-                <br/>
+                    </span>
+                </p>
+                <br />
                 <p className="ons-radios__item">
                     <span className="ons-radio">
                         <input
@@ -135,7 +122,7 @@ function confirmDeleteRadios(setConfirm: (value: (((prevState: (boolean | null))
                             onChange={() => setConfirm(false)}
                         />
                         <label className="ons-radio__label " htmlFor="cancel-keep">
-            No, do not trigger Data Delivery
+                            No, do not trigger Data Delivery
                         </label>
                     </span>
                 </p>
