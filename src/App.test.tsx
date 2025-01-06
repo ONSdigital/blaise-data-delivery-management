@@ -1,21 +1,19 @@
 import React from "react";
 import { render, waitFor, cleanup } from "@testing-library/react";
-import App from "./App";
 import "@testing-library/jest-dom";
 import flushPromises from "./tests/utils";
 import { act } from "react-dom/test-utils";
-import { createMemoryHistory } from "history";
-import { Router } from "react-router";
+import { MemoryRouter } from "react-router-dom";
 import { DataDeliveryBatchData } from "../Interfaces";
 import MockDate from "mockdate";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
+import App from "./App";
 
 // Create Mock adapter for Axios requests
 const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 
 describe("React homepage", () => {
-
     const batches: DataDeliveryBatchData[] = [
         {
             survey: "OPN",
@@ -43,11 +41,10 @@ describe("React homepage", () => {
     });
 
     it("view instrument page matches Snapshot", async () => {
-        const history = createMemoryHistory();
         const wrapper = render(
-            <Router history={history}>
-                <App/>
-            </Router>
+            <MemoryRouter initialEntries={["/"]}>
+                <App />
+            </MemoryRouter>
         );
 
         await act(async () => {
@@ -60,11 +57,10 @@ describe("React homepage", () => {
     });
 
     it("should render correctly", async () => {
-        const history = createMemoryHistory();
         const { getByText, queryByText, getAllByText } = render(
-            <Router history={history}>
-                <App/>
-            </Router>
+            <MemoryRouter initialEntries={["/"]}>
+                <App />
+            </MemoryRouter>
         );
 
         expect(queryByText(/Loading/i)).toBeInTheDocument();
@@ -82,22 +78,19 @@ describe("React homepage", () => {
             expect(getByText(/Status/)).toBeDefined();
             expect(queryByText(/Loading/i)).not.toBeInTheDocument();
         });
-
     });
 });
 
 describe("Given the API returns an empty list", () => {
-
     beforeAll(() => {
         mock.onGet("/api/batch").reply(200, []);
     });
 
     it("it should render with a message to inform the user in the list", async () => {
-        const history = createMemoryHistory();
         const { getByText, queryByText } = render(
-            <Router history={history}>
-                <App/>
-            </Router>
+            <MemoryRouter initialEntries={["/"]}>
+                <App />
+            </MemoryRouter>
         );
 
         expect(queryByText(/Loading/i)).toBeInTheDocument();
@@ -106,7 +99,6 @@ describe("Given the API returns an empty list", () => {
             expect(getByText(/No data delivery runs found./i)).toBeDefined();
             expect(queryByText(/Loading/i)).not.toBeInTheDocument();
         });
-
     });
 
     afterAll(() => {

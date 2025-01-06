@@ -1,22 +1,16 @@
-// React
 import React from "react";
-// Test modules
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { createMemoryHistory } from "history";
 import App from "../../App";
-import { Router } from "react-router";
+import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
-// Mock elements
 import flushPromises from "../../tests/utils";
 import { BatchInfoList, BatchList, StatusDescriptions } from "./mock_objects";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-// Create Mock adapter for Axios requests
 const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 
-// Load in feature details from .feature file
 const feature = loadFeature(
     "./src/features/view_run_status.feature",
     { tagFilter: "not @server and not @integration" }
@@ -38,11 +32,10 @@ defineFeature(feature, test => {
 
     test("List all recent Data Delivery runs", ({ given, when, then, and }) => {
         given("I have launched the Data Delivery Management", () => {
-            const history = createMemoryHistory();
             render(
-                <Router history={history}>
+                <BrowserRouter>
                     <App />
-                </Router>
+                </BrowserRouter>
             );
         });
 
@@ -81,18 +74,16 @@ defineFeature(feature, test => {
 
     test("View run status", ({ given, when, then, and }) => {
         given("I can see the run I wish to see the status of", async () => {
-            const history = createMemoryHistory();
             render(
-                <Router history={history}>
+                <BrowserRouter>
                     <App />
-                </Router>
+                </BrowserRouter>
             );
             await act(async () => {
                 await flushPromises();
             });
             expect(screen.getByText(/Data delivery runs/i)).toBeDefined();
             expect(screen.getByText(/26\/03\/2021 11:29:54/i)).toBeDefined();
-
         });
 
         when("I select the 'View run status' link", async () => {
@@ -116,7 +107,8 @@ defineFeature(feature, test => {
             if (firstRowData !== null) {
                 expect(firstRowData[0].textContent).toEqual("OPN2004A");
                 expect(firstRowData[1].textContent).toEqual(
-                    "The data delivery instrument has no active survey days, we will not generate a data delivery file, we should never alert");
+                    "The data delivery instrument has no active survey days, we will not generate a data delivery file, we should never alert"
+                );
             }
             const listItemTwo = list[1];
             const secondRowData = listItemTwo.childNodes;
@@ -126,7 +118,7 @@ defineFeature(feature, test => {
             }
             const listItemThree = list[2];
             const thirdRowData = listItemThree.childNodes;
-            if (secondRowData !== null) {
+            if (thirdRowData !== null) {
                 expect(thirdRowData[0].textContent).toEqual("OPN2106A");
                 expect(thirdRowData[1].textContent).toEqual("Some error_info was here and that");
             }

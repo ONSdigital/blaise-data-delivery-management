@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import {
     Footer,
     Header,
@@ -21,7 +21,7 @@ interface Location {
     state: { status: string }
 }
 
-type BatchDescription = { [key: string]: string }
+type BatchDescription = { [key: string]: string };
 
 function App(): ReactElement {
 
@@ -50,39 +50,46 @@ function App(): ReactElement {
             <Header title={"Data Delivery Management"} />
             <div style={divStyle} className="ons-page__container ons-container">
                 <DefaultErrorBoundary>
-                    <Switch>
-                        <Route path="/trigger">
-                            <Confirmation />
-                        </Route>
-                        <Route path="/batch">
-                            <BatchStatusList statusDescriptionList={statusDescriptionList} />
-                        </Route>
-                        <Route path="/">
-
-                            {
-                                status !== "" &&
-                                <ONSPanel status={status?.includes("success") ? "success" : "error"}>
-                                    <p>{status}</p>
-                                </ONSPanel>
+                    <Routes>
+                        <Route path="/trigger" element={<Confirmation />} />
+                        <Route
+                            path="/batch"
+                            element={
+                                <BatchesList />
                             }
-
-                            <main id="main-content" className="ons-page__main ons-u-mt-no">
-
-                                {/*<ul className="list list--bare list--inline u-mt-m">*/}
-                                {/*    <li className="list__item">*/}
-                                {/*        <Link to="/trigger" id="audit-logs-link">*/}
-                                {/*            Trigger Data Delivery*/}
-                                {/*        </Link>*/}
-                                {/*    </li>*/}
-                                {/*</ul>*/}
-
-                                <h1 className="ons-u-mt-m">Data delivery runs</h1>
-                                <ErrorBoundary errorMessageText={"Unable to load batch list table correctly"}>
-                                    <BatchesList />
-                                </ErrorBoundary>
-                            </main>
-                        </Route>
-                    </Switch>
+                        />
+                        <Route
+                            path="/batch/:batchName"
+                            element={
+                                <BatchStatusList statusDescriptionList={statusDescriptionList} />
+                            }
+                        />
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    {status !== "" && (
+                                        <ONSPanel status={status?.includes("success") ? "success" : "error"}>
+                                            <p>{status}</p>
+                                        </ONSPanel>
+                                    )}
+                                    <main id="main-content" className="ons-page__main ons-u-mt-no">
+                                        {/*<ul className="list list--bare list--inline u-mt-m">*/}
+                                        {/*    <li className="list__item">*/}
+                                        {/*        <Link to="/trigger" id="audit-logs-link">*/}
+                                        {/*            Trigger Data Delivery*/}
+                                        {/*        </Link>*/}
+                                        {/*    </li>*/}
+                                        {/*</ul>*/}
+                                        <h1 className="ons-u-mt-m">Data delivery runs</h1>
+                                        <ErrorBoundary errorMessageText="Unable to load batch list table correctly">
+                                            <BatchesList />
+                                        </ErrorBoundary>
+                                    </main>
+                                </>
+                            }
+                        />
+                    </Routes>
                 </DefaultErrorBoundary>
             </div>
             <Footer />
