@@ -1,5 +1,5 @@
 service: ddm-ui
-runtime: nodejs20
+runtime: nodejs24
 
 vpc_access_connector:
   name: _VPC_CONNECTOR
