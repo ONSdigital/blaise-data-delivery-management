@@ -12,12 +12,22 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
 
     const authProvider = new AuthProvider(DDS_CLIENT_ID);
 
+    function isValidBatchName(value: string): boolean {
+        return /^[A-Za-z0-9._-]{1,128}$/.test(value);
+    }
+
     router.get("/api/batch/:batchName", async function (req: ResponseQuery, res: Response) {
         const { batchName } = req.params;
         logger(req, res);
         req.log.info(`Called get batch status with batch ${batchName}`);
 
-        const url = `${DDS_API_URL}/v1/batch/${batchName}`;
+        if (!isValidBatchName(batchName)) {
+            req.log.warn(`Invalid batch name received: ${batchName}`);
+            res.status(400).json([]);
+            return;
+        }
+
+        const url = `${DDS_API_URL}/v1/batch/${encodeURIComponent(batchName)}`;
 
         const authHeader = await authProvider.getAuthHeader();
         req.log.info(authHeader, "Obtained Google auth request header");
