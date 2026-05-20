@@ -1,6 +1,5 @@
 import AuthProvider from "./index";
 import jwt from "jsonwebtoken";
-import { afterEach, expect, it, jest } from "@jest/globals";
 
 jest.mock("./GoogleTokenProvider");
 import getGoogleAuthToken from "./GoogleTokenProvider";
