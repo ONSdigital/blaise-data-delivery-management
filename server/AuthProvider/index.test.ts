@@ -1,5 +1,6 @@
 import AuthProvider from "./index";
 import jwt from "jsonwebtoken";
+import { afterEach, expect, it, jest } from "@jest/globals";
 
 jest.mock("./GoogleTokenProvider");
 import getGoogleAuthToken from "./GoogleTokenProvider";
@@ -74,11 +75,11 @@ it("We get a new token when a token is invalid", async () => {
     await googleAuthProvider.getAuthHeader();
 
     // Call for header again which should update
-    const updatedToken = "SecondaryTokenCalled";
-    mock_AuthToken(updatedToken);
+    const fakeUpdatedAccessToken = "test_UpdatedAccessTokenValue";
+    mock_AuthToken(fakeUpdatedAccessToken);
 
     const authHeader = await googleAuthProvider.getAuthHeader();
 
-    expect(authHeader).toEqual({ Authorization: `Bearer ${updatedToken}` });
+    expect(authHeader).toEqual({ Authorization: `Bearer ${fakeUpdatedAccessToken}` });
     expect(console.log).toHaveBeenCalledWith("Failed to decode token, Calling for new Google auth Token");
 });

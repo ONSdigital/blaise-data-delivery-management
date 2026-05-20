@@ -12,8 +12,11 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
 
     const authProvider = new AuthProvider(DDS_CLIENT_ID);
 
+    const BATCH_NAME_REGEX =
+        /^[A-Z]{2,3}_(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[0-2])(19|20)\d{2}_([01][0-9]|2[0-3])([0-5][0-9])([0-5][0-9])$/;
+
     function isValidBatchName(value: string): boolean {
-        return /^[A-Za-z0-9._-]{1,128}$/.test(value);
+        return BATCH_NAME_REGEX.test(value);
     }
 
     router.get("/api/batch/:batchName", async function (req: ResponseQuery, res: Response) {
