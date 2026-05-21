@@ -10,6 +10,13 @@ type PromiseResponse = [
     string
 ];
 
+function sanitizeLog(value: unknown): string {
+    return String(value ?? "")
+        .replace(/[\r\n\t\f\v]+/g, " ")
+        .replace(/[\x00-\x1F\x7F]/g, "")
+        .trim();
+}
+
 export function SendAPIRequest(
     logger: PinoHttp.HttpLogger,
     req: Request,
@@ -19,6 +26,9 @@ export function SendAPIRequest(
     data: JSONValue | null = null,
     headers: { [key: string]: string }): Promise<PromiseResponse> {
     logger(req, res);
+
+    const safeMethod = sanitizeLog(method);
+    const safeUrl = sanitizeLog(url);
 
     return new Promise((resolve: (object: PromiseResponse) => void) => {
         axios({
@@ -31,9 +41,9 @@ export function SendAPIRequest(
             },
         }).then((response) => {
             if (response.status >= 200 && response.status < 300) {
-                req.log.info(`Status ${response.status} from ${method} ${url}`);
+                req.log.info(`Status ${response.status} from ${safeMethod} ${safeUrl}`);
             } else {
-                req.log.warn(`Status ${response.status} from ${method} ${url}`);
+                req.log.warn(`Status ${response.status} from ${safeMethod} ${safeUrl}`);
             }
             let contentType = "";
             try {
@@ -42,7 +52,7 @@ export function SendAPIRequest(
                 resolve([response.status, response.data, contentType]);
             }
         }).catch((error) => {
-            req.log.error(error, `${method} ${url} endpoint failed`);
+            req.log.error(error, `${safeMethod} ${safeUrl} endpoint failed`);
             resolve([500, null, ""]);
         });
     });
