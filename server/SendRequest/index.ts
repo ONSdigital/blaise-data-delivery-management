@@ -10,10 +10,13 @@ type PromiseResponse = [
     string
 ];
 
+// eslint-disable-next-line no-control-regex
+const CONTROL_CHARS = /[\x00-\x1F\x7F]/g;
+
 function sanitizeLog(value: unknown): string {
     return String(value ?? "")
         .replace(/[\r\n\t\f\v]+/g, " ")
-        .replace(/[\x00-\x1F\x7F]/g, "")
+        .replace(CONTROL_CHARS, "")
         .trim();
 }
 

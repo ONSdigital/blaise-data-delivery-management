@@ -13,7 +13,9 @@ function generateDateFromString(dateString: string, timeString: string): DateTyp
         if (time.length >= 3) {
             [hours, minutes, seconds] = time;
         }
-        [hours, minutes] = time;
+        else {
+            [hours, minutes] = time;
+        }
     }
 
     return [
@@ -39,7 +41,9 @@ export function dd_filename_to_data(dd_filename: string): DataDeliveryFile {
 }
 
 export function batch_to_data(batchName: string): DataDeliveryBatchData {
-    let [survey, originalDateString, timeString] = ["", "", ""];
+    let survey: string = "";
+    let originalDateString: string;
+    let timeString: string;
 
     if (batchName.match(/^[0-9]{8}_[0-9]{6}$/)) {
         // example 26032021_080842

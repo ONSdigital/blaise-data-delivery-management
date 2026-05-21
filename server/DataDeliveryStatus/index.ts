@@ -21,8 +21,9 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
 
     router.get("/api/batch/:batchName", async function (req: ResponseQuery, res: Response) {
         const { batchName } = req.params;
+        const sanitizedBatchName = batchName.replace(/[\r\n]/g, "");
         logger(req, res);
-        req.log.info(`Called get batch status with batch ${batchName}`);
+        req.log.info(`Called get batch status with batch ${sanitizedBatchName}`);
 
         if (!isValidBatchName(batchName)) {
             req.log.warn(`Invalid batch name received: ${batchName}`);
