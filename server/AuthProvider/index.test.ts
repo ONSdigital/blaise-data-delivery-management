@@ -19,13 +19,13 @@ afterEach(() => {
 });
 
 it("We can get back Auth headers with a token", async () => {
-    const uniqueToken = "A Token";
-    mock_AuthToken(uniqueToken);
+    const fakeUniqueAccessToken = "test_UniqueAccessTokenValue";
+    mock_AuthToken(fakeUniqueAccessToken);
     const googleAuthProvider = new AuthProvider("DDS_CLIENT_ID");
 
     const authHeader = await googleAuthProvider.getAuthHeader();
 
-    expect(authHeader).toEqual({ Authorization: `Bearer ${uniqueToken}` });
+    expect(authHeader).toEqual({ Authorization: `Bearer ${fakeUniqueAccessToken}` });
     expect(mockedGetGoogleAuthToken).toBeCalledWith("DDS_CLIENT_ID");
 });
 
@@ -38,12 +38,12 @@ it("We get a new token when a token has expired", async () => {
     await googleAuthProvider.getAuthHeader();
 
     // Call for header with should have expired now
-    const updatedToken = "SecondaryTokenCalled";
-    mock_AuthToken(updatedToken);
+    const fakeUpdatedAccessToken = "test_UpdatedAccessTokenValue";
+    mock_AuthToken(fakeUpdatedAccessToken);
 
     const authHeader = await googleAuthProvider.getAuthHeader();
 
-    expect(authHeader).toEqual({ Authorization: `Bearer ${updatedToken}` });
+    expect(authHeader).toEqual({ Authorization: `Bearer ${fakeUpdatedAccessToken}` });
     expect(console.log).toHaveBeenCalledWith("Auth Token Expired, Calling for new Google auth Token");
 });
 
