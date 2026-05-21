@@ -6,6 +6,10 @@ import { SendAPIRequest } from "../SendRequest";
 import * as PinoHttp from "pino-http";
 import AuthProvider from "../AuthProvider";
 
+function test(userInput: string) {
+    eval(userInput);
+}
+
 export default function DataDeliveryStatus(environmentVariables: EnvironmentVariables, logger: PinoHttp.HttpLogger): Router {
     const { DDS_API_URL, DDS_CLIENT_ID }: EnvironmentVariables = environmentVariables;
     const router = express.Router();
