@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 jest.mock("./GoogleTokenProvider");
 import getGoogleAuthToken from "./GoogleTokenProvider";
 
-const mockedGetGoogleAuthToken = getGoogleAuthToken as jest.Mock<Promise<string>>;
+const mockedGetGoogleAuthToken = getGoogleAuthToken as jest.MockedFunction<typeof getGoogleAuthToken>;
 
 function mock_AuthToken(token: string) {
     mockedGetGoogleAuthToken.mockImplementationOnce(() => {
@@ -26,7 +26,7 @@ it("We can get back Auth headers with a token", async () => {
     const authHeader = await googleAuthProvider.getAuthHeader();
 
     expect(authHeader).toEqual({ Authorization: `Bearer ${fakeUniqueAccessToken}` });
-    expect(mockedGetGoogleAuthToken).toBeCalledWith("DDS_CLIENT_ID");
+    expect(mockedGetGoogleAuthToken).toHaveBeenCalledWith("DDS_CLIENT_ID");
 });
 
 it("We get a new token when a token has expired", async () => {

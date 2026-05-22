@@ -14,6 +14,7 @@ module.exports = {
         "\\.(jpg)$": "identity-obj-proxy",
         "^axios$": require.resolve("axios")
     },
+    testEnvironment: "jsdom",
     coveragePathIgnorePatterns: [
         "/node_modules/"
     ],
