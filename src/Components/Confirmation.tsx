@@ -1,9 +1,8 @@
 import React, { ReactElement, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import { sendDataDeliveryRequest } from "../utilities/http";
 import Breadcrumbs from "./Breadcrumbs";
-import { Navigate } from "react-router-dom";
 
 function Confirmation(): ReactElement {
     const [formError, setFormError] = useState<string>("");

@@ -1,12 +1,10 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { ErrorBoundary, ONSButton, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
-import { getAllBatches } from "../utilities/http";
-import { DataDeliveryBatchData } from "../../Interfaces";
+import { getAllBatches, getBatchInfo } from "../utilities/http";
+import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../Interfaces";
 import { Link } from "react-router-dom";
 import TimeAgo from "react-timeago";
 
-import { DataDeliveryFileStatus } from "../../Interfaces";
-import { getBatchInfo } from "../utilities/http";
 import { getDDFileStatusStyle } from "../utilities/BatchStatusColour";
 
 function determineOverallStatus(batchEntryStatuses: string[]) {

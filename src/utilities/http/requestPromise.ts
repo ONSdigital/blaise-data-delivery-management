@@ -1,6 +1,6 @@
-import axios, { Method } from "axios";
-import { JSONValue } from "../../../Interfaces";
-import { DataDeliveryFile, DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../Interfaces";
+import axios from "axios";
+import type { Method } from "axios";
+import { JSONValue, DataDeliveryFile, DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../Interfaces";
 
 type PromiseResponse = [number, DataDeliveryFile | DataDeliveryFileStatus | DataDeliveryBatchData | string | { [key: string]: string } | null];
 

@@ -15,6 +15,7 @@ module.exports = {
         "^axios$": require.resolve("axios")
     },
     testEnvironment: "jsdom",
+    setupFiles: ["<rootDir>/jest.setup.ts"],
     coveragePathIgnorePatterns: [
         "/node_modules/"
     ],
