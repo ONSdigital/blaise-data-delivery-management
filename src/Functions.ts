@@ -13,9 +13,6 @@ function generateDateFromString(dateString: string, timeString: string): DateTyp
         if (time.length >= 3) {
             [hours, minutes, seconds] = time;
         }
-        else {
-            [hours, minutes] = time;
-        }
     }
 
     return [
