@@ -50,7 +50,7 @@ export function SendAPIRequest(
             }
             let contentType = "";
             try {
-                contentType = response.headers["content-type"];
+                contentType = response.headers["content-type"] as string;
             } finally {
                 resolve([response.status, response.data, contentType]);
             }
