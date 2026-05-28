@@ -87,7 +87,7 @@ function Confirmation(): ReactElement {
     );
 }
 
-function confirmDeleteRadios(setConfirm: (value: (boolean | null)) => void) {
+function confirmDeleteRadios(setConfirm: (_value: (boolean | null)) => void) {
     return (
         <fieldset className="ons-fieldset">
             <legend className="ons-fieldset__legend"></legend>

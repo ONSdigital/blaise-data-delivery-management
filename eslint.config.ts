@@ -1,8 +1,6 @@
 import js from "@eslint/js";
 import react from "@eslint-react/eslint-plugin";
 import tseslint from "@typescript-eslint/eslint-plugin";
-import _import from "eslint-plugin-import";
-import { fixupPluginRules } from "@eslint/compat";
 import globals from "globals";
 import tsParser from "@typescript-eslint/parser";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -25,12 +23,12 @@ export default [
 
     // ignore patterns
     {
-        ignores: ["coverage/**", "node_modules/**", "dist/**", "build/**"],
+        ignores: ["coverage/**", "node_modules/**", "dist/**", "build/**", "eslint.config.ts"],
     },
 
     // main config
     {
-        files: ["**/*.{ts,tsx,js,jsx}"],
+        files: ["**/*.{ts,tsx,js,jsx}", "**/*.test.*", "**/*.spec.*"],
 
         languageOptions: {
             parser: tsParser,
@@ -38,6 +36,7 @@ export default [
             sourceType: "module",
             globals: {
                 ...globals.browser,
+                ...globals.jest,
                 ...globals.node,
             },
             parserOptions: {
@@ -53,6 +52,10 @@ export default [
         },
 
         settings: {
+            "import/resolver": {
+                typescript: true,
+                node: true,
+            },
             react: {
                 version: "detect",
             },
@@ -67,7 +70,16 @@ export default [
             "no-multiple-empty-lines": ["error", { max: 1 }],
             "comma-spacing": ["error", { before: false, after: true }],
             "max-len": ["error", { code: 200 }],
-
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                {
+                    argsIgnorePattern: "^_",
+                    varsIgnorePattern: "^_",
+                    ignoreRestSiblings: true,
+                    caughtErrors: "none"
+                }
+            ],
+            "@typescript-eslint/no-empty-function": "error",
             "@typescript-eslint/no-explicit-any": "error",
 
             "react/react-in-jsx-scope": "off",
@@ -82,4 +94,27 @@ export default [
             "@typescript-eslint/no-var-requires": "off",
         },
     },
+    {
+        files: [
+            "**/*.test.*",
+            "**/*.spec.*",
+            "**/jest.setup.ts",
+        ],
+        rules: {
+            "@typescript-eslint/no-unused-vars": "off",
+            "no-empty": "off",
+        },
+    },
+    {
+        files: ["**/__snapshots__/*"],
+        rules: {
+            "max-len": "off",
+        },
+    },
+    {
+        files: ["**/*.{ts,tsx,js,jsx}"],
+        rules: {
+            "no-unused-vars": "off",
+        },
+    }
 ];

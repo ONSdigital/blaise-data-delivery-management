@@ -5,7 +5,7 @@ export default async function getGoogleAuthToken(targetAudience: string): Promis
     try {
         const { idTokenProvider } = await auth.getIdTokenClient(targetAudience);
         return await idTokenProvider.fetchIdToken(targetAudience);
-    } catch (error) {
+    } catch (_error) {
         console.error("Could not get the Google auth token credentials");
         return "";
     }

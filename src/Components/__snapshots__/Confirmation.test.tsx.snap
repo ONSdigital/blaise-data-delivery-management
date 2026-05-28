@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Check Confirmation page snapshot: matches the snapshot 1`] = `
+exports["Check Confirmation page snapshot: matches the snapshot 1"] = `
 {
   "asFragment": [Function],
   "baseElement": <body>

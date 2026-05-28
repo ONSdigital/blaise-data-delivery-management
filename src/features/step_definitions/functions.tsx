@@ -1,6 +1,6 @@
 import { DataDeliveryBatchData, JSONValue } from "../../../Interfaces";
 
-export function mock_fetch_requests(mock_server_responses: (url: string) =>
+export function mock_fetch_requests(mock_server_responses: (_url: string) =>
     Promise<{
         status: number;
         json: () => Promise<string>;
@@ -15,7 +15,7 @@ export function mock_fetch_requests(mock_server_responses: (url: string) =>
     }> |
     undefined
 ) {
-     
+
     // @ts-ignore
     global.fetch = jest.fn((url: string) => mock_server_responses(url));
 }

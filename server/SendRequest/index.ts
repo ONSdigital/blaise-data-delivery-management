@@ -33,7 +33,7 @@ export function SendAPIRequest(
     const safeMethod = sanitizeLog(method);
     const safeUrl = sanitizeLog(url);
 
-    return new Promise((resolve: (object: PromiseResponse) => void) => {
+    return new Promise((resolve: (_object: PromiseResponse) => void) => {
         axios({
             url: url,
             method: method,
