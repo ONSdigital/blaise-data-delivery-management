@@ -26,7 +26,7 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
         req.log.info(`Called get batch status with batch ${sanitizedBatchName}`);
 
         if (!isValidBatchName(batchName)) {
-            req.log.warn(`Invalid batch name received: ${batchName}`);
+            req.log.warn(`Invalid batch name received: ${sanitizedBatchName}`);
             res.status(400).json([]);
             return;
         }
