@@ -33,6 +33,9 @@ jobs:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
 
+      - name: Clean CodeQL DB
+        run: rm -rf /home/runner/work/_temp/codeql_databases
+
       - name: Autobuild
         uses: github/codeql-action/autobuild@v4
 
