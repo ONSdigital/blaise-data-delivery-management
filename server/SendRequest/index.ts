@@ -1,6 +1,6 @@
 // Generic function to make requests to the API
 import { Request, Response } from "express";
-import axios, { AxiosHeaderValue, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import * as PinoHttp from "pino-http";
 import { DataDeliveryBatchData, DataDeliveryFile, DataDeliveryFileStatus, JSONValue } from "../../Interfaces";
 
