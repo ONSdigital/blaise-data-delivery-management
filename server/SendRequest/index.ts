@@ -1,6 +1,6 @@
 // Generic function to make requests to the API
 import { Request, Response } from "express";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosHeaderValue, AxiosRequestConfig } from "axios";
 import * as PinoHttp from "pino-http";
 import { DataDeliveryBatchData, DataDeliveryFile, DataDeliveryFileStatus, JSONValue } from "../../Interfaces";
 
@@ -50,7 +50,10 @@ export function SendAPIRequest(
             }
             let contentType = "";
             try {
-                contentType = response.headers["content-type"] as string;
+                const header = response.headers["content-type"];
+                if (typeof header === "string") {
+                    contentType = header;
+                }
             } finally {
                 resolve([response.status, response.data, contentType]);
             }
