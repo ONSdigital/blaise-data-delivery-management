@@ -1,5 +1,6 @@
 import app from "../server"; // Link to your server file
 import supertest, { Response } from "supertest";
+import express from "express";
 
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
@@ -31,7 +32,7 @@ describe("Data Delivery Get all batches from API", () => {
         expect(response.body).toStrictEqual([]);
     });
 
-    it("should return a 200 status and an empty json list when API returns batches witch blank names", async () => {
+    it("should return a 200 status and an empty json list when API returns batches with blank names", async () => {
         mock.onGet(/\/v1\/batch$/).reply(200, ["", "", ""], jsonHeaders);
 
         const response: Response = await request.get("/api/batch");
@@ -45,10 +46,6 @@ describe("Data Delivery Get all batches from API", () => {
         mock.onGet(/\/v1\/batch$/).reply(200, BatchListFromAPI, jsonHeaders);
 
         const response: Response = await request.get("/api/batch");
-
-        // console.log("before request");
-        // const response = await request.get("/api/batch");
-        // console.log("after request");
 
         expect(response.status).toEqual(200);
         expect(response.body).toStrictEqual(BatchListServerProcessed);
@@ -136,6 +133,16 @@ describe("Data Delivery Get a specific batch from API", () => {
 
         expect(response.status).toEqual(500);
 
+    });
+
+    it("should return a 400 status when batchname is not valid", async () => {
+
+        mock.onGet(/\/v1\/batch\/OPN_26032021_1130$/);
+
+        const response: Response = await request.get("/api/batch/OPN_26032021_1130");
+
+        expect(response.status).toEqual(400);
+        expect(response.body).toEqual([]);
     });
 
     afterEach(() => {
