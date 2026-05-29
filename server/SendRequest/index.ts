@@ -35,8 +35,8 @@ export function SendAPIRequest(
 
     return new Promise((resolve: (_object: PromiseResponse) => void) => {
         axios({
-            url: url,
-            method: method,
+            url: safeUrl,
+            method: safeMethod,
             data: data,
             headers,
             validateStatus: function (status) {
