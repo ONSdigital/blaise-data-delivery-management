@@ -1,12 +1,10 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { type ReactElement, useEffect, useState } from "react";
 import { ErrorBoundary, ONSButton, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
-import { getAllBatches } from "../utilities/http";
-import { DataDeliveryBatchData } from "../../Interfaces";
+import { getAllBatches, getBatchInfo } from "../utilities/http";
+import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../../Interfaces";
 import { Link } from "react-router-dom";
 import TimeAgo from "react-timeago";
 
-import { DataDeliveryFileStatus } from "../../Interfaces";
-import { getBatchInfo } from "../utilities/http";
 import { getDDFileStatusStyle } from "../utilities/BatchStatusColour";
 
 function determineOverallStatus(batchEntryStatuses: string[]) {
@@ -17,12 +15,15 @@ function determineOverallStatus(batchEntryStatuses: string[]) {
     if (hasRedAlerts) {
         return "error";
     }
+
     if (hasGreyAlerts) {
         return "dead";
     }
+
     if (hasAmberAlerts) {
         return "pending";
     }
+
     return "success";
 }
 
@@ -40,10 +41,12 @@ function BatchesList(): ReactElement {
         setLoading(true);
 
         const [success, batchListResponse] = await getAllBatches() as [boolean, DataDeliveryBatchData[]];
+
         setLoading(false);
 
         if (!success) {
             setListError("Unable to load data delivery run list");
+
             return;
         }
 
@@ -76,6 +79,7 @@ function BatchesList(): ReactElement {
             });
 
             const batchListWithStatus: DataDeliveryBatchData[] = await Promise.all(batchListPromises);
+
             setBatchList(batchListWithStatus);
         }
 

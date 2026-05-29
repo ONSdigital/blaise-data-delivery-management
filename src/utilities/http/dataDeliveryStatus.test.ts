@@ -17,6 +17,7 @@ describe("Function getAllBatches(filename: string) ", () => {
     it("It should return true with data if the list is returned successfully", async () => {
         mock.onGet("/api/batch").reply(200, BatchList);
         const [success, batches] = await getAllBatches();
+
         expect(success).toBeTruthy();
         expect(batches).toEqual(batches);
     });
@@ -24,6 +25,7 @@ describe("Function getAllBatches(filename: string) ", () => {
     it("It should return true with an empty list if a 404 is returned from the server", async () => {
         mock.onGet("/api/batch").reply(404, []);
         const [success, batches] = await getAllBatches();
+
         expect(success).toBeTruthy();
         expect(batches).toEqual([]);
     });
@@ -31,6 +33,7 @@ describe("Function getAllBatches(filename: string) ", () => {
     it("It should return false with an empty list if request returns an error code", async () => {
         mock.onGet("/api/batch").reply(500, {});
         const [success, batches] = await getAllBatches();
+
         expect(success).toBeFalsy();
         expect(batches).toEqual([]);
     });
@@ -38,6 +41,7 @@ describe("Function getAllBatches(filename: string) ", () => {
     it("It should return false with an empty list if request JSON is invalid", async () => {
         mock.onGet("/api/batch").reply(200, { name: "NAME" });
         const [success, batches] = await getAllBatches();
+
         expect(success).toBeFalsy();
         expect(batches).toEqual([]);
     });
@@ -47,6 +51,7 @@ describe("Function getAllBatches(filename: string) ", () => {
             throw "error";
         });
         const [success, batches] = await getAllBatches();
+
         expect(success).toBeFalsy();
         expect(batches).toEqual([]);
     });
@@ -81,6 +86,7 @@ describe("Function getBatchInfo(filename: string) ", () => {
     it("It should return true with data if the list is returned successfully", async () => {
         mock.onGet("/api/batch/OPN_26032021_121540").reply(200, BatchInfoList);
         const [success, batchInfo] = await getBatchInfo("OPN_26032021_121540");
+
         expect(success).toBeTruthy();
         expect(batchInfo).toEqual(batchInfo);
     });
@@ -88,6 +94,7 @@ describe("Function getBatchInfo(filename: string) ", () => {
     it("It should return true with an empty list if a 404 is returned from the server", async () => {
         mock.onGet("/api/batch/OPN_26032021_121540").reply(404, []);
         const [success, batchInfo] = await getBatchInfo("OPN_26032021_121540");
+
         expect(success).toBeTruthy();
         expect(batchInfo).toEqual([]);
     });
@@ -95,6 +102,7 @@ describe("Function getBatchInfo(filename: string) ", () => {
     it("It should return false with an empty list if request returns an error code", async () => {
         mock.onGet("/api/batch/OPN_26032021_121540").reply(500, {});
         const [success, batchInfo] = await getBatchInfo("OPN_26032021_121540");
+
         expect(success).toBeFalsy();
         expect(batchInfo).toEqual([]);
     });
@@ -102,6 +110,7 @@ describe("Function getBatchInfo(filename: string) ", () => {
     it("It should return false with an empty list if request JSON is invalid", async () => {
         mock.onGet("/api/batch/OPN_26032021_121540").reply(200, { name: "NAME" });
         const [success, batchInfo] = await getBatchInfo("OPN_26032021_121540");
+
         expect(success).toBeFalsy();
         expect(batchInfo).toEqual([]);
     });
@@ -111,6 +120,7 @@ describe("Function getBatchInfo(filename: string) ", () => {
             throw "error";
         });
         const [success, batchInfo] = await getBatchInfo("OPN_26032021_121540");
+
         expect(success).toBeFalsy();
         expect(batchInfo).toEqual([]);
     });
@@ -138,6 +148,7 @@ describe("Function getBatchStatusDescriptions(filename: string) ", () => {
     it("It should return true with data if the list is returned successfully", async () => {
         mock.onGet("/api/state/descriptions").reply(200, StatusDescriptions);
         const [success, batchStatusDescriptions] = await getBatchStatusDescriptions();
+
         expect(success).toBeTruthy();
         expect(batchStatusDescriptions).toEqual(batchStatusDescriptions);
     });
@@ -145,6 +156,7 @@ describe("Function getBatchStatusDescriptions(filename: string) ", () => {
     it("It should return true with an empty list if a 404 is returned from the server", async () => {
         mock.onGet("/api/state/descriptions").reply(404, []);
         const [success, batchStatusDescriptions] = await getBatchStatusDescriptions();
+
         expect(success).toBeTruthy();
         expect(batchStatusDescriptions).toEqual({});
     });
@@ -152,6 +164,7 @@ describe("Function getBatchStatusDescriptions(filename: string) ", () => {
     it("It should return false with an empty list if request returns an error code", async () => {
         mock.onGet("/api/state/descriptions").reply(500, {});
         const [success, batchStatusDescriptions] = await getBatchStatusDescriptions();
+
         expect(success).toBeFalsy();
         expect(batchStatusDescriptions).toEqual({});
     });
@@ -159,6 +172,7 @@ describe("Function getBatchStatusDescriptions(filename: string) ", () => {
     it("It should return false with an empty list if request call fails", async () => {
         mock.onPost("/api/state/descriptions").reply(() => Promise.reject("error"));
         const [success, batchStatusDescriptions] = await getBatchStatusDescriptions();
+
         expect(success).toBeFalsy();
         expect(batchStatusDescriptions).toEqual({});
     });

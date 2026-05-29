@@ -1,4 +1,4 @@
-import { DataDeliveryBatchData, DataDeliveryFile } from "../Interfaces";
+import { type DataDeliveryBatchData, type DataDeliveryFile } from "../Interfaces";
 
 type DateTypes = [Date, string]
 
@@ -9,11 +9,11 @@ function generateDateFromString(dateString: string, timeString: string): DateTyp
 
     const time = timeString.match(/.{1,2}/g);
     let [hours, minutes, seconds] = ["0", "0", "0"];
+
     if (time != null) {
         if (time.length >= 3) {
             [hours, minutes, seconds] = time;
         }
-        [hours, minutes] = time;
     }
 
     return [
@@ -39,7 +39,9 @@ export function dd_filename_to_data(dd_filename: string): DataDeliveryFile {
 }
 
 export function batch_to_data(batchName: string): DataDeliveryBatchData {
-    let [survey, originalDateString, timeString] = ["", "", ""];
+    let survey: string = "";
+    let originalDateString: string;
+    let timeString: string;
 
     if (batchName.match(/^[0-9]{8}_[0-9]{6}$/)) {
         // example 26032021_080842
@@ -50,12 +52,14 @@ export function batch_to_data(batchName: string): DataDeliveryBatchData {
     } else if (batchName.match(/^[a-zA-Z]{3}[0-9]{4}_[a-zA-Z0-9]{3}_[0-9]{8}_[0-9]{6}$/)) {
         // example LMS2212_FB1_26032021_080842
         const batchInfo = batchName.split("_");
+
         survey = batchInfo[0].substring(0, 2);
         originalDateString = batchInfo[2];
         timeString = batchInfo[3];
     } else if (batchName.match(/^[a-zA-Z]{3}[0-9]{4}[a-zA-Z]_[0-9]{8}_[0-9]{6}$/)) {
         // example OPN2101A_30032021_141600
         const batchInfo = batchName.split("_");
+
         survey = batchInfo[0].substring(0, 3);
         originalDateString = batchInfo[1];
         timeString = batchInfo[2];

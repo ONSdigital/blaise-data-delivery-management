@@ -1,6 +1,6 @@
-import axios, { Method } from "axios";
-import { JSONValue } from "../../../Interfaces";
-import { DataDeliveryFile, DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../Interfaces";
+import axios from "axios";
+import type { Method } from "axios";
+import { type DataDeliveryBatchData, type DataDeliveryFile, type DataDeliveryFileStatus, type JSONValue } from "../../../Interfaces";
 
 type PromiseResponse = [number, DataDeliveryFile | DataDeliveryFileStatus | DataDeliveryBatchData | string | { [key: string]: string } | null];
 
@@ -18,6 +18,7 @@ async function requestPromiseJson(method: Method, url: string, body: JSONValue |
         if (!data) {
             return [response.status, null];
         }
+
         return [response.status, data];
     } catch (error) {
         console.log(error);
@@ -42,6 +43,7 @@ async function requestPromiseJsonList(method: Method, url: string, body: JSONVal
             if (!Array.isArray(data)) {
                 return [false, []];
             }
+
             return [true, data];
         } else if (response.status === 404) {
             return [true, data];
