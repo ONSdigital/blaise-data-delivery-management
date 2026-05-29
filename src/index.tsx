@@ -5,6 +5,7 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const container = document.getElementById("root");
+
 if (!container) {
     throw new Error("Root container element not found");
 }

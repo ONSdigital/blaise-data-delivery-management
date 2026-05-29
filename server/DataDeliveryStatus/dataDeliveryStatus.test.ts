@@ -1,5 +1,5 @@
 import app from "../server"; // Link to your server file
-import supertest, { Response } from "supertest";
+import supertest, { type Response } from "supertest";
 
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";

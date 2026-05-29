@@ -3,7 +3,7 @@
  */
 import React from "react";
 import "@testing-library/jest-dom";
-import { Routes, Route, MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { render, waitFor } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
@@ -29,6 +29,7 @@ describe("Check Confirmation page snapshot:", () => {
                 </Routes>
             </MemoryRouter>
         );
+
         expect(wrapper).toMatchSnapshot();
     });
 });
@@ -43,6 +44,7 @@ describe("Check form:", () => {
             </MemoryRouter>
         );
         const radioBtnForYes = screen.getByText("Yes, trigger Data Delivery");
+
         userEvent.click(radioBtnForYes);
 
         expect(screen.getByLabelText("Yes, trigger Data Delivery")).toBeChecked();
@@ -59,6 +61,7 @@ describe("Check form:", () => {
         );
 
         const radioBtnForNo = screen.getByText("No, do not trigger Data Delivery");
+
         userEvent.click(radioBtnForNo);
 
         expect(screen.getByLabelText("Yes, trigger Data Delivery")).not.toBeChecked();
@@ -79,6 +82,7 @@ describe("Check form:", () => {
 
         const radioBtnForYes = screen.getByText("Yes, trigger Data Delivery");
         const confirmBtn = screen.getByRole("button", { name: "Continue" });
+
         userEvent.click(radioBtnForYes);
         userEvent.click(confirmBtn);
 
@@ -101,6 +105,7 @@ describe("Check form:", () => {
 
         const radioBtnForYes = screen.getByText("Yes, trigger Data Delivery");
         const confirmBtn = screen.getByRole("button", { name: "Continue" });
+
         userEvent.click(radioBtnForYes);
         userEvent.click(confirmBtn);
 
@@ -121,6 +126,7 @@ describe("Check form:", () => {
 
         const radioBtnForNo = screen.getByText("No, do not trigger Data Delivery");
         const confirmBtn = screen.getByRole("button", { name: "Continue" });
+
         userEvent.click(radioBtnForNo);
         userEvent.click(confirmBtn);
 
@@ -140,6 +146,7 @@ describe("Check form:", () => {
         );
 
         const confirmBtn = screen.getByRole("button", { name: "Cancel" });
+
         userEvent.click(confirmBtn);
 
         await waitFor(() =>

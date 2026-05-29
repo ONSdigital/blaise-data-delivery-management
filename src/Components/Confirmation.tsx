@@ -1,5 +1,5 @@
-import React, { ReactElement, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import React, { type ReactElement, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import { sendDataDeliveryRequest } from "../utilities/http";
 import Breadcrumbs from "./Breadcrumbs";
@@ -15,10 +15,13 @@ function Confirmation(): ReactElement {
     async function confirmOption() {
         if (confirm === null) {
             setFormError("Select an answer");
+
             return;
         }
+
         if (!confirm) {
             navigate("/");
+
             return;
         }
 
@@ -32,6 +35,7 @@ function Confirmation(): ReactElement {
         if (!success) {
             setMessage("Failed to trigger Data Delivery.");
             setRedirect(true);
+
             return;
         }
 

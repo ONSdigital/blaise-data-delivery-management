@@ -1,7 +1,7 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { type ReactElement, useEffect, useState } from "react";
 import { ErrorBoundary, ONSButton, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
 import { getBatchInfo } from "../utilities/http";
-import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../Interfaces";
+import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../../Interfaces";
 import dateFormatter from "dayjs";
 import { useLocation } from "react-router-dom";
 import { getDDFileStatusStyle } from "../utilities/BatchStatusColour";
@@ -39,6 +39,7 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
 
         if (!success) {
             setListError("Unable to load batch info");
+
             return;
         }
 

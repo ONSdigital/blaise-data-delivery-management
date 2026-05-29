@@ -13,10 +13,12 @@ if (typeof TextEncoder === "undefined" || typeof TextDecoder === "undefined") {
     try {
 
         const util = require("util");
+
         if (typeof TextEncoder === "undefined") {
 
             global.TextEncoder = util.TextEncoder;
         }
+
         if (typeof TextDecoder === "undefined") {
 
             global.TextDecoder = util.TextDecoder;

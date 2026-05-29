@@ -1,9 +1,9 @@
-import express, { Request, Response, Router } from "express";
-import { EnvironmentVariables } from "../Config";
+import express, { type Request, type Response, type Router } from "express";
+import { type EnvironmentVariables } from "../Config";
 import { batch_to_data, dd_filename_to_data } from "../../src/Functions";
-import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../Interfaces";
+import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../../Interfaces";
 import { SendAPIRequest } from "../SendRequest";
-import * as PinoHttp from "pino-http";
+import type * as PinoHttp from "pino-http";
 import AuthProvider from "../AuthProvider";
 
 export default function DataDeliveryStatus(environmentVariables: EnvironmentVariables, logger: PinoHttp.HttpLogger): Router {
@@ -22,30 +22,35 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
     router.get("/api/batch/:batchName", async function (req: ResponseQuery, res: Response) {
         const { batchName } = req.params;
         const sanitizedBatchName = batchName.replace(/[\r\n]/g, "");
+
         logger(req, res);
         req.log.info(`Called get batch status with batch ${sanitizedBatchName}`);
 
         if (!isValidBatchName(batchName)) {
             req.log.warn(`Invalid batch name received: ${sanitizedBatchName}`);
             res.status(400).json([]);
+
             return;
         }
 
         const url = `${DDS_API_URL}/v1/batch/${encodeURIComponent(batchName)}`;
 
         const authHeader = await authProvider.getAuthHeader();
+
         req.log.info(authHeader, "Obtained Google auth request header");
 
         const [status, result, contentType] = await SendAPIRequest(logger, req, res, url, "GET", null, authHeader) as [number, DataDeliveryFileStatus[], string];
 
         if (status !== 200) {
             res.status(status).json([]);
+
             return;
         }
 
         if (contentType !== "application/json") {
             req.log.warn("Response was not JSON, most likely invalid auth");
             res.status(400).json([]);
+
             return;
         }
 
@@ -63,28 +68,33 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
         const url = `${DDS_API_URL}/v1/batch`;
 
         const authHeader = await authProvider.getAuthHeader();
+
         req.log.info(authHeader, "Obtained Google auth request header");
 
         const [status, result, contentType] = await SendAPIRequest(logger, req, res, url, "GET", null, authHeader) as [number, string[], string];
 
         if (status !== 200) {
             res.status(status).json([]);
+
             return;
         }
 
         if (contentType !== "application/json") {
             req.log.warn("Response was not JSON, most likely invalid auth");
             res.status(400).json([]);
+
             return;
         }
 
         const batchList: DataDeliveryBatchData[] = [];
+
         result.map((item: string) => {
             if (item === "") return;
             batchList.push(batch_to_data(item));
         });
 
         res.status(status).json(batchList);
+
         return;
     });
 
@@ -95,18 +105,21 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
         const url = `${DDS_API_URL}/v1/state/descriptions`;
 
         const authHeader = await authProvider.getAuthHeader();
+
         req.log.info(authHeader, "Obtained Google auth request header");
 
         const [status, result, contentType] = await SendAPIRequest(logger, req, res, url, "GET", null, authHeader);
 
         if (status !== 200) {
             res.status(status).json([]);
+
             return;
         }
 
         if (contentType !== "application/json") {
             req.log.warn("Response was not JSON, most likely invalid auth");
             res.status(400).json([]);
+
             return;
         }
 

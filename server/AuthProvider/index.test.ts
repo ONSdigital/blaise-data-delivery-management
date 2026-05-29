@@ -20,6 +20,7 @@ afterEach(() => {
 
 it("We can get back Auth headers with a token", async () => {
     const fakeUniqueAccessToken = "test_UniqueAccessTokenValue";
+
     mock_AuthToken(fakeUniqueAccessToken);
     const googleAuthProvider = new AuthProvider("DDS_CLIENT_ID");
 
@@ -33,12 +34,15 @@ it("We get a new token when a token has expired", async () => {
     console.log = jest.fn();
     // Setup old token for 30 seconds in the past
     const older_token = jwt.sign({ foo: "bar", exp: Math.floor(Date.now() / 1000) - 30 }, "shhhhh");
+
     mock_AuthToken(older_token);
     const googleAuthProvider = new AuthProvider("DDS_CLIENT_ID");
+
     await googleAuthProvider.getAuthHeader();
 
     // Call for header with should have expired now
     const fakeUpdatedAccessToken = "test_UpdatedAccessTokenValue";
+
     mock_AuthToken(fakeUpdatedAccessToken);
 
     const authHeader = await googleAuthProvider.getAuthHeader();
@@ -51,12 +55,15 @@ it("We receive the same token if it hasn't expired", async () => {
     console.log = jest.fn();
     // Setup token for an hour in the future
     const older_token = jwt.sign({ foo: "bar", exp: Math.floor(Date.now() / 1000) + (60 * 60) }, "shhhhh");
+
     mock_AuthToken(older_token);
     const googleAuthProvider = new AuthProvider("DDS_CLIENT_ID");
+
     await googleAuthProvider.getAuthHeader();
 
     // Call for header with should not have expired
     const updatedToken = "SecondaryTokenCalled";
+
     mock_AuthToken(updatedToken);
 
     const authHeader = await googleAuthProvider.getAuthHeader();
@@ -71,10 +78,12 @@ it("We get a new token when a token is invalid", async () => {
     // Setup old token which is broken
     mock_AuthToken("%%%%%");
     const googleAuthProvider = new AuthProvider("DDS_CLIENT_ID");
+
     await googleAuthProvider.getAuthHeader();
 
     // Call for header again which should update
     const fakeUpdatedAccessToken = "test_UpdatedAccessTokenValue";
+
     mock_AuthToken(fakeUpdatedAccessToken);
 
     const authHeader = await googleAuthProvider.getAuthHeader();

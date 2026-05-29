@@ -1,11 +1,11 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import React, { type ReactElement, useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import {
+    DefaultErrorBoundary,
+    ErrorBoundary,
     Footer,
     Header,
     ONSPanel,
-    DefaultErrorBoundary,
-    ErrorBoundary,
 } from "blaise-design-system-react-components";
 import Confirmation from "./Components/Confirmation";
 import BatchesList from "./Components/BatchesList";

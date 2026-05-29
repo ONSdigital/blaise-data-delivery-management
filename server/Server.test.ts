@@ -1,5 +1,6 @@
 import app from "./server"; // Link to your server file
-import supertest, { Response } from "supertest";
+import supertest, { type Response } from "supertest";
+
 const request = supertest(app);
 
 describe("Test Heath Endpoint", () => {

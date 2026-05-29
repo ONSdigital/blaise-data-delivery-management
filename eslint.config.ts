@@ -1,23 +1,16 @@
 import js from "@eslint/js";
-import importPlugin from "eslint-plugin-import";
 import react from "@eslint-react/eslint-plugin";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import { FlatCompat } from "@eslint/eslintrc";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import importX from "eslint-plugin-import-x";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-});
 
 export default tseslint.config(
     // base recommended rules
     js.configs.recommended,
     react.configs.recommended,
+    importX.flatConfigs.recommended,
 
     ...tseslint.configs.recommended,
 
@@ -44,22 +37,42 @@ export default tseslint.config(
                 },
             },
         },
-
         plugins: {
-            react
+            react: react,
+            import: importX,
         },
 
         settings: {
-            "import/resolver": {
-                typescript: true,
-                node: true,
-            },
+            "import-x/resolver-next": [
+                createTypeScriptImportResolver({
+                    project: ["./tsconfig.json"],
+                }),
+            ],
             react: {
                 version: "detect",
             },
         },
 
         rules: {
+            "padding-line-between-statements": [
+                "error",
+                { blankLine: "always", prev: "*", next: "return" },
+                { blankLine: "always", prev: "import", next: "*" },
+                { blankLine: "any", prev: "import", next: "import" },
+                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] },
+                { blankLine: "always", prev: "*", next: ["class", "function", "export"] },
+                { blankLine: "always", prev: ["block-like", "multiline-block-like"], next: "*" },
+            ],
+            "@typescript-eslint/no-explicit-any": "warn",
+            "@typescript-eslint/consistent-type-imports": [
+                "error",
+                { prefer: "type-imports", fixStyle: "inline-type-imports" },
+            ],
+            "sort-imports": [
+                "error",
+                { ignoreCase: true, ignoreDeclarationSort: true, ignoreMemberSort: false },
+            ],
             "linebreak-style": ["error", "unix"],
             quotes: ["error", "double"],
             semi: ["error", "always"],

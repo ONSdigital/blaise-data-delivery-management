@@ -1,5 +1,5 @@
 import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
-import { DataDeliveryBatchData, DataDeliveryFile, DataDeliveryFileStatus } from "../../../Interfaces";
+import { type DataDeliveryBatchData, type DataDeliveryFile, type DataDeliveryFileStatus } from "../../../Interfaces";
 
 type getResponseList = [boolean, DataDeliveryFileStatus[] | DataDeliveryBatchData[] | { [key: string]: string } | null]
 
@@ -11,10 +11,13 @@ async function getAllBatches(): Promise<getResponseList> {
 
     try {
         const [success, data]: getResponseList = await requestPromiseJsonList("GET", url);
+
         console.log(`Response from get Batch Info ${(success ? "successful" : "failed")}, data list length ${data.length}`);
+
         return [success, data];
     } catch (error) {
         console.error(`Response from get All Batches Failed: Error ${error}`);
+
         return [false, []];
     }
 }
@@ -25,10 +28,13 @@ async function getBatchInfo(batchName: string): Promise<getResponseList> {
 
     try {
         const [success, data]: getResponseList = await requestPromiseJsonList("GET", url);
+
         console.log(`Response from get Batch Info ${(success ? "successful" : "failed")}, data list length ${data.length}`);
+
         return [success, data];
     } catch (error) {
         console.error(`Response from get Batch Info Failed: Error ${error}`);
+
         return [false, []];
     }
 }
@@ -40,6 +46,7 @@ async function getBatchStatusDescriptions(): Promise<getResponse> {
 
     try {
         const [status, data] = await requestPromiseJson("GET", url);
+
         console.log(`Response from get Batch Status Descriptions ${status}, data ${data}`);
         if (status === 200) {
             return [true, data];
@@ -51,6 +58,7 @@ async function getBatchStatusDescriptions(): Promise<getResponse> {
         }
     } catch (error) {
         console.error(`Response from get Batch Status Descriptions: Error ${error}`);
+
         return [false, {}];
     }
 }

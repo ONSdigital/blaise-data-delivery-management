@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import path from "path";
 import ejs from "ejs";
 import dotenv from "dotenv";
@@ -11,6 +11,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const server = express();
 const logger = createLogger();
+
 server.use(logger);
 
 import DataDeliveryTrigger from "./DataDeliveryTrigger";
