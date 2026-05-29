@@ -62,9 +62,9 @@ it("We receive the same token if it hasn't expired", async () => {
     await googleAuthProvider.getAuthHeader();
 
     // Call for header with should not have expired
-    const updatedToken = "SecondaryTokenCalled";
+    const fakeUpdatedToken = "test_SecondaryTokenCalled";
 
-    mock_AuthToken(updatedToken);
+    mock_AuthToken(fakeUpdatedToken);
 
     const authHeader = await googleAuthProvider.getAuthHeader();
 
