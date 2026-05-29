@@ -1,8 +1,8 @@
 import js from "@eslint/js";
+import importPlugin from "eslint-plugin-import";
 import react from "@eslint-react/eslint-plugin";
-import tseslint from "@typescript-eslint/eslint-plugin";
 import globals from "globals";
-import tsParser from "@typescript-eslint/parser";
+import tseslint from "typescript-eslint";
 import { FlatCompat } from "@eslint/eslintrc";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -14,12 +14,12 @@ const compat = new FlatCompat({
     baseDirectory: __dirname,
 });
 
-export default [
+export default tseslint.config(
     // base recommended rules
     js.configs.recommended,
+    react.configs.recommended,
 
-    // legacy compatibility layer (import plugin etc.)
-    ...compat.extends("plugin:import/recommended"),
+    ...tseslint.configs.recommended,
 
     // ignore patterns
     {
@@ -31,7 +31,6 @@ export default [
         files: ["**/*.{ts,tsx,js,jsx}", "**/*.test.*", "**/*.spec.*"],
 
         languageOptions: {
-            parser: tsParser,
             ecmaVersion: "latest",
             sourceType: "module",
             globals: {
@@ -47,8 +46,7 @@ export default [
         },
 
         plugins: {
-            react,
-            "@typescript-eslint": tseslint,
+            react
         },
 
         settings: {
@@ -116,5 +114,11 @@ export default [
         rules: {
             "no-unused-vars": "off",
         },
+    },
+    {
+        files: ["**/*.setup.ts", "**/jest.*.ts", "**/jest.config.ts"],
+        rules: {
+            "@typescript-eslint/no-require-imports": "off",
+        },
     }
-];
+);

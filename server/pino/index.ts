@@ -17,7 +17,6 @@ const defaultPinoConf = {
         level(label: unknown, number: unknown) {
             return {
                  
-                // @ts-ignore
                 severity: PinoLevelToSeverityLookup[label] || PinoLevelToSeverityLookup["info"],
                 level: number,
             };
