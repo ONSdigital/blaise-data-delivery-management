@@ -90,9 +90,7 @@ export default tseslint.config(
                     caughtErrors: "none"
                 }
             ],
-            "@typescript-eslint/no-empty-function": "error",
-            "react/react-in-jsx-scope": "off",
-            "react/require-default-props": "off",
+            "@typescript-eslint/no-empty-function": "error"
         },
     },
 
