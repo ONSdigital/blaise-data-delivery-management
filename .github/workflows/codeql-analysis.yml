@@ -10,7 +10,10 @@
 # supported CodeQL languages.
 #
 name: "CodeQL"
-  
+
+permissions:
+  contents: read
+
 on:
   pull_request:
     # The branches below must be a subset of the branches above
@@ -18,9 +21,6 @@ on:
   schedule:
     - cron: '30 3 * * 1'
 
-permissions:
-  contents: read
-  
 jobs:
   analyze:
     name: Analyze
