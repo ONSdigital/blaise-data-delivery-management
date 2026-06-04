@@ -10,9 +10,6 @@
 # supported CodeQL languages.
 #
 name: "CodeQL"
-
-permissions:
-  contents: read
   
 on:
   pull_request:
@@ -21,6 +18,9 @@ on:
   schedule:
     - cron: '30 3 * * 1'
 
+permissions:
+  contents: read
+  
 jobs:
   analyze:
     name: Analyze
