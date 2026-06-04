@@ -21,7 +21,7 @@ export function getEnvironmentVariables(): EnvironmentVariables {
     }
 
     if (AZURE_AUTH_TOKEN === undefined) {
-        AZURE_AUTH_TOKEN = "ENV_VAR_NOT_SET";
+        AZURE_AUTH_TOKEN = "FAKE_TOKEN_ENV_VAR_NOT_SET";
     }
 
     if (ENV_NAME === undefined) {

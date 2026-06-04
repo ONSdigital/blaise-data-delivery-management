@@ -7,12 +7,12 @@ import { MemoryRouter } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import BatchesList from "./BatchesList";
 import {
-    errorBatchRuns,
-    deadBatchRuns,
-    pendingBatchRuns,
-    successBatchRuns,
     batches,
-    errorBatchRunsWithErrorMessage
+    deadBatchRuns,
+    errorBatchRuns,
+    errorBatchRunsWithErrorMessage,
+    pendingBatchRuns,
+    successBatchRuns
 } from "./__mocks__/mock_objects";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
@@ -52,6 +52,7 @@ describe("Check BatchList component snapshot:", () => {
         expect(await screen.findByText(/Status/)).toBeVisible();
 
         const viewRunStatuses = await screen.findAllByText(/View run status/);
+
         for (let i = 0; i < viewRunStatuses.length; i++) {
             expect(viewRunStatuses[i]).toBeVisible();
         }

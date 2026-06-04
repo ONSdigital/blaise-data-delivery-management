@@ -31,7 +31,7 @@ describe("Config setup", () => {
 
         expect(PROJECT_ID).toBe("ENV_VAR_NOT_SET");
         expect(DDS_API_URL).toBe("ENV_VAR_NOT_SET");
-        expect(AZURE_AUTH_TOKEN).toBe("ENV_VAR_NOT_SET");
+        expect(AZURE_AUTH_TOKEN).toBe("FAKE_TOKEN_ENV_VAR_NOT_SET");
         expect(ENV_NAME).toBe("ENV_VAR_NOT_SET");
         expect(GIT_BRANCH).toBe("ENV_VAR_NOT_SET");
         expect(DATA_DELIVERY_AZURE_PIPELINE_NO).toBe("ENV_VAR_NOT_SET");

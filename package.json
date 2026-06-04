@@ -10,7 +10,7 @@
     "build-react": "react-scripts build",
     "test": "jest --coverage --watchAll=false",
     "gcp-build": "react-scripts build && tsc --project tsconfig.server.json",
-    "lint": "eslint . --ext .ts --ext .tsx",
+    "lint": "eslint .",
     "lint-fix": "node_modules/.bin/eslint . --fix",
     "dev": "concurrently --kill-others-on-fail \"yarn start-server\" \"yarn start-react\""
   },
@@ -18,11 +18,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "jest": {
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
-  },
   "pre-commit": [
     "lint-fix"
   ],
@@ -37,20 +32,20 @@
     "@types/react": "^18.2.51",
     "@types/react-dom": "^18.2.81",
     "axios": "^1.7.4",
-    "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#0.14.1",
+    "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#1.0.4",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.10",
     "express": "^4.17.3",
     "google-auth-library": "^7.0.4",
-    "jest": "26.6.3",
-    "jest-cucumber": "^3.0.1",
+    "jest": "30.4.2",
+    "jest-cucumber": "^4.5.0",
     "jsonwebtoken": "^9.0.0",
     "pino-http": "^5.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-router-dom": "^6.22.0",
-    "react-scripts": "5.0.0",
+    "react-scripts": "5.0.1",
     "react-timeago": "^7.2.0",
     "typescript": "~5.3.3"
   },
@@ -62,6 +57,9 @@
     "@babel/plugin-transform-react-jsx": "^7.12.17",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.13.0",
+    "@eslint-react/eslint-plugin": "2.7.1",
+    "@eslint/compat": "^2.1.0",
+    "@eslint/js": "^10.0.1",
     "@types/ejs": "^3.0.6",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/pino-http": "^5.4.0",
@@ -69,18 +67,20 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/react-timeago": "^4.1.7",
     "@types/supertest": "^2.0.10",
-    "@typescript-eslint/eslint-plugin": "6.20.0",
-    "@typescript-eslint/parser": "6.20.0",
     "axios-mock-adapter": "^1.19.0",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.2",
-    "eslint": "8.6.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint": "^10.4.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-import-x": "^4.16.2",
+    "globals": "^17.6.0",
+    "jest-environment-jsdom": "^30.4.1",
+    "jiti": "^2.7.0",
     "mockdate": "^3.0.5",
     "pino-pretty": "^4.7.1",
-    "supertest": "^6.1.3"
+    "supertest": "^6.1.3",
+    "typescript-eslint": "^8.60.0"
   },
   "browserslist": {
     "production": [

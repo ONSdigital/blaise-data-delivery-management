@@ -56,16 +56,21 @@ defineFeature(feature, test => {
             const list = screen.queryAllByTestId(/batches-table-row/i);
             const listItemOne = list[0];
             const firstRowData = listItemOne.childNodes[1];
+
             if (firstRowData !== null) {
                 expect(firstRowData.textContent).toEqual("26/03/2021 11:29:54");
             }
+
             const listItemTwo = list[1];
             const secondRowData = listItemTwo.childNodes[1];
+
             if (secondRowData !== null) {
                 expect(secondRowData.textContent).toEqual("25/03/2021 14:58:38");
             }
+
             const listItemThree = list[2];
             const thirdRowData = listItemThree.childNodes[1];
+
             if (thirdRowData !== null) {
                 expect(thirdRowData.textContent).toEqual("24/03/2021 16:50:33");
             }
@@ -104,20 +109,25 @@ defineFeature(feature, test => {
             const list = screen.queryAllByTestId(/batch-table-row/i);
             const listItemOne = list[0];
             const firstRowData = listItemOne.childNodes;
+
             if (firstRowData !== null) {
                 expect(firstRowData[0].textContent).toEqual("OPN2004A");
                 expect(firstRowData[1].textContent).toEqual(
                     "The data delivery instrument has no active survey days, we will not generate a data delivery file, we should never alert"
                 );
             }
+
             const listItemTwo = list[1];
             const secondRowData = listItemTwo.childNodes;
+
             if (secondRowData !== null) {
                 expect(secondRowData[0].textContent).toEqual("OPN2101A");
                 expect(secondRowData[1].textContent).toEqual("The data delivery process has generated the required files");
             }
+
             const listItemThree = list[2];
             const thirdRowData = listItemThree.childNodes;
+
             if (thirdRowData !== null) {
                 expect(thirdRowData[0].textContent).toEqual("OPN2106A");
                 expect(thirdRowData[1].textContent).toEqual("Some error_info was here and that");

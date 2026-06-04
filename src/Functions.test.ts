@@ -7,6 +7,7 @@ describe("DD file to data test", () => {
         ["dd_WLS2301_19012023_155829.zip", "WLS2301", "dd"]
     ])("should return the prefix and instrumentName", (filename, instrumentName, prefix) => {
         const file_data = Functions.dd_filename_to_data(filename);
+
         expect(file_data.instrumentName).toBe(instrumentName);
         expect(file_data.prefix).toBe(prefix);
     });
@@ -25,6 +26,7 @@ describe("Batch name to data", () => {
         ["OPN2101A_30032021_141600", "OPN", "30/03/2021 14:16:00"],
     ])("should return the parsed survey info", (batchName, survey, dateString) => {
         const batch_data = Functions.batch_to_data(batchName);
+
         expect(batch_data.survey).toBe(survey);
         expect(batch_data.dateString).toBe(dateString);
         expect(batch_data.name).toBe(batchName);

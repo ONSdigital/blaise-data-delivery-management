@@ -21,17 +21,18 @@ const isLocalhost = Boolean(
 );
 
 type Config = {
-  onSuccess?: (registration: ServiceWorkerRegistration) => void;
-  onUpdate?: (registration: ServiceWorkerRegistration) => void;
+    onSuccess?: (_registration: ServiceWorkerRegistration) => void;
+    onUpdate?: (_registration: ServiceWorkerRegistration) => void;
 };
 
 export function register(config?: Config): void {
     if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
-    // The URL constructor is available in all browsers that support SW.
+        // The URL constructor is available in all browsers that support SW.
         const publicUrl = new URL(
             process.env.PUBLIC_URL,
             window.location.href
         );
+
         if (publicUrl.origin !== window.location.origin) {
             // Our service worker won't work if PUBLIC_URL is on a different origin
             // from what our page is served on. This might happen if a CDN is used to
@@ -51,7 +52,7 @@ export function register(config?: Config): void {
                 navigator.serviceWorker.ready.then(() => {
                     console.log(
                         "This web app is being served cache-first by a service " +
-              "worker. To learn more, visit https://bit.ly/CRA-PWA"
+                        "worker. To learn more, visit https://bit.ly/CRA-PWA"
                     );
                 });
             } else {
@@ -68,9 +69,11 @@ function registerValidSW(swUrl: string, config?: Config) {
         .then(registration => {
             registration.onupdatefound = () => {
                 const installingWorker = registration.installing;
+
                 if (installingWorker == null) {
                     return;
                 }
+
                 installingWorker.onstatechange = () => {
                     if (installingWorker.state === "installed") {
                         if (navigator.serviceWorker.controller) {
@@ -79,7 +82,7 @@ function registerValidSW(swUrl: string, config?: Config) {
                             // content until all client tabs are closed.
                             console.log(
                                 "New content is available and will be used when all " +
-                  "tabs for this page are closed. See https://bit.ly/CRA-PWA."
+                                "tabs for this page are closed. See https://bit.ly/CRA-PWA."
                             );
 
                             // Execute callback
@@ -114,9 +117,10 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         .then(response => {
             // Ensure service worker exists, and that we really are getting a JS file.
             const contentType = response.headers.get("content-type");
+
             if (
                 response.status === 404 ||
-        (contentType != null && contentType.indexOf("javascript") === -1)
+                (contentType != null && contentType.indexOf("javascript") === -1)
             ) {
                 // No service worker found. Probably a different app. Reload the page.
                 navigator.serviceWorker.ready.then(registration => {
