@@ -12,8 +12,10 @@ module.exports = {
     moduleNameMapper: {
         "\\.(css|less|scss)$": "identity-obj-proxy",
         "\\.(jpg)$": "identity-obj-proxy",
-        '^axios$': require.resolve('axios')
+        "^axios$": require.resolve("axios")
     },
+    testEnvironment: "jsdom",
+    setupFiles: ["<rootDir>/jest.setup.ts"],
     coveragePathIgnorePatterns: [
         "/node_modules/"
     ],

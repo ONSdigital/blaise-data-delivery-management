@@ -3,7 +3,7 @@
  */
 import React from "react";
 import "@testing-library/jest-dom";
-import { Route, MemoryRouter, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import BatchStatusList from "./BatchStatusList";
@@ -23,6 +23,7 @@ describe("Check breadcrumbs:", () => {
         );
     
         const homeLink = screen.getByText("Home");
+
         userEvent.click(homeLink);
 
         expect(window.location.pathname).toEqual("/");

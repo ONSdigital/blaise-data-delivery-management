@@ -1,4 +1,4 @@
-import { DataDeliveryBatchData, DataDeliveryFileStatus } from "../../../Interfaces";
+import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../../../Interfaces";
 
 export const statusDescriptions = {
     "inactive": "The data delivery instrument has no active survey days, we will not generate a data delivery file, we should never alert",

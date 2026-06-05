@@ -1,9 +1,8 @@
-import React, { ReactElement, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { type ReactElement, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import { sendDataDeliveryRequest } from "../utilities/http";
 import Breadcrumbs from "./Breadcrumbs";
-import { Navigate } from "react-router-dom";
 
 function Confirmation(): ReactElement {
     const [formError, setFormError] = useState<string>("");
@@ -16,10 +15,13 @@ function Confirmation(): ReactElement {
     async function confirmOption() {
         if (confirm === null) {
             setFormError("Select an answer");
+
             return;
         }
+
         if (!confirm) {
             navigate("/");
+
             return;
         }
 
@@ -33,6 +35,7 @@ function Confirmation(): ReactElement {
         if (!success) {
             setMessage("Failed to trigger Data Delivery.");
             setRedirect(true);
+
             return;
         }
 
@@ -88,7 +91,7 @@ function Confirmation(): ReactElement {
     );
 }
 
-function confirmDeleteRadios(setConfirm: (value: (boolean | null)) => void) {
+function confirmDeleteRadios(setConfirm: (_value: (boolean | null)) => void) {
     return (
         <fieldset className="ons-fieldset">
             <legend className="ons-fieldset__legend"></legend>

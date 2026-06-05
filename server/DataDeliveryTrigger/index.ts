@@ -1,6 +1,6 @@
-import express, { Request, Response, Router } from "express";
-import { EnvironmentVariables } from "../Config";
-import * as PinoHttp from "pino-http";
+import express, { type Request, type Response, type Router } from "express";
+import { type EnvironmentVariables } from "../Config";
+import type * as PinoHttp from "pino-http";
 import { SendAPIRequest } from "../SendRequest";
 
 export default function DataDeliveryTrigger(environmentVariables: EnvironmentVariables, logger: PinoHttp.HttpLogger): Router {

@@ -14,6 +14,7 @@ export default class AuthProvider {
         if (!this.isValidToken()) {
             this.token = await getGoogleAuthToken(this.DDS_CLIENT_ID);
         }
+
         return { Authorization: `Bearer ${this.token}` };
     }
 
@@ -21,15 +22,20 @@ export default class AuthProvider {
         if (this.token === "") {
             return false;
         }
+
         const decodedToken = jwt.decode(this.token, { json: true });
+
         if (decodedToken === null) {
             console.log("Failed to decode token, Calling for new Google auth Token");
+
             return false;
         } else if (decodedToken["exp"] == undefined) {
             console.log("Token is undefined. Calling for new Google auth Token");
+
             return false;
         } else if (AuthProvider.hasTokenExpired(decodedToken["exp"])) {
             console.log("Auth Token Expired, Calling for new Google auth Token");
+
             return false;
         }
 
