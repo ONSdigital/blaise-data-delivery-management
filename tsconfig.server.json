@@ -6,7 +6,7 @@
     /* Basic Options */
     "target": "es5", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
     "module": "commonjs", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "outDir": "./dist", /* Redirect output structure to the directory. */
+    "outDir": "./build/server", /* Redirect output structure to the directory. */
     /* Strict Type-Checking Options */
     "strict": true, /* Enable all strict type-checking options. */
     /* Module Resolution Options */
@@ -16,11 +16,11 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
   "include": [
-    "server"
+    "src/server"
   ],
   "exclude": [
     "node_modules",
-    "server/**/*.test.js",
+    "src/server/**/*.test.js",
     "**/*.test.ts"
   ]
 }
