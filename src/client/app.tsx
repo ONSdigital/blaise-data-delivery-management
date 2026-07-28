@@ -8,7 +8,7 @@ import {
 import DataDeliveryRunsPage from "./pages/dataDeliveryRunsPage/dataDeliveryRunsPage";
 import TriggerDataDeliveryPage from "./pages/triggerDataDeliveryPage/triggerDataDeliveryPage";
 import ViewRunStatusPage from "./pages/viewRunStatusPage/viewRunStatusPage";
-import { getBatchStatusDescriptions } from "./api";
+import { getBatchStatusDescriptions as fetchBatchStatusDescriptions } from "./api";
 
 const divStyle = {
     minHeight: "calc(67vh)"
@@ -27,13 +27,13 @@ function App(): ReactElement {
     const [statusDescriptionList, setStatusDescriptionList] = useState<BatchDescription>({});
 
     useEffect(() => {
-        getBatchStatusDescriptions().then(() => console.log("getBatchStatusDescriptions Complete"));
+        loadBatchStatusDescriptions().then(() => console.log("getBatchStatusDescriptions Complete"));
     }, []);
 
-    async function getBatchStatusDescriptions() {
+    async function loadBatchStatusDescriptions() {
         setStatusDescriptionList({});
 
-        const [success, statusDescriptionList] = await getBatchStatusDescriptions();
+        const [success, statusDescriptionList] = await fetchBatchStatusDescriptions();
 
         if (!success) {
             return;

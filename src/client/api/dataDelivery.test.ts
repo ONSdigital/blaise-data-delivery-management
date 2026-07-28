@@ -3,7 +3,6 @@ import { sendDataDeliveryRequest } from "./dataDelivery";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-// Create Mock adapter for Axios requests
 const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 
 describe("Function sendDataDeliveryRequest() ", () => {

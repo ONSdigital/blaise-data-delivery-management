@@ -1,4 +1,12 @@
-import app from "../server"; // Link to your server file
+jest.mock("../authProvider", () => {
+    return jest.fn().mockImplementation(() => {
+        return {
+            getAuthHeader: jest.fn().mockResolvedValue({ Authorization: "Bearer mock-token" })
+        };
+    });
+});
+
+import app from "../server";
 import supertest, { type Response } from "supertest";
 
 import MockAdapter from "axios-mock-adapter";
@@ -10,9 +18,7 @@ import {
     BatchListServerProcessed, StatusDescriptions
 } from "./mockObjects";
 
-// Mock Express Server
 const request = supertest(app);
-// Create Mock adapter for Axios requests
 const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 const jsonHeaders = { "content-type": "application/json" };
 

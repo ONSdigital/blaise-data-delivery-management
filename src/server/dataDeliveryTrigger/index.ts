@@ -18,7 +18,6 @@ export default function DataDeliveryTrigger(environmentVariables: EnvironmentVar
         query: { filename: string }
     }
 
-    // Call to install a specific instrument from a specified GCP bucket and file
     router.post("/api/trigger", async function (req: ResponseQuery, res: Response) {
         console.log("Called data delivery trigger");
         const data = {

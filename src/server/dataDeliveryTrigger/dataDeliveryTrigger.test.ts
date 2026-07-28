@@ -1,12 +1,10 @@
-import app from "../server"; // Link to your server file
+import app from "../server";
 import supertest, { type Response } from "supertest";
 
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-// Mock Express Server
 const request = supertest(app);
-// Create Mock adapter for Axios requests
 const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 
 describe("Data Delivery Trigger Azure", () => {
