@@ -27,10 +27,10 @@ function App(): ReactElement {
     const [statusDescriptionList, setStatusDescriptionList] = useState<BatchDescription>({});
 
     useEffect(() => {
-        callGetBatchStatusDescriptions().then(() => console.log("getBatchStatusDescriptions Complete"));
+        getBatchStatusDescriptions().then(() => console.log("getBatchStatusDescriptions Complete"));
     }, []);
 
-    async function callGetBatchStatusDescriptions() {
+    async function getBatchStatusDescriptions() {
         setStatusDescriptionList({});
 
         const [success, statusDescriptionList] = await getBatchStatusDescriptions();

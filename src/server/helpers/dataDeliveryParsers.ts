@@ -22,7 +22,7 @@ function generateDateFromString(dateString: string, timeString: string): DateTyp
     ];
 }
 
-export function dd_filename_to_data(dd_filename: string): DataDeliveryFile {
+export function dataDeliveryFilenameToData(dd_filename: string): DataDeliveryFile {
     if (!dd_filename.match(/^[a-zA-Z]{2}_.{8,}_?[0-9]{8}_[0-9]{4,}/)) {
         return {
             prefix: "dd",
@@ -38,7 +38,7 @@ export function dd_filename_to_data(dd_filename: string): DataDeliveryFile {
     };
 }
 
-export function batch_to_data(batchName: string): DataDeliveryBatchData {
+export function batchToData(batchName: string): DataDeliveryBatchData {
     let survey: string = "";
     let originalDateString: string;
     let timeString: string;
@@ -77,4 +77,4 @@ export function batch_to_data(batchName: string): DataDeliveryBatchData {
     };
 }
 
-export default { dd_filename_to_data, batch_to_data };
+export default { dataDeliveryFilenameToData, batchToData };

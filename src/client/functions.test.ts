@@ -6,7 +6,7 @@ describe("DD file to data test", () => {
         ["dd_LMS2101_AA1_27042021_043113.zip", "LMS2101_AA1", "dd"],
         ["dd_WLS2301_19012023_155829.zip", "WLS2301", "dd"]
     ])("should return the prefix and instrumentName", (filename, instrumentName, prefix) => {
-        const file_data = Functions.dd_filename_to_data(filename);
+        const file_data = Functions.dataDeliveryFilenameToData(filename);
 
         expect(file_data.instrumentName).toBe(instrumentName);
         expect(file_data.prefix).toBe(prefix);
@@ -25,7 +25,7 @@ describe("Batch name to data", () => {
         ["LMS2212_FB1_30032021_141600", "LM", "30/03/2021 14:16:00"],
         ["OPN2101A_30032021_141600", "OPN", "30/03/2021 14:16:00"],
     ])("should return the parsed survey info", (batchName, survey, dateString) => {
-        const batch_data = Functions.batch_to_data(batchName);
+        const batch_data = Functions.batchToData(batchName);
 
         expect(batch_data.survey).toBe(survey);
         expect(batch_data.dateString).toBe(dateString);

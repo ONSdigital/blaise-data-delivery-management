@@ -5,7 +5,7 @@ import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../../.
 import { Link } from "react-router-dom";
 import TimeAgo from "react-timeago";
 
-import { getDDFileStatusStyle } from "../../../utils/batchStatusColour";
+import { getDataDeliveryFileStatusStyle } from "../../../utils/batchStatusColour";
 
 function determineOverallStatus(batchEntryStatuses: string[]) {
     const hasRedAlerts: boolean = batchEntryStatuses.includes("error");
@@ -33,14 +33,14 @@ function BatchesList(): ReactElement {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        callGetBatchList().then(() => console.log("callGetBatchList Complete"));
+        fetchBatchList().then(() => console.log("fetchBatchList Complete"));
     }, []);
 
-    async function callGetBatchList() {
+    async function fetchBatchList() {
         setBatchList([]);
         setLoading(true);
 
-        const [success, batchListResponse] = await getAllBatches() as [boolean, DataDeliveryBatchData[]];
+        const [success, fetchedBatches] = await getAllBatches() as [boolean, DataDeliveryBatchData[]];
 
         setLoading(false);
 
@@ -50,14 +50,14 @@ function BatchesList(): ReactElement {
             return;
         }
 
-        if (batchListResponse) {
-            if (batchListResponse.length === 0) {
+        if (fetchedBatches) {
+            if (fetchedBatches.length === 0) {
                 setListError("No data delivery runs found.");
             }
 
-            batchListResponse.sort((a: DataDeliveryBatchData, b: DataDeliveryBatchData) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+            fetchedBatches.sort((a: DataDeliveryBatchData, b: DataDeliveryBatchData) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
 
-            const batchListPromises = batchListResponse.slice(0, 50).map(async (batch: DataDeliveryBatchData) => {
+            const batchListPromises = fetchedBatches.slice(0, 50).map(async (batch: DataDeliveryBatchData) => {
                 const [success, batchInfoList] = await getBatchInfo(batch.name) as [boolean, DataDeliveryFileStatus[]];
 
                 if (!success) {
@@ -67,8 +67,8 @@ function BatchesList(): ReactElement {
                     };
                 }
 
-                const batchEntryStatuses: string[] = batchInfoList.map((infoList: DataDeliveryFileStatus) => {
-                    return getDDFileStatusStyle(infoList.state, infoList.error_info);
+                const batchEntryStatuses: string[] = batchInfoList.map((fileStatus: DataDeliveryFileStatus) => {
+                    return getDataDeliveryFileStatusStyle(fileStatus.state, fileStatus.error_info);
                 });
                 const batchStatus = determineOverallStatus(batchEntryStatuses);
 
@@ -90,7 +90,7 @@ function BatchesList(): ReactElement {
     } else {
         return (
             <div className={"elementToFadeIn"}>
-                <ONSButton onClick={() => callGetBatchList()} label="Reload" primary={true} small={true} />
+                <ONSButton onClick={() => fetchBatchList()} label="Reload" primary={true} small={true} />
                 <ErrorBoundary errorMessageText={"Failed to load audit logs."}>
                     {
                         batchList && batchList.length > 0

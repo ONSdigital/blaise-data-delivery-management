@@ -1,16 +1,16 @@
 import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
 import { type DataDeliveryBatchData, type DataDeliveryFile, type DataDeliveryFileStatus } from "../types";
 
-type getResponseList = [boolean, DataDeliveryFileStatus[] | DataDeliveryBatchData[] | { [key: string]: string } | null]
+type GetResponseList = [boolean, DataDeliveryFileStatus[] | DataDeliveryBatchData[] | { [key: string]: string } | null]
 
-type getResponse = [number | boolean, string | DataDeliveryFileStatus | DataDeliveryFile | DataDeliveryBatchData | { [key: string]: string } | null]
+type GetResponse = [number | boolean, string | DataDeliveryFileStatus | DataDeliveryFile | DataDeliveryBatchData | { [key: string]: string } | null]
 
-async function getAllBatches(): Promise<getResponseList> {
+async function getAllBatches(): Promise<GetResponseList> {
     console.log("Call to getAllBatches");
     const url = "/api/batch";
 
     try {
-        const [success, data]: getResponseList = await requestPromiseJsonList("GET", url);
+        const [success, data]: GetResponseList = await requestPromiseJsonList("GET", url);
 
         console.log(`Response from get Batch Info ${(success ? "successful" : "failed")}, data list length ${data.length}`);
 
@@ -22,12 +22,12 @@ async function getAllBatches(): Promise<getResponseList> {
     }
 }
 
-async function getBatchInfo(batchName: string): Promise<getResponseList> {
+async function getBatchInfo(batchName: string): Promise<GetResponseList> {
     console.log("Call to getBatchInfo");
     const url = `/api/batch/${batchName}`;
 
     try {
-        const [success, data]: getResponseList = await requestPromiseJsonList("GET", url);
+        const [success, data]: GetResponseList = await requestPromiseJsonList("GET", url);
 
         console.log(`Response from get Batch Info ${(success ? "successful" : "failed")}, data list length ${data.length}`);
 
@@ -39,7 +39,7 @@ async function getBatchInfo(batchName: string): Promise<getResponseList> {
     }
 }
 
-async function getBatchStatusDescriptions(): Promise<getResponse> {
+async function getBatchStatusDescriptions(): Promise<GetResponse> {
 
     console.log("Call to getBatchStatusDescriptions");
     const url = "/api/state/descriptions";

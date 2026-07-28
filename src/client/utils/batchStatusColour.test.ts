@@ -1,68 +1,68 @@
-import { getDDFileStatusStyle } from "./batchStatusColour";
+import { getDataDeliveryFileStatusStyle } from "./batchStatusColour";
 
-describe("Function getDDFileStatusStyle() ", () => {
+describe("Function getDataDeliveryFileStatusStyle() ", () => {
     it("should return 'dead' is status is inactive", async () => {
-        const status = getDDFileStatusStyle("inactive", undefined);
+        const status = getDataDeliveryFileStatusStyle("inactive", undefined);
 
         expect(status).toEqual("dead");
     });
 
     it("should return 'success' is status is in_arc", async () => {
-        const status = getDDFileStatusStyle("in_arc", undefined);
+        const status = getDataDeliveryFileStatusStyle("in_arc", undefined);
 
         expect(status).toEqual("success");
     });
 
     it("should return 'error' is status is errored", async () => {
-        const status = getDDFileStatusStyle("errored", undefined);
+        const status = getDataDeliveryFileStatusStyle("errored", undefined);
 
         expect(status).toEqual("error");
     });
 
     it("should return 'pending' is status is not inactive, errored or in in_arc", async () => {
-        const status = getDDFileStatusStyle("bacon", undefined);
+        const status = getDataDeliveryFileStatusStyle("bacon", undefined);
 
         expect(status).toEqual("pending");
     });
 
     it("should return 'pending' is status is started", async () => {
-        const status = getDDFileStatusStyle("started", undefined);
+        const status = getDataDeliveryFileStatusStyle("started", undefined);
 
         expect(status).toEqual("pending");
     });
 
     it("should return 'pending' is status is generated", async () => {
-        const status = getDDFileStatusStyle("generated", undefined);
+        const status = getDataDeliveryFileStatusStyle("generated", undefined);
 
         expect(status).toEqual("pending");
     });
 
     it("should return 'pending' is status is in_staging", async () => {
-        const status = getDDFileStatusStyle("in_staging", undefined);
+        const status = getDataDeliveryFileStatusStyle("in_staging", undefined);
 
         expect(status).toEqual("pending");
     });
 
     it("should return 'pending' is status is encrypted", async () => {
-        const status = getDDFileStatusStyle("encrypted", "");
+        const status = getDataDeliveryFileStatusStyle("encrypted", "");
 
         expect(status).toEqual("pending");
     });
 
     it("should return 'pending' is status is in_nifi_bucket", async () => {
-        const status = getDDFileStatusStyle("in_nifi_bucket", null);
+        const status = getDataDeliveryFileStatusStyle("in_nifi_bucket", null);
 
         expect(status).toEqual("pending");
     });
 
     it("should return 'pending' is status is nifi_notified", async () => {
-        const status = getDDFileStatusStyle("nifi_notified", null);
+        const status = getDataDeliveryFileStatusStyle("nifi_notified", null);
 
         expect(status).toEqual("pending");
     });
 
     it("should return 'error' is regardless of status if error_info is defined", async () => {
-        const status = getDDFileStatusStyle("nifi_notified", "Errored stuff and things");
+        const status = getDataDeliveryFileStatusStyle("nifi_notified", "Errored stuff and things");
 
         expect(status).toEqual("error");
     });

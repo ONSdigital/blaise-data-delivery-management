@@ -4,8 +4,8 @@ import { getBatchInfo } from "../../../api";
 import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../../../types";
 import dateFormatter from "dayjs";
 import { useLocation } from "react-router-dom";
-import { getDDFileStatusStyle } from "../../../utils/batchStatusColour";
-import { batch_to_data } from "../../../utils/dataDeliveryParsers";
+import { getDataDeliveryFileStatusStyle } from "../../../utils/batchStatusColour";
+import { batchToData } from "../../../utils/dataDeliveryParsers";
 import Breadcrumbs from "../../shared/breadcrumbs";
 
 interface Location {
@@ -23,13 +23,13 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
 
     const location = useLocation();
 
-    const { batch } = (location as Location).state || { batch: batch_to_data(location.pathname.split("/")[2]) };
+    const { batch } = (location as Location).state || { batch: batchToData(location.pathname.split("/")[2]) };
 
     useEffect(() => {
-        callGetBatchList().then(() => console.log("callGetBatchList Complete"));
+        fetchBatchList().then(() => console.log("fetchBatchList Complete"));
     }, []);
 
-    async function callGetBatchList() {
+    async function fetchBatchList() {
         setBatchList([]);
         setLoading(true);
 
@@ -69,7 +69,7 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
                         <ONSLoadingPanel />
                         :
                         <div className={"elementToFadeIn"}>
-                            <ONSButton onClick={() => callGetBatchList()} label="Reload" primary={true} small={true} />
+                            <ONSButton onClick={() => fetchBatchList()} label="Reload" primary={true} small={true} />
                             <ErrorBoundary errorMessageText={"Failed to load audit logs."}>
                                 {
                                     batchList && batchList.length > 0
@@ -105,8 +105,8 @@ function BatchStatusList({ statusDescriptionList }: Props): ReactElement {
                                                                     {instrumentName}
                                                                 </td>
                                                                 <td className="ons-table__cell ">
-                                                                    <span className={`ons-status ons-status--${getDDFileStatusStyle(state, error_info)}`}
-                                                                        data-testid={`${instrumentName}-status--${getDDFileStatusStyle(state, error_info)}`}
+                                                                    <span className={`ons-status ons-status--${getDataDeliveryFileStatusStyle(state, error_info)}`}
+                                                                        data-testid={`${instrumentName}-status--${getDataDeliveryFileStatusStyle(state, error_info)}`}
                                                                     >
                                                                         {
                                                                             (error_info === null || error_info === undefined || error_info === "" ?

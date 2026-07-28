@@ -4,6 +4,12 @@ Data Delivery Management provides a web UI for viewing the status of data delive
 
 The app is a React frontend served by an Express backend. API calls to Data Delivery Status (DDS) are authenticated using Google Application Default Credentials (ADC).
 
+## Data delivery trigger availability
+
+The ability to trigger data delivery runs from the UI is temporarily disabled to prevent abuse.
+
+The backend code path for triggering runs is still present in the codebase, and the related environment variables are still configured for deployments.
+
 ## Local Development
 
 ### Prerequisites
@@ -31,6 +37,8 @@ gcloud auth application-default login --impersonate-service-account=ons-blaise-v
 ### Configure environment variables
 
 Create a `.env` file in the repository root.
+
+Note: environment variables used for triggering data delivery runs are not required for local setup, because this functionality is not currently available via the UI.
 
 You can find the DDS IAP client ID from an existing App Engine deployment via the GCP console:
 

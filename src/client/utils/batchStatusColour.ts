@@ -1,4 +1,4 @@
-export function getDDFileStatusStyle(status: string, errorInfo: string | null | undefined): string {
+export function getDataDeliveryFileStatusStyle(status: string, errorInfo: string | null | undefined): string {
     if (errorInfo !== null && errorInfo !== undefined && errorInfo !== "") {
         return "error";
     }

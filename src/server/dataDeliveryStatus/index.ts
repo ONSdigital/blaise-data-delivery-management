@@ -1,6 +1,6 @@
 import express, { type Request, type Response, type Router } from "express";
 import { type EnvironmentVariables } from "../config";
-import { batch_to_data, dd_filename_to_data } from "../helpers/dataDeliveryParsers";
+import { batchToData, dataDeliveryFilenameToData } from "../helpers/dataDeliveryParsers";
 import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../helpers/types";
 import { SendAPIRequest } from "../sendRequest";
 import type * as PinoHttp from "pino-http";
@@ -55,7 +55,7 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
         }
 
         result.map((item: DataDeliveryFileStatus) => {
-            Object.assign(item, dd_filename_to_data(item.dd_filename));
+            Object.assign(item, dataDeliveryFilenameToData(item.dd_filename));
         });
 
         res.status(status).json(result);
@@ -90,7 +90,7 @@ export default function DataDeliveryStatus(environmentVariables: EnvironmentVari
 
         result.map((item: string) => {
             if (item === "") return;
-            batchList.push(batch_to_data(item));
+            batchList.push(batchToData(item));
         });
 
         res.status(status).json(batchList);
