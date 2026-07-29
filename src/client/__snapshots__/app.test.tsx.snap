@@ -160,7 +160,7 @@ exports["React homepage view instrument page matches Snapshot 1"] = `
                   >
                     <time
                       datetime="2021-03-24T11:30:00.000Z"
-                      title="2021-03-24T11:30:00.000Z"
+                      title="2021-03-24 11:30"
                     >
                       6 days ago
                     </time>
@@ -205,7 +205,7 @@ exports["React homepage view instrument page matches Snapshot 1"] = `
                   >
                     <time
                       datetime="2021-03-12T02:30:00.000Z"
-                      title="2021-03-12T02:30:00.000Z"
+                      title="2021-03-12 02:30"
                     >
                       3 weeks ago
                     </time>
@@ -538,7 +538,7 @@ exports["React homepage view instrument page matches Snapshot 1"] = `
                 >
                   <time
                     datetime="2021-03-24T11:30:00.000Z"
-                    title="2021-03-24T11:30:00.000Z"
+                    title="2021-03-24 11:30"
                   >
                     6 days ago
                   </time>
@@ -583,7 +583,7 @@ exports["React homepage view instrument page matches Snapshot 1"] = `
                 >
                   <time
                     datetime="2021-03-12T02:30:00.000Z"
-                    title="2021-03-12T02:30:00.000Z"
+                    title="2021-03-12 02:30"
                   >
                     3 weeks ago
                   </time>

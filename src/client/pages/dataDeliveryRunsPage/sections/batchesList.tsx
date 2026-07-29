@@ -27,6 +27,58 @@ function determineOverallStatus(batchEntryStatuses: string[]) {
     return "success";
 }
 
+function parseLondonDateString(dateString: string): Date {
+    const parsedDate = dateString.match(/^(\d{2})\/(\d{2})\/(\d{4})\s(\d{2}):(\d{2}):(\d{2})$/);
+
+    if (parsedDate == null) {
+        return new Date(dateString);
+    }
+
+    const [, day, month, year, hour, minute, second] = parsedDate;
+    const targetDateAsUtc = Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute), Number(second));
+    const utcGuess = targetDateAsUtc;
+
+    const londonDateParts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/London",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+    }).formatToParts(new Date(utcGuess));
+
+    const londonDateMap = londonDateParts.reduce<Record<string, string>>((accumulator, part) => {
+        if (part.type !== "literal") {
+            accumulator[part.type] = part.value;
+        }
+
+        return accumulator;
+    }, {});
+
+    const londonGuessAsUtc = Date.UTC(
+        Number(londonDateMap.year),
+        Number(londonDateMap.month) - 1,
+        Number(londonDateMap.day),
+        Number(londonDateMap.hour),
+        Number(londonDateMap.minute),
+        Number(londonDateMap.second)
+    );
+
+    return new Date(utcGuess + (targetDateAsUtc - londonGuessAsUtc));
+}
+
+function getBatchRunStartedDate(batch: DataDeliveryBatchData): Date {
+    const parsedDate = parseLondonDateString(batch.dateString);
+
+    if (Number.isNaN(parsedDate.valueOf())) {
+        return new Date(batch.date);
+    }
+
+    return parsedDate;
+}
+
 function BatchesList(): ReactElement {
     const [batchList, setBatchList] = useState<DataDeliveryBatchData[]>([]);
     const [listError, setListError] = useState<string>("Loading ...");
@@ -55,7 +107,7 @@ function BatchesList(): ReactElement {
                 setListError("No data delivery runs found.");
             }
 
-            fetchedBatches.sort((a: DataDeliveryBatchData, b: DataDeliveryBatchData) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+            fetchedBatches.sort((a: DataDeliveryBatchData, b: DataDeliveryBatchData) => getBatchRunStartedDate(b).valueOf() - getBatchRunStartedDate(a).valueOf());
 
             const batchListPromises = fetchedBatches.slice(0, 50).map(async (batch: DataDeliveryBatchData) => {
                 const [success, batchInfoList] = await getBatchInfo(batch.name) as [boolean, DataDeliveryFileStatus[]];
@@ -128,7 +180,7 @@ function BatchesList(): ReactElement {
                                                         {batch.dateString}
                                                     </td>
                                                     <td className="ons-table__cell ">
-                                                        {<TimeAgo live={false} date={batch.date} />}
+                                                        {<TimeAgo live={false} date={getBatchRunStartedDate(batch)} />}
                                                     </td>
                                                     <td className="ons-table__cell ">
                                                         <span className={`ons-status ons-status--${batch.status}`}
