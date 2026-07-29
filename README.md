@@ -6,7 +6,7 @@ The app is a React frontend served by an Express backend. API calls to Data Deli
 
 ## Data delivery trigger availability
 
-The ability to trigger data delivery runs from the UI is temporarily disabled to prevent abuse.
+The ability to trigger data delivery runs from the UI is currently disabled.
 
 The backend code path for triggering runs is still present in the codebase, and the related environment variables are still configured for deployments.
 
