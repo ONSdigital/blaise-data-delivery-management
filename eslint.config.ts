@@ -1,133 +1,174 @@
 import js from "@eslint/js";
-import react from "@eslint-react/eslint-plugin";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import importX from "eslint-plugin-import-x";
+import eslintReact from "@eslint-react/eslint-plugin";
+import configPrettier from "eslint-config-prettier";
 import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
-
+import pluginImportX from "eslint-plugin-import-x";
+import pluginJsonc from "eslint-plugin-jsonc";
+import globals from "globals";
+import * as jsoncParser from "jsonc-eslint-parser";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-    // base recommended rules
-    js.configs.recommended,
-    react.configs.recommended,
-    importX.flatConfigs.recommended,
+  {
+    ignores: ["build/**", "coverage/**", "node_modules/**"],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  eslintReact.configs.recommended,
 
-    ...tseslint.configs.recommended,
-
-    // ignore patterns
-    {
-        ignores: ["coverage/**", "node_modules/**", "dist/**", "build/**", "eslint.config.ts"],
+  {
+    languageOptions: { ecmaVersion: "latest" },
+    settings: {
+      "import-x/resolver-next": [
+        createTypeScriptImportResolver({
+          noWarnOnMultipleProjects: true,
+          project: ["./tsconfig.client.json", "./tsconfig.server.json", "./tsconfig.tooling.json"],
+        }),
+      ],
     },
+  },
 
-    // main config
-    {
-        files: ["**/*.{ts,tsx,js,jsx}", "**/*.test.*", "**/*.spec.*"],
+  {
+    files: ["**/*.{ts,tsx}"],
+    plugins: { "import-x": pluginImportX },
+    rules: {
+      "padding-line-between-statements": [
+        "error",
+        { blankLine: "always", prev: "*", next: "return" },
+        { blankLine: "always", prev: "import", next: "*" },
+        { blankLine: "any", prev: "import", next: "import" },
+        { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+        { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] },
+        { blankLine: "always", prev: "*", next: ["class", "function", "export"] },
+        { blankLine: "always", prev: ["block-like", "multiline-block-like"], next: "*" },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
+      ],
+      "sort-imports": [
+        "error",
+        { ignoreCase: true, ignoreDeclarationSort: true, ignoreMemberSort: false },
+      ],
+      "import-x/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+            "object",
+            "type",
+          ],
+          "newlines-between": "always",
+          alphabetize: { order: "asc", caseInsensitive: true },
+        },
+      ],
+      "no-unused-vars": "off",
+      "no-constant-condition": "error",
+      "no-unreachable": "error",
+      "import-x/no-extraneous-dependencies": [
+        "error",
+        {
+          devDependencies: [
+            "src/**/*.mock.{ts,tsx}",
+            "src/**/*.test.{ts,tsx}",
+            "src/client/setupTests.ts",
+            "src/client/features/**/*.{ts,tsx}",
+            "*.config.ts",
+          ],
+        },
+      ],
+    },
+  },
 
-        languageOptions: {
-            ecmaVersion: "latest",
-            sourceType: "module",
-            globals: {
-                ...globals.browser,
-                ...globals.jest,
-                ...globals.node,
-            },
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true,
-                },
-            },
-        },
-        plugins: {
-            react: react,
-            import: importX,
-        },
+  {
+    files: ["src/client/**/*.{ts,tsx}"],
+    languageOptions: { globals: { ...globals.browser } },
+    rules: {
+      "import-x/extensions": [
+        "error",
+        "ignorePackages",
+        { js: "never", jsx: "never", ts: "never", tsx: "never" },
+      ],
+    },
+  },
 
-        settings: {
-            "import-x/resolver-next": [
-                createTypeScriptImportResolver({
-                    project: ["./tsconfig.json"],
-                }),
-            ],
-            react: {
-                version: "detect",
-            },
-        },
+  {
+    files: ["src/server/**/*.ts"],
+    languageOptions: { globals: { ...globals.node } },
+    rules: {
+      "import-x/extensions": [
+        "error",
+        "ignorePackages",
+        { js: "always", jsx: "never", ts: "never", tsx: "never" },
+      ],
+    },
+  },
 
-        rules: {
-            "padding-line-between-statements": [
-                "error",
-                { blankLine: "always", prev: "*", next: "return" },
-                { blankLine: "always", prev: "import", next: "*" },
-                { blankLine: "any", prev: "import", next: "import" },
-                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] },
-                { blankLine: "always", prev: "*", next: ["class", "function", "export"] },
-                { blankLine: "always", prev: ["block-like", "multiline-block-like"], next: "*" },
-            ],
-            "@typescript-eslint/no-explicit-any": "warn",
-            "@typescript-eslint/consistent-type-imports": [
-                "error",
-                { prefer: "type-imports", fixStyle: "inline-type-imports" },
-            ],
-            "sort-imports": [
-                "error",
-                { ignoreCase: true, ignoreDeclarationSort: true, ignoreMemberSort: false },
-            ],
-            "linebreak-style": ["error", "unix"],
-            quotes: ["error", "double"],
-            semi: ["error", "always"],
-            indent: ["error", 4],
-            "object-curly-spacing": ["error", "always"],
-            "no-multiple-empty-lines": ["error", { max: 1 }],
-            "comma-spacing": ["error", { before: false, after: true }],
-            "max-len": ["error", { code: 200 }],
-            "@typescript-eslint/no-unused-vars": [
-                "error",
-                {
-                    argsIgnorePattern: "^_",
-                    varsIgnorePattern: "^_",
-                    ignoreRestSiblings: true,
-                    caughtErrors: "none"
-                }
-            ],
-            "@typescript-eslint/no-empty-function": "error"
-        },
+  {
+    files: ["**/*.test.{ts,tsx}", "**/setupTests.ts", "jest.setup.ts"],
+    rules: {
+      "import-x/order": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "no-empty": "off",
     },
+  },
 
-    // JS override
-    {
-        files: ["**/*.js"],
-        rules: {
-            "@typescript-eslint/no-var-requires": "off",
-        },
+  {
+    files: ["jest.config.js"],
+    languageOptions: {
+      globals: { ...globals.node },
     },
-    {
-        files: [
-            "**/*.test.*",
-            "**/*.spec.*",
-            "**/jest.setup.ts",
-        ],
-        rules: {
-            "@typescript-eslint/no-unused-vars": "off",
-            "no-empty": "off",
-        },
+  },
+
+  ...pluginJsonc.configs["flat/recommended-with-jsonc"],
+
+  {
+    files: ["**/*.json", "**/*.jsonc"],
+    languageOptions: { parser: jsoncParser },
+    rules: {
+      "jsonc/sort-keys": [
+        "error",
+        { pathPattern: "^$", order: { type: "asc" } },
+        { pathPattern: "^compilerOptions$", order: { type: "asc" } },
+      ],
     },
-    {
-        files: ["**/__snapshots__/*"],
-        rules: {
-            "max-len": "off",
+  },
+
+  {
+    files: ["package.json"],
+    rules: {
+      "jsonc/sort-keys": [
+        "error",
+        {
+          pathPattern: "^$",
+          order: [
+            "name",
+            "version",
+            "private",
+            "license",
+            "engines",
+            "type",
+            "scripts",
+            "dependencies",
+            "devDependencies",
+            "packageManager",
+          ],
         },
+        {
+          pathPattern: "^(?:dev|peer|optional|bundled)?[Dd]ependencies$|^scripts$",
+          order: { type: "asc" },
+        },
+      ],
     },
-    {
-        files: ["**/*.{ts,tsx,js,jsx}"],
-        rules: {
-            "no-unused-vars": "off",
-        },
-    },
-    {
-        files: ["**/*.setup.ts", "**/jest.*.ts", "**/jest.config.ts"],
-        rules: {
-            "@typescript-eslint/no-require-imports": "off",
-        },
-    }
+  },
+
+  configPrettier,
 );

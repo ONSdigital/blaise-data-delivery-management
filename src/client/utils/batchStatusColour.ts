@@ -1,17 +1,20 @@
-export function getDataDeliveryFileStatusStyle(status: string, errorInfo: string | null | undefined): string {
-    if (errorInfo !== null && errorInfo !== undefined && errorInfo !== "") {
-        return "error";
-    }
+export function getDataDeliveryFileStatusStyle(
+  status: string,
+  errorInfo: string | null | undefined,
+): string {
+  if (errorInfo !== null && errorInfo !== undefined && errorInfo !== "") {
+    return "error";
+  }
 
-    switch (status) {
+  switch (status) {
     case "inactive":
-        return "dead";
+      return "dead";
     case "in_arc":
-        return "success";
+      return "success";
 
     case "errored":
-        return "error";
+      return "error";
     default:
-        return "pending";
-    }
+      return "pending";
+  }
 }

@@ -1,3 +1,1 @@
-export * from "./dataDelivery";
-
-export * from "./dataDeliveryStatus";
+export * from "./dataDeliveryApi";

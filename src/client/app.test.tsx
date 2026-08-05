@@ -1,107 +1,132 @@
-import React from "react";
-import { cleanup, render, waitFor } from "@testing-library/react";
+import { act, cleanup, render, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import flushPromises from "./test-utils";
-import { act } from "react-dom/test-utils";
 import { MemoryRouter } from "react-router-dom";
-import { type DataDeliveryBatchData } from "./types";
+import userEvent from "@testing-library/user-event";
+
+import App from "./app";
+import flushPromises from "./test-utils";
+import { type DataDeliveryBatchData } from "../shared/types";
+
 import MockDate from "mockdate";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
-import App from "./app";
 
 const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 
 describe("React homepage", () => {
-    const batches: DataDeliveryBatchData[] = [
-        {
-            survey: "OPN",
-            date: new Date("2021-03-24T11:30:00.000Z"),
-            dateString: "24/03/2021 11:30:00",
-            name: "OPN_24032021_113000"
-        },
-        {
-            survey: "OPN",
-            date: new Date("2021-03-12T02:30:00.000Z"),
-            dateString: "12/03/2021 02:30:00",
-            name: "OPN_12032021_023000"
-        }
-    ];
+  const batches: DataDeliveryBatchData[] = [
+    {
+      survey: "OPN",
+      date: "2021-03-29T11:30:00.000Z",
+      dateString: "29/03/2021 11:30:00",
+      name: "OPN_29032021_113000",
+    },
+    {
+      survey: "OPN",
+      date: "2021-03-25T02:30:00.000Z",
+      dateString: "25/03/2021 02:30:00",
+      name: "OPN_25032021_023000",
+    },
+  ];
 
-    beforeAll(() => {
-        MockDate.set(new Date("2021-03-30T02:30:00.000Z"));
-        mock.onGet("/api/batch").reply(200, batches);
+  beforeAll(() => {
+    MockDate.set(new Date("2021-03-30T02:30:00.000Z"));
+    mock.onGet("/api/batch").reply(200, batches);
+  });
+
+  afterAll(() => {
+    vi.clearAllMocks();
+    cleanup();
+    MockDate.reset();
+  });
+
+  it("view instrument page matches Snapshot", async () => {
+    const wrapper = render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    await act(async () => {
+      await flushPromises();
     });
 
-    afterAll(() => {
-        jest.clearAllMocks();
-        cleanup();
-        MockDate.reset();
+    await waitFor(() => {
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
+
+  it("should render correctly", async () => {
+    const { getByText, queryByText, getAllByText } = render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(queryByText(/Loading/i)).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(getByText(/Data Delivery Management/i)).toBeDefined();
+      expect(queryByText(/Loading/i)).not.toBeInTheDocument();
     });
 
-    it("view instrument page matches Snapshot", async () => {
-        const wrapper = render(
-            <MemoryRouter initialEntries={["/"]}>
-                <App />
-            </MemoryRouter>
-        );
-
-        await act(async () => {
-            await flushPromises();
-        });
-
-        await waitFor(() => {
-            expect(wrapper).toMatchSnapshot();
-        });
+    await waitFor(() => {
+      expect(getByText(/Data Delivery Management/i)).toBeDefined();
+      expect(getByText(/29\/03\/2021 11:30:00/i)).toBeDefined();
+      expect(getByText(/25\/03\/2021 02:30:00/i)).toBeDefined();
+      expect(getAllByText(/View run status/i)).toBeDefined();
+      expect(getByText(/Status/)).toBeDefined();
+      expect(queryByText(/Loading/i)).not.toBeInTheDocument();
     });
-
-    it("should render correctly", async () => {
-        const { getByText, queryByText, getAllByText } = render(
-            <MemoryRouter initialEntries={["/"]}>
-                <App />
-            </MemoryRouter>
-        );
-
-        expect(queryByText(/Loading/i)).toBeInTheDocument();
-
-        await waitFor(() => {
-            expect(getByText(/Data Delivery Management/i)).toBeDefined();
-            expect(queryByText(/Loading/i)).not.toBeInTheDocument();
-        });
-
-        await waitFor(() => {
-            expect(getByText(/Data Delivery Management/i)).toBeDefined();
-            expect(getByText(/24\/03\/2021 11:30:00/i)).toBeDefined();
-            expect(getByText(/12\/03\/2021 02:30:00/i)).toBeDefined();
-            expect(getAllByText(/View run status/i)).toBeDefined();
-            expect(getByText(/Status/)).toBeDefined();
-            expect(queryByText(/Loading/i)).not.toBeInTheDocument();
-        });
-    });
+  });
 });
 
 describe("Given the API returns an empty list", () => {
-    beforeAll(() => {
-        mock.onGet("/api/batch").reply(200, []);
+  beforeAll(() => {
+    mock.onGet("/api/batch").reply(200, []);
+  });
+
+  it("it should render with a message to inform the user in the list", async () => {
+    const { getByText, queryByText } = render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(queryByText(/Loading/i)).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(getByText(/No data delivery runs found./i)).toBeDefined();
+      expect(queryByText(/Loading/i)).not.toBeInTheDocument();
     });
+  });
 
-    it("it should render with a message to inform the user in the list", async () => {
-        const { getByText, queryByText } = render(
-            <MemoryRouter initialEntries={["/"]}>
-                <App />
-            </MemoryRouter>
-        );
+  afterAll(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+});
 
-        expect(queryByText(/Loading/i)).toBeInTheDocument();
+describe("Given an unknown route", () => {
+  it("shows a not found message with a link back to homepage", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getByText } = render(
+      <MemoryRouter initialEntries={["/this-route-does-not-exist"]}>
+        <App />
+      </MemoryRouter>,
+    );
 
-        await waitFor(() => {
-            expect(getByText(/No data delivery runs found./i)).toBeDefined();
-            expect(queryByText(/Loading/i)).not.toBeInTheDocument();
-        });
+    expect(getByRole("heading", { name: /Page not found/i })).toBeInTheDocument();
+    expect(getByText(/The page you're looking for doesn't exist./i)).toBeInTheDocument();
+
+    const homeLink = getByRole("link", { name: /Return home/i });
+
+    expect(homeLink).toHaveAttribute("href", "/");
+
+    await user.click(homeLink);
+
+    await waitFor(() => {
+      expect(getByRole("heading", { name: /Data delivery runs/i })).toBeInTheDocument();
     });
-
-    afterAll(() => {
-        jest.clearAllMocks();
-        cleanup();
-    });
+  });
 });

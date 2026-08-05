@@ -1,59 +1,69 @@
 import axios from "axios";
+
 import type { Method } from "axios";
-import { type DataDeliveryBatchData, type DataDeliveryFile, type DataDeliveryFileStatus, type JSONValue } from "../types";
 
-type PromiseResponse = [number, DataDeliveryFile | DataDeliveryFileStatus | DataDeliveryBatchData | string | { [key: string]: string } | null];
+type JsonResponse<TData> = {
+  ok: boolean;
+  status: number;
+  data: TData | null;
+};
 
-async function requestPromiseJson(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponse> {
-    try {
-        const response = await axios({
-            url: url,
-            method: method,
-            data: body,
-            validateStatus: () => true,
-        });
+type PromiseResponseList<TListItem> = [boolean, TListItem[]];
 
-        const data = response.data;
+async function requestPromiseJson<TData>(
+  method: Method,
+  url: string,
+  body: unknown = null,
+): Promise<JsonResponse<TData>> {
+  try {
+    const response = await axios({
+      url: url,
+      method: method,
+      data: body,
+      validateStatus: () => true,
+    });
 
-        if (!data) {
-            return [response.status, null];
-        }
+    const data = (response.data ?? null) as TData | null;
 
-        return [response.status, data];
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
+    return {
+      ok: response.status >= 200 && response.status < 300,
+      status: response.status,
+      data,
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 500,
+      data: null,
+    };
+  }
 }
 
-type PromiseResponseList = [boolean, DataDeliveryBatchData[] | DataDeliveryFileStatus[] | { [key: string]: string }];
+async function requestPromiseJsonList<TListItem>(
+  method: Method,
+  url: string,
+  body: unknown = null,
+): Promise<PromiseResponseList<TListItem>> {
+  const response = await axios({
+    url: url,
+    method: method,
+    data: body,
+    validateStatus: () => true,
+  });
 
-async function requestPromiseJsonList(method: Method, url: string, body: JSONValue | null = null): Promise<PromiseResponseList> {
-    try {
-        const response = await axios({
-            url: url,
-            method: method,
-            data: body,
-            validateStatus: () => true,
-        });
+  const data = response.data;
 
-        const data = response.data;
-
-        if (response.status === 200) {
-            if (!Array.isArray(data)) {
-                return [false, []];
-            }
-
-            return [true, data];
-        } else if (response.status === 404) {
-            return [true, data];
-        } else {
-            return [false, []];
-        }
-    } catch (error) {
-        console.log(error);
-        throw error;
+  if (response.status === 200) {
+    if (!Array.isArray(data)) {
+      return [false, []];
     }
+
+    return [true, data as TListItem[]];
+  } else if (response.status === 404) {
+    return [true, []];
+  } else {
+    return [false, []];
+  }
 }
 
 export { requestPromiseJson, requestPromiseJsonList };

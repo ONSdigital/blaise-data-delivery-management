@@ -4,18 +4,12 @@ Data Delivery Management provides a web UI for viewing the status of data delive
 
 The app is a React frontend served by an Express backend. API calls to Data Delivery Status (DDS) are authenticated using Google Application Default Credentials (ADC).
 
-## Data delivery trigger availability
-
-The ability to trigger data delivery runs from the UI is currently disabled.
-
-The backend code path for triggering runs is still present in the codebase, and the related environment variables are still configured for deployments.
-
 ## Local Development
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/)
-- [Yarn Classic](https://classic.yarnpkg.com/en/docs/install) 1.x (this repo uses `yarn@1.22.22`)
+- [Node.js](https://nodejs.org/) 24+ (see `engines` in [package.json](package.json))
+- [Yarn](https://yarnpkg.com/) 4+
 - [Google Cloud SDK (`gcloud` CLI)](https://cloud.google.com/sdk/)
 
 ### Clone and install packages
@@ -38,8 +32,6 @@ gcloud auth application-default login --impersonate-service-account=ons-blaise-v
 
 Create a `.env` file in the repository root.
 
-Note: environment variables used for triggering data delivery runs are not required for local setup, because this functionality is not currently available via the UI.
-
 You can find the DDS IAP client ID from an existing App Engine deployment via the GCP console:
 
 - App Engine -> Versions -> `ddm-ui` -> View Config
@@ -47,14 +39,34 @@ You can find the DDS IAP client ID from an existing App Engine deployment via th
 Example `.env` file:
 
 ```ini
+PROJECT_ID=ons-blaise-v2-dev-<sandbox>
 DDS_API_URL=https://dev-<sandbox>-dds.social-surveys.gcp.onsdigital.uk
 DDS_CLIENT_ID=blah.apps.googleusercontent.com
 ```
 
 ### Run the app
 
+Standard mode:
+
 ```shell
 yarn dev
 ```
 
 The UI should be available at: http://localhost:3000/
+
+If local processes become stale, stop known ports and watchers:
+
+```shell
+yarn kill
+```
+
+## Common Scripts
+
+- `yarn dev`: Run frontend + backend in watch mode
+- `yarn build`: Build client and server
+- `yarn typecheck`: Run TypeScript checks for frontend and server projects
+- `yarn lint`: Run typecheck, ESLint, Prettier checks, and knip
+- `yarn lint-fix`: Auto-fix lint/prettier issues and run knip fix
+- `yarn test`: Run Vitest suite with coverage
+- `yarn test-watch`: Run Vitest in watch mode
+- `yarn spellcheck`: Run cspell over code/config/docs files
