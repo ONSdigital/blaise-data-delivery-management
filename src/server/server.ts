@@ -69,11 +69,11 @@ export function newServer(
   );
   server.use(httpLogger);
 
-  const buildFolder = "../client";
+  const buildFolder = "../../../client";
 
   server.set("views", path.join(__dirname, buildFolder));
   server.engine("html", ejs.renderFile);
-  server.use("/static", express.static(path.join(__dirname, `${buildFolder}/static`)));
+  server.use(express.static(path.join(__dirname, buildFolder)));
 
   server.use("/api", apiRateLimiter);
 
