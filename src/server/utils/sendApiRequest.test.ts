@@ -1,0 +1,202 @@
+const { mockedAxios } = vi.hoisted(() => ({ mockedAxios: vi.fn() }));
+
+vi.mock("axios", () => ({
+  default: mockedAxios,
+}));
+
+import { sendApiRequest } from "./sendApiRequest.js";
+
+describe("sendApiRequest", () => {
+  function buildDependencies() {
+    const logger = vi.fn();
+    const req = {
+      log: {
+        error: vi.fn(),
+        info: vi.fn(),
+        warn: vi.fn(),
+      },
+    };
+    const res = {};
+
+    return { logger, req, res };
+  }
+
+  afterEach(() => {
+    mockedAxios.mockReset();
+  });
+
+  it("logs info and returns data for successful responses", async () => {
+    const { logger, req, res } = buildDependencies();
+
+    mockedAxios.mockResolvedValueOnce({
+      data: { hello: "world" },
+      headers: { "content-type": "application/json" },
+      status: 200,
+    });
+
+    const response = await sendApiRequest(
+      logger as unknown as Parameters<typeof sendApiRequest>[0],
+      req as unknown as Parameters<typeof sendApiRequest>[1],
+      res as unknown as Parameters<typeof sendApiRequest>[2],
+      "http://localhost/v1/batch",
+      "GET",
+      null,
+      { Authorization: "Bearer token" },
+    );
+
+    expect(response).toEqual([200, { hello: "world" }, "application/json"]);
+    expect(req.log.info).toHaveBeenCalledWith(
+      { status: 200, endpoint: "GET http://localhost/v1/batch" },
+      "Status from endpoint",
+    );
+  });
+
+  it("sanitises control characters in logs and warns for non-2xx statuses", async () => {
+    const { logger, req, res } = buildDependencies();
+
+    mockedAxios.mockResolvedValueOnce({
+      data: { error: "not found" },
+      headers: { "content-type": ["application/json"] },
+      status: 404,
+    });
+
+    const response = await sendApiRequest(
+      logger as unknown as Parameters<typeof sendApiRequest>[0],
+      req as unknown as Parameters<typeof sendApiRequest>[1],
+      res as unknown as Parameters<typeof sendApiRequest>[2],
+      "http://localhost/v1/batch\n",
+      "GET\t",
+      null,
+      { Authorization: "Bearer token" },
+    );
+
+    expect(mockedAxios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "GET\t",
+        url: "http://localhost/v1/batch\n",
+      }),
+    );
+    expect(req.log.warn).toHaveBeenCalledWith(
+      { status: 404, endpoint: "GET http://localhost/v1/batch" },
+      "Status from endpoint",
+    );
+    expect(response).toEqual([404, { error: "not found" }, ""]);
+  });
+
+  it("does not alter request URL while sanitising log output", async () => {
+    const { logger, req, res } = buildDependencies();
+
+    mockedAxios.mockResolvedValueOnce({
+      data: {},
+      headers: { "content-type": "application/json" },
+      status: 200,
+    });
+
+    await sendApiRequest(
+      logger as unknown as Parameters<typeof sendApiRequest>[0],
+      req as unknown as Parameters<typeof sendApiRequest>[1],
+      res as unknown as Parameters<typeof sendApiRequest>[2],
+      "http://localhost/v1/ba\u0000tch",
+      "GET",
+      null,
+      { Authorization: "Bearer token" },
+    );
+
+    expect(mockedAxios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: "http://localhost/v1/ba\u0000tch",
+      }),
+    );
+
+    expect(req.log.info).toHaveBeenCalledWith(
+      { status: 200, endpoint: "GET http://localhost/v1/ba tch" },
+      "Status from endpoint",
+    );
+  });
+
+  it("returns 500 and logs when the request throws", async () => {
+    const { logger, req, res } = buildDependencies();
+    const error = new Error("network");
+
+    mockedAxios.mockRejectedValueOnce(error);
+
+    const response = await sendApiRequest(
+      logger as unknown as Parameters<typeof sendApiRequest>[0],
+      req as unknown as Parameters<typeof sendApiRequest>[1],
+      res as unknown as Parameters<typeof sendApiRequest>[2],
+      "http://localhost/v1/batch",
+      "GET",
+      null,
+      { Authorization: "Bearer token" },
+    );
+
+    expect(response).toEqual([500, null, ""]);
+    expect(req.log.error).toHaveBeenCalledWith(
+      { err: error, endpoint: "GET http://localhost/v1/batch" },
+      "Endpoint failed",
+    );
+  });
+
+  it("handles undefined method values safely in logs", async () => {
+    const { logger, req, res } = buildDependencies();
+
+    mockedAxios.mockResolvedValueOnce({
+      data: {},
+      headers: { "content-type": "application/json" },
+      status: 200,
+    });
+
+    await sendApiRequest(
+      logger as unknown as Parameters<typeof sendApiRequest>[0],
+      req as unknown as Parameters<typeof sendApiRequest>[1],
+      res as unknown as Parameters<typeof sendApiRequest>[2],
+      "http://localhost/v1/batch",
+      undefined,
+      null,
+      { Authorization: "Bearer token" },
+    );
+
+    expect(mockedAxios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: undefined,
+      }),
+    );
+
+    expect(req.log.info).toHaveBeenCalledWith(
+      { status: 200, endpoint: "http://localhost/v1/batch" },
+      "Status from endpoint",
+    );
+  });
+
+  it("collapses consecutive spaces in URL and method only for logging", async () => {
+    const { logger, req, res } = buildDependencies();
+
+    mockedAxios.mockResolvedValueOnce({
+      data: {},
+      headers: { "content-type": "application/json" },
+      status: 200,
+    });
+
+    await sendApiRequest(
+      logger as unknown as Parameters<typeof sendApiRequest>[0],
+      req as unknown as Parameters<typeof sendApiRequest>[1],
+      res as unknown as Parameters<typeof sendApiRequest>[2],
+      "http://localhost/v1/ba  tch",
+      "GE  T",
+      null,
+      { Authorization: "Bearer token" },
+    );
+
+    expect(mockedAxios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: "http://localhost/v1/ba  tch",
+        method: "GE  T",
+      }),
+    );
+
+    expect(req.log.info).toHaveBeenCalledWith(
+      { status: 200, endpoint: "GE T http://localhost/v1/ba tch" },
+      "Status from endpoint",
+    );
+  });
+});

@@ -1,0 +1,186 @@
+import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+
+import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../../../../shared/types";
+import { statusDescriptions } from "../../../features/step_definitions/fixtures.mock";
+
+import BatchStatusList from "./batchStatusList";
+
+import MockAdapter from "axios-mock-adapter";
+import axios from "axios";
+import dateFormatter from "dayjs";
+import userEvent from "@testing-library/user-event";
+
+const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
+
+const batches: DataDeliveryBatchData[] = [
+  {
+    survey: "OPN",
+    date: "2021-03-24T11:30:00.000Z",
+    dateString: "24/03/2021 11:30:00",
+    name: "OPN_24032021_113000",
+  },
+];
+
+const batchRuns: DataDeliveryFileStatus[] = [
+  {
+    batch: "OPN_24032021_113000",
+    dd_filename: "OPN2004A__26032021_121540.zip",
+    instrumentName: "OPN2004A",
+    state: "in_arc",
+    updated_at: "2021-03-24T12:21:10+00:00",
+    error_info: "",
+  },
+  {
+    batch: "OPN_24032021_113000",
+    dd_filename: "dd_OPN2101A_26032031_121540.zip",
+    instrumentName: "OPN2101A",
+    state: "generated",
+    updated_at: "2021-03-25T12:21:10+00:00",
+    error_info: "",
+  },
+  {
+    batch: "OPN_24032021_113000",
+    dd_filename: "dd_OPN2331A_26032081_121540.zip",
+    instrumentName: "OPN2331A",
+    state: "inactive",
+    updated_at: "2021-03-26T12:21:10+00:00",
+    error_info: "",
+  },
+  {
+    batch: "OPN_24032021_113000",
+    dd_filename: "dd_OPN2806A_26032051_121540.zip",
+    instrumentName: "OPN2806A",
+    state: "errored",
+    updated_at: "2021-03-27T12:21:10+00:00",
+    error_info: "",
+  },
+];
+
+const mockRoute = `/batch/${batches[0].name}`;
+
+beforeAll(() => {
+  mock.onGet("/api/batch").reply(200, batches);
+  mock.onGet(`/api/batch/${batches[0].name}`).reply(200, batchRuns);
+  mock.onGet("/api/state/descriptions").reply(200, statusDescriptions);
+});
+
+afterAll(() => {
+  vi.clearAllMocks();
+});
+
+describe("Check BatchStatusList component snapshot:", () => {
+  it("matches the snapshot", async () => {
+    render(
+      <MemoryRouter>
+        <BatchStatusList batch={batches[0]} />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Questionnaire/)).toBeVisible();
+    expect(await screen.findByText(/Status/)).toBeVisible();
+    expect(await screen.findByText(/Last update/)).toBeVisible();
+  });
+});
+
+describe("Check run table:", () => {
+  it("displays table headings (including loader/spinner)", async () => {
+    render(
+      <MemoryRouter>
+        <BatchStatusList batch={batches[0]} />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Questionnaire/)).toBeVisible();
+    expect(await screen.findByText(/Status/)).toBeVisible();
+    expect(await screen.findByText(/Last update/)).toBeVisible();
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+  });
+
+  it("displays the questionnaire/instrument names", async () => {
+    render(
+      <MemoryRouter>
+        <BatchStatusList batch={batches[0]} />
+      </MemoryRouter>,
+    );
+
+    expect(await screen.findByText(/OPN2004A/)).toBeVisible();
+    expect(await screen.findByText(/OPN2101A/)).toBeVisible();
+    expect(await screen.findByText(/OPN2331A/)).toBeVisible();
+    expect(await screen.findByText(/OPN2806A/)).toBeVisible();
+  });
+
+  it("displays the status colour and details", async () => {
+    render(
+      <MemoryRouter>
+        <BatchStatusList batch={batches[0]} />
+      </MemoryRouter>,
+    );
+
+    expect(await screen.findByText(statusDescriptions["in_arc"])).toBeVisible();
+    expect(await screen.findByTestId(/OPN2004A-status--success/)).toBeDefined();
+    expect(await screen.findByText(statusDescriptions["generated"])).toBeVisible();
+    expect(await screen.findByTestId(/OPN2101A-status--pending/)).toBeDefined();
+    expect(await screen.findByText(statusDescriptions["inactive"])).toBeVisible();
+    expect(await screen.findByTestId(/OPN2331A-status--dead/)).toBeDefined();
+    expect(await screen.findByText(statusDescriptions["errored"])).toBeVisible();
+    expect(await screen.findByTestId(/OPN2806A-status--error/)).toBeDefined();
+  });
+
+  it("displays last update details", async () => {
+    render(
+      <MemoryRouter>
+        <BatchStatusList batch={batches[0]} />
+      </MemoryRouter>,
+    );
+
+    expect(
+      await screen.findByText(dateFormatter(batchRuns[0].updated_at).format("DD/MM/YYYY HH:mm:ss")),
+    ).toBeVisible();
+    expect(
+      await screen.findByText(dateFormatter(batchRuns[1].updated_at).format("DD/MM/YYYY HH:mm:ss")),
+    ).toBeVisible();
+    expect(
+      await screen.findByText(dateFormatter(batchRuns[2].updated_at).format("DD/MM/YYYY HH:mm:ss")),
+    ).toBeVisible();
+    expect(
+      await screen.findByText(dateFormatter(batchRuns[3].updated_at).format("DD/MM/YYYY HH:mm:ss")),
+    ).toBeVisible();
+  });
+
+  it("reload button requests batch info again", async () => {
+    mock.resetHistory();
+
+    render(
+      <MemoryRouter>
+        <BatchStatusList batch={batches[0]} />
+      </MemoryRouter>,
+    );
+
+    await screen.findByText(/Questionnaire/);
+    const initialBatchInfoRequests = mock.history.get.filter(
+      (request) => request.url === `/api/batch/${batches[0].name}`,
+    ).length;
+
+    const reloadButton = await screen.findByRole("button", { name: "Reload" });
+
+    await userEvent.click(reloadButton);
+
+    const totalBatchInfoRequests = mock.history.get.filter(
+      (request) => request.url === `/api/batch/${batches[0].name}`,
+    ).length;
+
+    expect(totalBatchInfoRequests).toEqual(initialBatchInfoRequests + 1);
+  });
+
+  it("parses batch details from pathname when route state is absent", async () => {
+    render(
+      <MemoryRouter>
+        <BatchStatusList batch={batches[0]} />
+      </MemoryRouter>,
+    );
+  });
+});
