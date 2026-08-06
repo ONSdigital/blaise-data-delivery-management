@@ -1,53 +1,94 @@
-import express, { type Request, type Response } from "express";
 import path from "path";
-import ejs from "ejs";
-import dotenv from "dotenv";
-import { getEnvironmentVariables } from "./config";
-import createLogger from "./pino";
+import { fileURLToPath } from "url";
 
-if (process.env.NODE_ENV !== "production") {
-    dotenv.config({ path: __dirname + "/../../.env" });
+import ejs from "ejs";
+import express, { type Express, type Request, type Response } from "express";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import { type HttpLogger } from "pino-http";
+
+import { type EnvironmentVariables } from "./config.js";
+import createDataDeliveryRouter from "./utils/dataDeliveryRouter.js";
+import { keyGeneratorFromForwardedHeader, parseRateLimit } from "./utils/rateLimit.js";
+import sanitiseLog from "./utils/sanitiseLog.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const DEFAULT_API_RATE_LIMIT = 3000;
+const DEFAULT_PAGE_RATE_LIMIT = 1000;
+
+const apiRateLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: parseRateLimit("DDM_API_RATE_LIMIT", DEFAULT_API_RATE_LIMIT),
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  keyGenerator: keyGeneratorFromForwardedHeader,
+  message: { error: "Too many requests, please try again later" },
+});
+
+const pageRateLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: parseRateLimit("DDM_PAGE_RATE_LIMIT", DEFAULT_PAGE_RATE_LIMIT),
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  keyGenerator: keyGeneratorFromForwardedHeader,
+  message: { error: "Too many requests, please try again later" },
+});
+
+export function createServerErrorHandler(httpLogger: HttpLogger, errorViewPath: string) {
+  return function serverErrorHandler(
+    err: Error,
+    req: Request,
+    res: Response,
+    _next: express.NextFunction,
+  ) {
+    httpLogger(req, res);
+    req.log.error(err, sanitiseLog(err.message));
+    res.status(500).render(errorViewPath, {});
+  };
 }
 
-const server = express();
-const logger = createLogger();
+export function newServer(
+  environmentVariables: EnvironmentVariables,
+  httpLogger: HttpLogger,
+): Express {
+  const server = express();
 
-server.use(logger);
+  server.set("trust proxy", 1);
+  server.disable("x-powered-by");
+  server.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+          "img-src": ["'self'", "data:", "https://cdn.ons.gov.uk"],
+        },
+      },
+      crossOriginEmbedderPolicy: false,
+    }),
+  );
+  server.use(httpLogger);
 
-import DataDeliveryTrigger from "./dataDeliveryTrigger";
-import DataDeliveryStatus from "./dataDeliveryStatus";
+  const buildFolder = "../../../client";
 
-// where ever the react built package is
-const buildFolder = "../client";
+  server.set("views", path.join(__dirname, buildFolder));
+  server.engine("html", ejs.renderFile);
+  server.use(express.static(path.join(__dirname, buildFolder)));
 
-// load the .env variables in the server
-const environmentVariables = getEnvironmentVariables();
+  server.use("/api", apiRateLimiter);
 
-// treat the index.html as a template and substitute the values at runtime
-server.set("views", path.join(__dirname, buildFolder));
-server.engine("html", ejs.renderFile);
-server.use("/static", express.static(path.join(__dirname, `${buildFolder}/static`)));
+  server.use("/", createDataDeliveryRouter(environmentVariables, httpLogger));
 
-// Endpoint to trigger data delivery Azure pipeline
-server.use("/", DataDeliveryTrigger(environmentVariables, logger));
-
-// All Endpoints calling the Data Delivery Status API
-server.use("/", DataDeliveryStatus(environmentVariables, logger));
-
-// Health Check endpoint
-server.get("/ddm-ui/:version/health", async function (req: Request, res: Response) {
-    console.log("Heath Check endpoint called");
+  server.get("/ddm-ui/:version/health", function (_req: Request, res: Response) {
     res.status(200).json({ healthy: true });
-});
+  });
 
-server.get("*", function (req: Request, res: Response) {
+  server.get("/{*splat}", pageRateLimiter, function (_req: Request, res: Response) {
     res.render("index.html");
-});
+  });
 
-server.use(function (err: Error, req: Request, res: Response) {
-    logger(req, res);
-    req.log.error(err, err.message);
-    res.render(path.join(__dirname, "views/500.html"), {});
-});
+  server.use(createServerErrorHandler(httpLogger, path.join(__dirname, "views/500.html")));
 
-export default server;
+  return server;
+}

@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const flushPromises = () => new Promise(setTimeout);
+const flushPromisesOnce = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
+const flushPromises = (): Promise<void> => flushPromisesOnce().then(flushPromisesOnce);
 
-export default () => flushPromises().then(flushPromises);
+export default flushPromises;

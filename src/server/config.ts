@@ -1,45 +1,39 @@
 export interface EnvironmentVariables {
-    PROJECT_ID: string
-    DDS_API_URL: string
-    AZURE_AUTH_TOKEN: string
-    ENV_NAME: string
-    GIT_BRANCH: string
-    DATA_DELIVERY_AZURE_PIPELINE_NO: string
-    DDS_CLIENT_ID: string
+  PROJECT_ID: string;
+  DDS_API_URL: string;
+  DDS_CLIENT_ID: string;
 }
 
+type RequiredConfigEnv = {
+  [TKey in keyof EnvironmentVariables]: string | undefined;
+};
+
+type ResolvedRequiredConfigEnv = {
+  [TKey in keyof EnvironmentVariables]: string;
+};
+
 export function getEnvironmentVariables(): EnvironmentVariables {
-    let { PROJECT_ID, DDS_API_URL, AZURE_AUTH_TOKEN, ENV_NAME, GIT_BRANCH, DATA_DELIVERY_AZURE_PIPELINE_NO, DDS_CLIENT_ID } = process.env;
+  const { PROJECT_ID, DDS_API_URL, DDS_CLIENT_ID } = process.env;
 
-    if (PROJECT_ID === undefined) {
-        PROJECT_ID = "ENV_VAR_NOT_SET";
-    }
+  const requiredEnv: RequiredConfigEnv = {
+    PROJECT_ID,
+    DDS_API_URL,
+    DDS_CLIENT_ID,
+  };
 
-    if (DDS_API_URL === undefined) {
-        console.error("DDS_API_URL environment variable has not been set");
-        DDS_API_URL = "ENV_VAR_NOT_SET";
-    }
+  assertResolvedRequiredEnv(requiredEnv);
 
-    if (AZURE_AUTH_TOKEN === undefined) {
-        AZURE_AUTH_TOKEN = "FAKE_TOKEN_ENV_VAR_NOT_SET";
-    }
+  return requiredEnv;
+}
 
-    if (ENV_NAME === undefined) {
-        ENV_NAME = "ENV_VAR_NOT_SET";
-    }
+function assertResolvedRequiredEnv(
+  env: RequiredConfigEnv,
+): asserts env is ResolvedRequiredConfigEnv {
+  const missing = Object.entries(env)
+    .filter(([name, value]) => !value || value.trim() === "" || value === `_${name}`)
+    .map(([name]) => name);
 
-    if (GIT_BRANCH === undefined) {
-        GIT_BRANCH = "ENV_VAR_NOT_SET";
-    }
-
-    if (DATA_DELIVERY_AZURE_PIPELINE_NO === undefined) {
-        DATA_DELIVERY_AZURE_PIPELINE_NO = "ENV_VAR_NOT_SET";
-    }
-
-    if (DDS_CLIENT_ID === undefined) {
-        console.error("DATA_DELIVERY_DDS_CLIENT_ID environment variable has not been set");
-        DDS_CLIENT_ID = "ENV_VAR_NOT_SET";
-    }
-
-    return { PROJECT_ID, DDS_API_URL, AZURE_AUTH_TOKEN, ENV_NAME, GIT_BRANCH, DATA_DELIVERY_AZURE_PIPELINE_NO, DDS_CLIENT_ID };
+  if (missing.length > 0) {
+    throw new Error(`Missing required environment variables: ${missing.join(", ")}`);
+  }
 }

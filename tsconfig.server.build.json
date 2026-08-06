@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "exclude": [
+    "src/server/**/*.test.ts",
+    "src/server/**/setupTests.ts",
+    "src/server/**/test-utils/**",
+    "src/server/**/tests/**",
+    "src/shared/**/*.test.ts"
+  ],
+  "extends": "./tsconfig.server.json"
+}

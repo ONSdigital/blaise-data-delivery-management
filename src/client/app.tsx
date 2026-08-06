@@ -1,78 +1,58 @@
-import React, { type ReactElement, useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import {
-    DefaultErrorBoundary,
-    Footer,
-    Header,
-} from "blaise-design-system-react-components";
+import { DefaultErrorBoundary, Footer, Header } from "blaise-design-system-react-components";
+import { type ReactElement } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+
 import DataDeliveryRunsPage from "./pages/dataDeliveryRunsPage/dataDeliveryRunsPage";
-import TriggerDataDeliveryPage from "./pages/triggerDataDeliveryPage/triggerDataDeliveryPage";
 import ViewRunStatusPage from "./pages/viewRunStatusPage/viewRunStatusPage";
-import { getBatchStatusDescriptions as fetchBatchStatusDescriptions } from "./api";
+import { useLocationState } from "./utils/useLocationState";
 
-const divStyle = {
-    minHeight: "calc(67vh)"
-};
-
-interface Location {
-    state: { status: string }
+function NotFoundPage(): ReactElement {
+  return (
+    <main
+      id="main-content"
+      className="ons-page__main ons-u-mt-l"
+    >
+      <div className="ons-grid">
+        <div className="ons-grid__col ons-col-8@m">
+          <h1>Page not found</h1>
+          <p>The page you're looking for doesn't exist.</p>
+          <Link to="/">Return home</Link>
+        </div>
+      </div>
+    </main>
+  );
 }
 
-type BatchDescription = { [key: string]: string };
-
 function App(): ReactElement {
+  const { status } = useLocationState<{ status: string }>() ?? { status: "" };
 
-    const location = useLocation();
-    const { status } = (location as Location).state || { status: "" };
-    const [statusDescriptionList, setStatusDescriptionList] = useState<BatchDescription>({});
-
-    useEffect(() => {
-        loadBatchStatusDescriptions().then(() => console.log("getBatchStatusDescriptions Complete"));
-    }, []);
-
-    async function loadBatchStatusDescriptions() {
-        setStatusDescriptionList({});
-
-        const [success, statusDescriptionList] = await fetchBatchStatusDescriptions();
-
-        if (!success) {
-            return;
-        }
-
-        setStatusDescriptionList(statusDescriptionList as BatchDescription);
-    }
-
-    return (
-        <>
-            <Header title={"Data Delivery Management"} />
-            <div style={divStyle} className="ons-page__container ons-container">
-                <DefaultErrorBoundary>
-                    <Routes>
-                        <Route path="/trigger" element={<TriggerDataDeliveryPage />} />
-                        <Route
-                            path="/batch"
-                            element={
-                                <DataDeliveryRunsPage status={status} />
-                            }
-                        />
-                        <Route
-                            path="/batch/:batchName"
-                            element={
-                                <ViewRunStatusPage statusDescriptionList={statusDescriptionList} />
-                            }
-                        />
-                        <Route
-                            path="/"
-                            element={
-                                <DataDeliveryRunsPage status={status} />
-                            }
-                        />
-                    </Routes>
-                </DefaultErrorBoundary>
-            </div>
-            <Footer />
-        </>
-    );
+  return (
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Header title={"Data Delivery Management"} />
+      <div
+        style={{ flexGrow: 1 }}
+        className="ons-page__container ons-container"
+      >
+        <DefaultErrorBoundary>
+          <Routes>
+            <Route
+              path="/batch/:batchName"
+              element={<ViewRunStatusPage />}
+            />
+            <Route
+              path="/"
+              element={<DataDeliveryRunsPage status={status} />}
+            />
+            <Route
+              path="*"
+              element={<NotFoundPage />}
+            />
+          </Routes>
+        </DefaultErrorBoundary>
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
 export default App;
