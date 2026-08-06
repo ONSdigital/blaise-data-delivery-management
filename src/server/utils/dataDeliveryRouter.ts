@@ -75,7 +75,7 @@ export default function createDataDeliveryRouter(
 
     const safeBatchName = sanitiseLog(batchName);
 
-    req.log.info(`Called get batch status with batch ${safeBatchName}`);
+    req.log.info({ batchName: safeBatchName }, "Called get batch status with batch");
 
     const url = `${DDS_API_URL}/v1/batch/${encodeURIComponent(batchName)}`;
 

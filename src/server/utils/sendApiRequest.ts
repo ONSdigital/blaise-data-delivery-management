@@ -34,9 +34,9 @@ export async function sendApiRequest(
     });
 
     if (response.status >= 200 && response.status < 300) {
-      req.log.info(`Status ${response.status} from ${safeEndpoint}`);
+      req.log.info({ status: response.status, endpoint: safeEndpoint }, "Status from endpoint");
     } else {
-      req.log.warn(`Status ${response.status} from ${safeEndpoint}`);
+      req.log.warn({ status: response.status, endpoint: safeEndpoint }, "Status from endpoint");
     }
 
     let contentType = "";
@@ -48,7 +48,7 @@ export async function sendApiRequest(
 
     return [response.status, response.data, contentType];
   } catch (error) {
-    req.log.error(error, `${safeEndpoint} endpoint failed`);
+    req.log.error({ err: error, endpoint: safeEndpoint }, "Endpoint failed");
 
     return [500, null, ""];
   }

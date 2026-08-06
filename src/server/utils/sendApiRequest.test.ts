@@ -45,7 +45,10 @@ describe("sendApiRequest", () => {
     );
 
     expect(response).toEqual([200, { hello: "world" }, "application/json"]);
-    expect(req.log.info).toHaveBeenCalledWith("Status 200 from GET http://localhost/v1/batch");
+    expect(req.log.info).toHaveBeenCalledWith(
+      { status: 200, endpoint: "GET http://localhost/v1/batch" },
+      "Status from endpoint",
+    );
   });
 
   it("sanitises control characters in logs and warns for non-2xx statuses", async () => {
@@ -73,7 +76,10 @@ describe("sendApiRequest", () => {
         url: "http://localhost/v1/batch\n",
       }),
     );
-    expect(req.log.warn).toHaveBeenCalledWith("Status 404 from GET http://localhost/v1/batch");
+    expect(req.log.warn).toHaveBeenCalledWith(
+      { status: 404, endpoint: "GET http://localhost/v1/batch" },
+      "Status from endpoint",
+    );
     expect(response).toEqual([404, { error: "not found" }, ""]);
   });
 
@@ -102,7 +108,10 @@ describe("sendApiRequest", () => {
       }),
     );
 
-    expect(req.log.info).toHaveBeenCalledWith("Status 200 from GET http://localhost/v1/ba tch");
+    expect(req.log.info).toHaveBeenCalledWith(
+      { status: 200, endpoint: "GET http://localhost/v1/ba tch" },
+      "Status from endpoint",
+    );
   });
 
   it("returns 500 and logs when the request throws", async () => {
@@ -123,8 +132,8 @@ describe("sendApiRequest", () => {
 
     expect(response).toEqual([500, null, ""]);
     expect(req.log.error).toHaveBeenCalledWith(
-      error,
-      "GET http://localhost/v1/batch endpoint failed",
+      { err: error, endpoint: "GET http://localhost/v1/batch" },
+      "Endpoint failed",
     );
   });
 
@@ -153,7 +162,10 @@ describe("sendApiRequest", () => {
       }),
     );
 
-    expect(req.log.info).toHaveBeenCalledWith("Status 200 from http://localhost/v1/batch");
+    expect(req.log.info).toHaveBeenCalledWith(
+      { status: 200, endpoint: "http://localhost/v1/batch" },
+      "Status from endpoint",
+    );
   });
 
   it("collapses consecutive spaces in URL and method only for logging", async () => {
@@ -182,6 +194,9 @@ describe("sendApiRequest", () => {
       }),
     );
 
-    expect(req.log.info).toHaveBeenCalledWith("Status 200 from GE T http://localhost/v1/ba tch");
+    expect(req.log.info).toHaveBeenCalledWith(
+      { status: 200, endpoint: "GE T http://localhost/v1/ba tch" },
+      "Status from endpoint",
+    );
   });
 });

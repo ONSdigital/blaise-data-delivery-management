@@ -15,15 +15,11 @@ describe("Validation module", () => {
 
   describe("validateBatchName", () => {
     it("should accept valid batch names", () => {
-      // simple survey prefix
       expect(() => validateBatchName("LFS_01012024_143022")).not.toThrow();
       expect(() => validateBatchName("OPN_15062023_235959")).not.toThrow();
       expect(() => validateBatchName("ABC_31122025_000000")).not.toThrow();
-      // no prefix
       expect(() => validateBatchName("26032021_080842")).not.toThrow();
-      // questionnaire name with trailing letter (OPN2607L)
       expect(() => validateBatchName("OPN2607L_26032021_080842")).not.toThrow();
-      // 4-segment questionnaire name (LMS2605_LJ2)
       expect(() => validateBatchName("LMS2605_LJ2_26032021_080842")).not.toThrow();
       expect(() => validateBatchName("LMS2212_FB1_30032021_141600")).not.toThrow();
     });
