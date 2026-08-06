@@ -5,6 +5,7 @@ import { type DataDeliveryBatchData, type DataDeliveryFileStatus } from "../../s
 import { type EnvironmentVariables } from "../config.js";
 
 import AuthProvider from "./authProvider.js";
+import sanitiseLog from "./sanitiseLog.js";
 import { sendApiRequest } from "./sendApiRequest.js";
 import { validateBatchName } from "./validation.js";
 
@@ -36,7 +37,9 @@ export function parseBatchList(
     try {
       return [batchToData(item)];
     } catch {
-      log.warn(`Skipping unrecognised batch name from DDS API: ${item}`);
+      const safeItem = sanitiseLog(item);
+
+      log.warn(`Skipping unrecognised batch name from DDS API: ${safeItem}`);
 
       return [];
     }
@@ -70,7 +73,9 @@ export default function createDataDeliveryRouter(
       return;
     }
 
-    req.log.info(`Called get batch status with batch ${batchName}`);
+    const safeBatchName = sanitiseLog(batchName);
+
+    req.log.info(`Called get batch status with batch ${safeBatchName}`);
 
     const url = `${DDS_API_URL}/v1/batch/${encodeURIComponent(batchName)}`;
 

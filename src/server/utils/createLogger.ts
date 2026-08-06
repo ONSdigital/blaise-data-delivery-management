@@ -2,6 +2,8 @@ import { type IncomingMessage } from "http";
 
 import logger from "pino-http";
 
+import sanitiseLog from "./sanitiseLog.js";
+
 import type * as PinoHttp from "pino-http";
 
 const PinoLevelToSeverityLookup = {
@@ -36,8 +38,8 @@ const defaultPinoConf = {
   },
   serializers: {
     req: (req: IncomingMessage & { raw?: { user?: unknown } }) => ({
-      method: req.method,
-      url: req.url,
+      method: sanitiseLog(req.method),
+      url: sanitiseLog(req.url),
       user: req.raw?.user,
     }),
   },

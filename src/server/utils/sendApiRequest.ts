@@ -3,19 +3,11 @@ import { type Request, type Response } from "express";
 
 import { type JSONValue } from "../../shared/types.js";
 
+import sanitiseLog from "./sanitiseLog.js";
+
 import type * as PinoHttp from "pino-http";
 
 type PromiseResponse = [number, unknown, string];
-
-function sanitiseLog(value: unknown): string {
-  return (
-    String(value ?? "")
-      // eslint-disable-next-line no-control-regex
-      .replace(/[\u0000-\u001F\u007F]+/g, " ")
-      .replace(/\s+/g, " ")
-      .trim()
-  );
-}
 
 export async function sendApiRequest(
   logger: PinoHttp.HttpLogger,
@@ -28,11 +20,12 @@ export async function sendApiRequest(
 ): Promise<PromiseResponse> {
   const safeMethod = sanitiseLog(method);
   const safeUrl = sanitiseLog(url);
+  const safeEndpoint = [safeMethod, safeUrl].filter((value) => value !== "").join(" ");
 
   try {
     const response = await axios({
-      url: safeUrl,
-      method: safeMethod,
+      url,
+      method,
       data: data,
       headers,
       validateStatus: function (status) {
@@ -41,9 +34,9 @@ export async function sendApiRequest(
     });
 
     if (response.status >= 200 && response.status < 300) {
-      req.log.info(`Status ${response.status} from ${safeMethod} ${safeUrl}`);
+      req.log.info(`Status ${response.status} from ${safeEndpoint}`);
     } else {
-      req.log.warn(`Status ${response.status} from ${safeMethod} ${safeUrl}`);
+      req.log.warn(`Status ${response.status} from ${safeEndpoint}`);
     }
 
     let contentType = "";
@@ -55,7 +48,7 @@ export async function sendApiRequest(
 
     return [response.status, response.data, contentType];
   } catch (error) {
-    req.log.error(error, `${safeMethod} ${safeUrl} endpoint failed`);
+    req.log.error(error, `${safeEndpoint} endpoint failed`);
 
     return [500, null, ""];
   }

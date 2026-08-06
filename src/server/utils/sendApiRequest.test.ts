@@ -48,7 +48,7 @@ describe("sendApiRequest", () => {
     expect(req.log.info).toHaveBeenCalledWith("Status 200 from GET http://localhost/v1/batch");
   });
 
-  it("sanitises control characters and warns for non-2xx statuses", async () => {
+  it("sanitises control characters in logs and warns for non-2xx statuses", async () => {
     const { logger, req, res } = buildDependencies();
 
     mockedAxios.mockResolvedValueOnce({
@@ -69,15 +69,15 @@ describe("sendApiRequest", () => {
 
     expect(mockedAxios).toHaveBeenCalledWith(
       expect.objectContaining({
-        method: "GET",
-        url: "http://localhost/v1/batch",
+        method: "GET\t",
+        url: "http://localhost/v1/batch\n",
       }),
     );
     expect(req.log.warn).toHaveBeenCalledWith("Status 404 from GET http://localhost/v1/batch");
     expect(response).toEqual([404, { error: "not found" }, ""]);
   });
 
-  it("replaces null bytes and other control characters in request URL with a space", async () => {
+  it("does not alter request URL while sanitising log output", async () => {
     const { logger, req, res } = buildDependencies();
 
     mockedAxios.mockResolvedValueOnce({
@@ -98,9 +98,11 @@ describe("sendApiRequest", () => {
 
     expect(mockedAxios).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: "http://localhost/v1/ba tch",
+        url: "http://localhost/v1/ba\u0000tch",
       }),
     );
+
+    expect(req.log.info).toHaveBeenCalledWith("Status 200 from GET http://localhost/v1/ba tch");
   });
 
   it("returns 500 and logs when the request throws", async () => {
@@ -147,12 +149,14 @@ describe("sendApiRequest", () => {
 
     expect(mockedAxios).toHaveBeenCalledWith(
       expect.objectContaining({
-        method: "",
+        method: undefined,
       }),
     );
+
+    expect(req.log.info).toHaveBeenCalledWith("Status 200 from http://localhost/v1/batch");
   });
 
-  it("collapses consecutive spaces in URL and method", async () => {
+  it("collapses consecutive spaces in URL and method only for logging", async () => {
     const { logger, req, res } = buildDependencies();
 
     mockedAxios.mockResolvedValueOnce({
@@ -173,9 +177,11 @@ describe("sendApiRequest", () => {
 
     expect(mockedAxios).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: "http://localhost/v1/ba tch",
-        method: "GE T",
+        url: "http://localhost/v1/ba  tch",
+        method: "GE  T",
       }),
     );
+
+    expect(req.log.info).toHaveBeenCalledWith("Status 200 from GE T http://localhost/v1/ba tch");
   });
 });

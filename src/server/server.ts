@@ -10,6 +10,7 @@ import { type HttpLogger } from "pino-http";
 import { type EnvironmentVariables } from "./config.js";
 import createDataDeliveryRouter from "./utils/dataDeliveryRouter.js";
 import { keyGeneratorFromForwardedHeader, parseRateLimit } from "./utils/rateLimit.js";
+import sanitiseLog from "./utils/sanitiseLog.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,7 +44,7 @@ export function createServerErrorHandler(httpLogger: HttpLogger, errorViewPath: 
     _next: express.NextFunction,
   ) {
     httpLogger(req, res);
-    req.log.error(err, err.message);
+    req.log.error(err, sanitiseLog(err.message));
     res.status(500).render(errorViewPath, {});
   };
 }

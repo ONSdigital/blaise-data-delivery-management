@@ -106,6 +106,15 @@ describe("parseBatchList", () => {
       "Skipping unrecognised batch name from DDS API: unexpected-batch-name",
     );
   });
+
+  it("sanitises unrecognised batch names before logging", () => {
+    const warn = vi.fn();
+
+    expect(parseBatchList(["OPN_26032021_112954\nforged"], { warn })).toEqual([]);
+    expect(warn).toHaveBeenCalledWith(
+      "Skipping unrecognised batch name from DDS API: OPN_26032021_112954 forged",
+    );
+  });
 });
 
 describe("isJsonContentType", () => {
