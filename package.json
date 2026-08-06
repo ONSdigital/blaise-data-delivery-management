@@ -20,7 +20,7 @@
     "lint-fix": "yarn eslint . --fix && yarn prettier --write . && yarn knip --fix",
     "run-watch:server": "tsx watch src/server/index.ts | yarn pino-pretty -c -t",
     "spellcheck": "yarn cspell \"**/*.{ts,tsx,json,jsonc,yml,yaml,md}\" --no-progress --no-summary",
-    "start": "node ./build/server/index.js",
+    "start": "node ./build/server/src/server/index.js",
     "test": "yarn vitest run --coverage",
     "test-watch": "yarn vitest",
     "typecheck": "yarn tsc --noEmit -p tsconfig.client.json && yarn tsc --noEmit -p tsconfig.server.json && yarn tsc --noEmit -p tsconfig.tooling.json"
