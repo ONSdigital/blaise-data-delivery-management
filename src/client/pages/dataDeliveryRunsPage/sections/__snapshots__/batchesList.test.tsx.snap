@@ -1,0 +1,584 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Check BatchList component snapshot: > matches the snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="ons-panel ons-panel--info ons-panel--no-title ons-u-mt-m"
+        id="panel-_r_0_"
+      >
+        <span
+          class="ons-panel__assistive-text ons-u-vh"
+        >
+          Important information:
+           
+        </span>
+        <div
+          class="ons-panel__body "
+        >
+          <div
+            class="ons-u-pt-xs ons-u-pb-xs"
+            style="display: flex; align-items: center;"
+          >
+            <div
+              style="display: flex; margin-right: 1rem;"
+            >
+              <svg
+                aria-hidden="true"
+                fill="#064868"
+                focusable="false"
+                preserveAspectRatio="xMidYMid"
+                style="width: 30px; height: 30px;"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  fill="none"
+                  height="100"
+                  width="100"
+                  x="0"
+                  y="0"
+                />
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(0 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(30 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.08333333333333333s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(60 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.16666666666666666s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(90 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.25s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(120 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.3333333333333333s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(150 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.41666666666666663s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(180 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.5s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(210 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.5833333333333333s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(240 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.6666666666666666s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(270 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.75s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(300 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.8333333333333333s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+                <rect
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  transform="rotate(330 50 50) translate(0 -30)"
+                  width="7"
+                  x="46.5"
+                  y="40"
+                >
+                  <animate
+                    attributeName="opacity"
+                    begin="0.9166666666666666s"
+                    dur="1s"
+                    from="1"
+                    repeatCount="indefinite"
+                    to="0"
+                  />
+                </rect>
+              </svg>
+            </div>
+            <span>
+              Loading...
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="ons-panel ons-panel--info ons-panel--no-title ons-u-mt-m"
+      id="panel-_r_0_"
+    >
+      <span
+        class="ons-panel__assistive-text ons-u-vh"
+      >
+        Important information:
+         
+      </span>
+      <div
+        class="ons-panel__body "
+      >
+        <div
+          class="ons-u-pt-xs ons-u-pb-xs"
+          style="display: flex; align-items: center;"
+        >
+          <div
+            style="display: flex; margin-right: 1rem;"
+          >
+            <svg
+              aria-hidden="true"
+              fill="#064868"
+              focusable="false"
+              preserveAspectRatio="xMidYMid"
+              style="width: 30px; height: 30px;"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                fill="none"
+                height="100"
+                width="100"
+                x="0"
+                y="0"
+              />
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(0 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(30 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.08333333333333333s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(60 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.16666666666666666s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(90 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.25s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(120 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.3333333333333333s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(150 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.41666666666666663s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(180 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.5s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(210 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.5833333333333333s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(240 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.6666666666666666s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(270 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.75s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(300 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.8333333333333333s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+              <rect
+                height="20"
+                rx="5"
+                ry="5"
+                transform="rotate(330 50 50) translate(0 -30)"
+                width="7"
+                x="46.5"
+                y="40"
+              >
+                <animate
+                  attributeName="opacity"
+                  begin="0.9166666666666666s"
+                  dur="1s"
+                  from="1"
+                  repeatCount="indefinite"
+                  to="0"
+                />
+              </rect>
+            </svg>
+          </div>
+          <span>
+            Loading...
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
