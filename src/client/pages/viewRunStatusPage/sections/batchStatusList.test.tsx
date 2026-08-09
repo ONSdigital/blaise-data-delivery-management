@@ -58,8 +58,6 @@ const batchRuns: DataDeliveryFileStatus[] = [
   },
 ];
 
-const mockRoute = `/batch/${batches[0].name}`;
-
 beforeAll(() => {
   mock.onGet("/api/batch").reply(200, batches);
   mock.onGet(`/api/batch/${batches[0].name}`).reply(200, batchRuns);
